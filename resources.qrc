@@ -1,0 +1,10 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file alias="new.png">images/new.png</file>
+        <file alias="scissors.png">images/scissors.png</file>
+        <file alias="copy.png">images/copy.png</file>
+        <file alias="paste.png">images/paste.png</file>
+    </qresource>
+</RCC>
+
+<!-- pyrcc5 -o bipc_resources.py resources.qrc -->
