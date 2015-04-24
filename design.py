@@ -55,6 +55,11 @@ class BIPCTemplateGUI(QDialog):
     def _widgets(self):
         """ Create new PyQt widgets here """
 
+        self.clientLabel = QLabel("Client:")
+        self.clientComboBox = QComboBox()
+        self.clientComboBox.insertItem(0, "GE")
+        self.clientComboBox.insertItem(1, "Unilever")
+        self.clientComboBox.setCurrentIndex(1)
         self.due_dateLabel = QLabel("Due Date:")
         self.importanceLabel = QLabel("Importance:")
         self.special_instructionLabel = QLabel("Special Instruction:")
@@ -74,6 +79,12 @@ class BIPCTemplateGUI(QDialog):
 
     def _layout(self):
         """ Set and arrange PyQt widgets here """
+
+        # clientLabel + clientComboBox
+        label_combobox_HBoxLayout = QHBoxLayout()
+        label_combobox_HBoxLayout.addStretch()
+        label_combobox_HBoxLayout.addWidget(self.clientLabel)
+        label_combobox_HBoxLayout.addWidget(self.clientComboBox)
 
         label_dateEdit_tandem = QHBoxLayout()
         label_dateEdit_tandem.addWidget(self.due_dateLabel)
@@ -96,6 +107,7 @@ class BIPCTemplateGUI(QDialog):
         input_fieldsGroupBox.setLayout(grid)
 
         center = QVBoxLayout()
+        center.addLayout(label_combobox_HBoxLayout)
         center.addWidget(input_fieldsGroupBox)
 
         # add widgets for output
