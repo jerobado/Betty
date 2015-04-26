@@ -15,6 +15,7 @@ APP = QApplication(sys.argv)
 SPECIAL_INS = "<div><p><b>{}</b></p></div>"
 WITH_ARTWORK = "<div><p>Artwork attached to illustrate how the mark will appear on pack.</p></div>"
 WITH_IMAGE = "<div><p>The trade mark to be searched is as shown in the attached image file.</p></div>"
+# all client's except GE
 MEDIUM_TAT = """
     <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
     If the due date falls on a weekend, holiday or non-working day, please send us your search \
@@ -23,6 +24,17 @@ CRITICAL_TAT = """
     <div><p><b>DEADLINE: URGENT, {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
     If the due date falls on a weekend, holiday or non-working day, please send us your search \
     analysis before then.</p></div>"""
+# GE TAT
+GE_MEDIUM_TAT = """
+    <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+    If the due date falls on a weekend, holiday or non-working day, please send us your search \
+    analysis on the next business day.</p></div>"""
+GE_CRITICAL_TAT = """
+    <div><p><b>DEADLINE: EXPEDITED {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+    If the due date falls on a weekend, holiday or non-working day, please send us your search \
+    analysis on the next business day.</p></div>"""
+
+
 TEMPLATE = Template("$special $artwork $TAT $image")
 
 STYLE = """
@@ -150,7 +162,7 @@ class BIPCTemplateGUI(QDialog):
     def _connections(self):
         """ Connect every PyQt widgets here """
 
-        #self.special_instructionLineEdit.returnPressed.connect(self.on_testLineEdit_returnPressed)
+        self.clientComboBox.activated.connect(self.on_clientComboBox_activated)
         self.importanceComboBox.activated.connect(self.on_importanceComboBox_activated)
         self.with_artworkCheckBox.stateChanged.connect(self.on_with_artworkCheckBox_stateChanged)
         self.with_imageCheckBox.stateChanged.connect(self.on_with_imageCheckBox_stateChanged)
@@ -161,6 +173,12 @@ class BIPCTemplateGUI(QDialog):
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
     # EVENT HANDLING starts here...
+    def on_clientComboBox_activated(self):
+        """ Event handler for self.clientComboBox """
+
+
+
+
     def on_importanceComboBox_activated(self):
         """ Event handler for self.importanceComboBox """
 
