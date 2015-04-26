@@ -34,6 +34,28 @@ GE_CRITICAL_TAT = """
     If the due date falls on a weekend, holiday or non-working day, please send us your search \
     analysis on the next business day.</p></div>"""
 
+# TEST: trying to consolidate TAT template in a dictionary, Unilever first
+UN_TAT = {
+    'Low/Medium': """
+        <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis before then.</p></div>""",
+    'Critical': """
+        <div><p><b>DEADLINE: URGENT, {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis before then.</p></div>"""
+}
+# next is GE
+GE_TAT = {
+    'Low/Medium': """
+        <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis on the next business day.</p></div>""",
+    'Critical': """
+        <div><p><b>DEADLINE: EXPEDITED, {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis on the next business day.</p></div>"""
+}
 
 TEMPLATE = Template("$special $artwork $TAT $image")
 
@@ -57,6 +79,7 @@ class BIPCTemplateGUI(QDialog):
         self.artwork = ''
         self.image = ''
         self.special_ins = ''
+        self.client_TAT = ''
 
         # resident functions
         self._widgets()
@@ -153,8 +176,12 @@ class BIPCTemplateGUI(QDialog):
         # apply style
         self.templateTextEdit.setDocument(style_document)
 
-        # Default values:
-        self.selected_TAT = MEDIUM_TAT
+        # set default TAT values:
+        #self.selected_TAT = MEDIUM_TAT
+        self.client_TAT = UN_TAT
+
+        # TEST: see line 37
+        self.selected_TAT = UN_TAT['Low/Medium']   # set default
 
         self.setWindowTitle("Search (SIW) Template | Testing")
         self.resize(500, 350)  # width, height
@@ -176,17 +203,31 @@ class BIPCTemplateGUI(QDialog):
     def on_clientComboBox_activated(self):
         """ Event handler for self.clientComboBox """
 
-
-
+        # TODO: i'm not satisfied with this code below but somehow it works, make this appealing in the near future ^^,
+        print("You selected", self.clientComboBox.currentText())
+        if self.clientComboBox.currentText() == 'GE':
+            self.client_TAT = GE_TAT
+            self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
+        elif self.clientComboBox.currentText() == 'Unilever':
+            self.client_TAT = UN_TAT
+            self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
+        else:
+            print("#edw")
 
     def on_importanceComboBox_activated(self):
         """ Event handler for self.importanceComboBox """
 
-        if self.importanceComboBox.currentText() == 'Low/Medium':
-            self.selected_TAT = MEDIUM_TAT
+        # get selected importance
+        importance = self.importanceComboBox.currentText()
+
+        # check what the user chose
+        if importance == 'Low/Medium':
+            #self.selected_TAT = MEDIUM_TAT
+            self.selected_TAT = self.client_TAT[importance]
             print('medium')
-        elif self.importanceComboBox.currentText() == 'Critical':
-            self.selected_TAT = CRITICAL_TAT
+        elif importance == 'Critical':
+            #self.selected_TAT = CRITICAL_TAT
+            self.selected_TAT = self.client_TAT[importance]
         else:
             print('Amazing!')
 
