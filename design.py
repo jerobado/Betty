@@ -15,26 +15,8 @@ APP = QApplication(sys.argv)
 SPECIAL_INS = "<div><p><b>{}</b></p></div>"
 WITH_ARTWORK = "<div><p>Artwork attached to illustrate how the mark will appear on pack.</p></div>"
 WITH_IMAGE = "<div><p>The trade mark to be searched is as shown in the attached image file.</p></div>"
-# all client's except GE
-MEDIUM_TAT = """
-    <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
-    If the due date falls on a weekend, holiday or non-working day, please send us your search \
-    analysis before then.</p></div>"""
-CRITICAL_TAT = """
-    <div><p><b>DEADLINE: URGENT, {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
-    If the due date falls on a weekend, holiday or non-working day, please send us your search \
-    analysis before then.</p></div>"""
-# GE TAT
-GE_MEDIUM_TAT = """
-    <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
-    If the due date falls on a weekend, holiday or non-working day, please send us your search \
-    analysis on the next business day.</p></div>"""
-GE_CRITICAL_TAT = """
-    <div><p><b>DEADLINE: EXPEDITED {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
-    If the due date falls on a weekend, holiday or non-working day, please send us your search \
-    analysis on the next business day.</p></div>"""
 
-# TEST: trying to consolidate TAT template in a dictionary, Unilever first
+# TEST: trying to consolidate TAT template in a dictionary, Unilever first TODO: so far, so good
 UN_TAT = {
     'Low/Medium': """
         <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
@@ -69,10 +51,10 @@ WORKTYPE = ['Filing', 'Search (SIW)']
 
 
 # initial design for our application
-class BIPCTemplateGUI(QDialog):
+class Search(QDialog):
 
     def __init__(self, parent=None):
-        super(BIPCTemplateGUI, self).__init__(parent)
+        super(Search, self).__init__(parent)
         # resident variables
         self.date_format = 'd MMM yyyy'
         self.selected_TAT = ''
@@ -129,7 +111,6 @@ class BIPCTemplateGUI(QDialog):
         label_comboBox_tandem.addWidget(self.importanceLabel)
         label_comboBox_tandem.addWidget(self.importanceComboBox)
 
-
         grid = QGridLayout()  # widget ka pala
         grid.addLayout(label_dateEdit_tandem, 0, 0)  # affected
         grid.addWidget(self.with_artworkCheckBox, 0, 2)
@@ -159,7 +140,7 @@ class BIPCTemplateGUI(QDialog):
         # add layout to the group
         center.addLayout(buttons)
 
-        # set main layout for BIPCTemplateGUI
+        # set main layout for Search
         self.setLayout(center)
 
     def _properties(self):
@@ -184,7 +165,7 @@ class BIPCTemplateGUI(QDialog):
         self.selected_TAT = UN_TAT['Low/Medium']   # set default
 
         self.setWindowTitle("Search (SIW) Template | Testing")
-        self.resize(500, 350)  # width, height
+        self.resize(410, 550)  # width, height
 
     def _connections(self):
         """ Connect every PyQt widgets here """
@@ -278,7 +259,7 @@ class BIPCTemplateGUI(QDialog):
         self.special_instructionLineEdit.clear()   # clean any text inside this widget
         self.templateTextEdit.clear()   # same here
 
-    # TODO: make use of this idle function in the near future :)
+    # TODO: make use of this idle function in the near future else delete! :)
     def exchange_data(self):
         """ Event handler for testLineEdit """
 
@@ -296,14 +277,15 @@ class BETWindow(QMainWindow):
         super(BETWindow, self).__init__(parent)
 
         self._widgets()
-        #self._layout()
+        # self._layout()   TODO: for deletion 5.14.2015
         self._properties()
-        #self._connections()
 
         self._createActions()
         self._createMenus()
         self._createToolBars()
         self._createStatusBar()
+
+        self._connections()
 
     def _widgets(self):
 
@@ -342,27 +324,34 @@ class BETWindow(QMainWindow):
         self.setWindowFlags(Qt.WindowMinimizeButtonHint |
                             Qt.WindowCloseButtonHint)
 
+    def _connections(self):
+        """ Connect widget signals and slots """
+
+        self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
+        self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
+
+
     def _createActions(self):
 
         # Remember: when creating an QAction, it should have a parent
         # File menu: actions's inside this menu
         self.newAction = QAction(QIcon(":/new.png"), "&New", self, shortcut=QKeySequence.New,
-                                 statusTip="Create a new Template", toolTip="New", triggered=self.newTemplate)
+                                 statusTip="Create a new template", toolTip="New", triggered=self.newTemplate)
         self.exitAction = QAction("E&xit", self, shortcut="Ctrl+Q",
                                   statusTip="Exit the application", triggered=self.close)
 
-        # TODO: add new "triggered" attributes and slots/methods, see sample above
         # Edit menu: actions inside this menu
-        self.cutAction = QAction(QIcon(":/scissors.png"), "Cu&t", self, shortcut=QKeySequence.Cut,
-                                statusTip="Cut to clipboard", toolTip="Cut")
-        self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self, shortcut=QKeySequence.Copy,
-                                  statusTip="Copy to clipboard", toolTip="Copy")
+        self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self, shortcut=QKeySequence.Cut, enabled=False,
+                                statusTip="Cut to clipboard", toolTip="Cut", triggered=self.testTextEdit.cut)
+        self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self, shortcut=QKeySequence.Copy, enabled=False,
+                                  statusTip="Copy to clipboard", toolTip="Copy", triggered=self.testTextEdit.copy)
         self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self, shortcut=QKeySequence.Paste,
-                                   statusTip="Paste from clipboard", toolTip="Paste")
+                                   statusTip="Paste from clipboard", toolTip="Paste", triggered=self.testTextEdit.paste)
+        self.select_allAction = QAction("Select &All", self, shortcut=QKeySequence.SelectAll, statusTip="Select all",
+                                        triggered=self.testTextEdit.selectAll)
 
     def _createMenus(self):
-
-        # FILE, Edit (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help
+        """ FILE, Edit (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help """
 
         # File: application's commands
         self.fileMenu = self.menuBar().addMenu("&File")
@@ -375,6 +364,8 @@ class BETWindow(QMainWindow):
         self.editMenu.addAction(self.cutAction)
         self.editMenu.addAction(self.copyAction)
         self.editMenu.addAction(self.pasteAction)
+        self.editMenu.addSeparator()
+        self.editMenu.addAction(self.select_allAction)
 
     def _createToolBars(self):
 
@@ -404,7 +395,7 @@ class BETWindow(QMainWindow):
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
                 print("CODING: show dialog for creating a search template")
-                newTemplateDialog = BIPCTemplateGUI(self)
+                newTemplateDialog = Search(self)
                 if newTemplateDialog.exec_():
                     # if the user hit 'Generate', populate testTextEdit in BETWindow
                     superstar = newTemplateDialog.templateTextEdit.toHtml() # get any text inside the preview QTextEdit
@@ -462,14 +453,16 @@ class NewTemplateDialog(QDialog):
         # self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle("Add new Template")
         self.resize(250, 100)
+
+
         # set window center screen
-        # screen = QDesktopWidget().screenGeometry()
-        # print(screen)
-        BETsize = self.geometry()
+        #self.screenMainSize = QDesktopWidget().screenGeometry()
+        #print(self.screenMainSize)
+        #BETsize = self.geometry()
         # horizontal position = screenwidth - windowwidth /2
-        hpos = (600 - BETsize.width()) / 2
-        vpos = (350 - BETsize.height()) / 2
-        self.move(hpos, vpos)
+        #hpos = (self.screenMainSize.width() - BETsize.width()) / 2
+        #vpos = (self.screenMainSize.height() - BETsize.height()) / 2
+        #self.move(hpos, vpos)
 
     def _connections(self):
 
@@ -477,12 +470,11 @@ class NewTemplateDialog(QDialog):
         self.createPushButton.clicked.connect(self.accept)
         self.cancelPushButton.clicked.connect(self.reject)
 
-    def on_test_slot(self):
-
+    def on_test_slot(self):  # TODO: for deletion 5.14.2015
         # TEST: open a new template
         print("TEST: slot")
         if self.templateListWidget.currentItem().text() == "Search (SIW)":
-            dialog = BIPCTemplateGUI()
+            dialog = Search()
             if dialog.exec_():
                 print(self.templateListWidget.currentItem().text())
             else:
