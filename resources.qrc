@@ -1,9 +1,10 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-        <file alias="new.png">images/new.png</file>
-        <file alias="scissors.png">images/scissors.png</file>
-        <file alias="copy.png">images/copy.png</file>
-        <file alias="paste.png">images/paste.png</file>
+        <file alias="new.png">images/new_32.png</file>
+        <file alias="cut.png">images/cut_32.png</file>
+        <file alias="copy.png">images/copy_32.png</file>
+        <file alias="paste.png">images/paste_32.png</file>
+        <file alias="select_all.png">images/select_all_32.png</file>
     </qresource>
 </RCC>
 

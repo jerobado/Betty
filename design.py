@@ -4,11 +4,12 @@ import sys
 
 from string import Template
 
+# TODO: try to import widgets that you only need
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QDate, Qt
 
-import bipc_resources
+import bipc_resources   # Don't remove this!
 
 APP = QApplication(sys.argv)
 
@@ -47,7 +48,7 @@ STYLE = """
         font-size: 10pt;
     }
     """
-WORKTYPE = ['Filing', 'Search (SIW)']
+WORKTYPE = ['Filing (not yet available)', 'Search (SIW)']
 
 
 # initial design for our application
@@ -273,11 +274,14 @@ class BETWindow(QMainWindow):
     sequenceNumber = 0
     windowList = []
 
-    def __init__(self, parent=None):
+    def __init__(self, version, parent=None):
         super(BETWindow, self).__init__(parent)
 
+        # resident variables
+        self.__version__ = version
+
         self._widgets()
-        # self._layout()   TODO: for deletion 5.14.2015
+        # self._layout()   TODO: for deletion 5.14.2015 (candidate)
         self._properties()
 
         self._createActions()
@@ -312,15 +316,16 @@ class BETWindow(QMainWindow):
 
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.resize(600, 350)   # width, height
-        # set window center screen
+        # set BETWindow to center screen
         self.screenMainSize = QDesktopWidget().screenGeometry()
-        print(self.screenMainSize)
-        BETsize = self.geometry()
+        print("screen size:", self.screenMainSize)
+        self.BETsize = self.geometry()
         # horizontal position = screenwidth - windowwidth /2
-        hpos = (self.screenMainSize.width() - BETsize.width()) / 2
-        vpos = (self.screenMainSize.height() - BETsize.height()) / 2
+        hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
+        vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
         self.move(hpos, vpos)
-        print(BETsize)
+        print("BETWindow size:", self.BETsize)
+        self.setWindowTitle("BIPC Email Template %s" % self.__version__)
         self.setWindowFlags(Qt.WindowMinimizeButtonHint |
                             Qt.WindowCloseButtonHint)
 
@@ -329,7 +334,6 @@ class BETWindow(QMainWindow):
 
         self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
         self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
-
 
     def _createActions(self):
 
@@ -347,8 +351,8 @@ class BETWindow(QMainWindow):
                                   statusTip="Copy to clipboard", toolTip="Copy", triggered=self.testTextEdit.copy)
         self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self, shortcut=QKeySequence.Paste,
                                    statusTip="Paste from clipboard", toolTip="Paste", triggered=self.testTextEdit.paste)
-        self.select_allAction = QAction("Select &All", self, shortcut=QKeySequence.SelectAll, statusTip="Select all",
-                                        triggered=self.testTextEdit.selectAll)
+        self.select_allAction = QAction(QIcon(":/select_all.png"), "Select &All", self, shortcut=QKeySequence.SelectAll,
+                                        statusTip="Select all", triggered=self.testTextEdit.selectAll)
 
     def _createMenus(self):
         """ FILE, Edit (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help """
@@ -378,6 +382,8 @@ class BETWindow(QMainWindow):
         self.editToolBar.addAction(self.cutAction)
         self.editToolBar.addAction(self.copyAction)
         self.editToolBar.addAction(self.pasteAction)
+        self.editToolBar.addSeparator()
+        self.editToolBar.addAction(self.select_allAction)
 
 
     def _createStatusBar(self):
@@ -390,7 +396,8 @@ class BETWindow(QMainWindow):
 
         newWindow = NewTemplateDialog(self)
         # BETWindow.windowList.append(newWindow)
-        newWindow.move(self.x() + 40, self.y() + 40)
+        # TODO: make "Add new template" center here
+        newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
@@ -453,16 +460,6 @@ class NewTemplateDialog(QDialog):
         # self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle("Add new Template")
         self.resize(250, 100)
-
-
-        # set window center screen
-        #self.screenMainSize = QDesktopWidget().screenGeometry()
-        #print(self.screenMainSize)
-        #BETsize = self.geometry()
-        # horizontal position = screenwidth - windowwidth /2
-        #hpos = (self.screenMainSize.width() - BETsize.width()) / 2
-        #vpos = (self.screenMainSize.height() - BETsize.height()) / 2
-        #self.move(hpos, vpos)
 
     def _connections(self):
 
