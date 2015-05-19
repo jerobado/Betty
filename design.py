@@ -4,9 +4,10 @@ import sys
 
 from string import Template
 
-# TODO: try to import widgets that you only need
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from PyQt5.QtWidgets import (QMainWindow, QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit,
+                             QListWidget, QGridLayout, QDialog, QApplication, QDesktopWidget, QAction, QHBoxLayout,
+                             QVBoxLayout, QGroupBox)
+from PyQt5.QtGui import QIcon, QKeySequence, QTextDocument
 from PyQt5.QtCore import QDate, Qt
 
 import bipc_resources   # Don't remove this!
@@ -300,8 +301,8 @@ class BETWindow(QMainWindow):
         #self.testTextEdit.setContextMenuPolicy(Qt.ActionsContextMenu)
 
         # Dock Widget
-        #self.testDocking = QDockWidget("Sample", self)
-        #self.testDocking.setObjectName("SampleDockWidget")
+        #self.testDocking = QDockWidget("toolbar", self)
+        #self.testDocking.setObjectName("toolbar")
         #self.testDocking.setAllowedAreas(Qt.AllDockWidgetAreas)
         # add widget to be inserted inside self.testDocking
         #self.testListWidget = QListWidget()
@@ -325,7 +326,7 @@ class BETWindow(QMainWindow):
         vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
         self.move(hpos, vpos)
         print("BETWindow size:", self.BETsize)
-        self.setWindowTitle("BIPC Email Template %s" % self.__version__)
+        self.setWindowTitle("BET %s" % self.__version__)
         self.setWindowFlags(Qt.WindowMinimizeButtonHint |
                             Qt.WindowCloseButtonHint)
 
@@ -375,16 +376,17 @@ class BETWindow(QMainWindow):
 
         # File: toolbars
         self.fileToolBar = self.addToolBar("File")
+        self.fileToolBar.setMovable(False)
         self.fileToolBar.addAction(self.newAction)
 
         # Edit: toolbars
         self.editToolBar = self.addToolBar("Edit")
+        self.editToolBar.setMovable(False)
         self.editToolBar.addAction(self.cutAction)
         self.editToolBar.addAction(self.copyAction)
         self.editToolBar.addAction(self.pasteAction)
         self.editToolBar.addSeparator()
         self.editToolBar.addAction(self.select_allAction)
-
 
     def _createStatusBar(self):
 
@@ -456,7 +458,6 @@ class NewTemplateDialog(QDialog):
 
     def _properties(self):
 
-        # TODO: please fix this, make the this dialog center
         # self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle("Add new Template")
         self.resize(250, 100)
