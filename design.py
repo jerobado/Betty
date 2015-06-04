@@ -3,10 +3,9 @@
 import sys
 
 from string import Template
-
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit,
                              QListWidget, QGridLayout, QDialog, QApplication, QDesktopWidget, QAction, QHBoxLayout,
-                             QVBoxLayout, QGroupBox)
+                             QVBoxLayout, QGroupBox, QMessageBox)
 from PyQt5.QtGui import QIcon, QKeySequence, QTextDocument
 from PyQt5.QtCore import QDate, Qt
 
@@ -49,7 +48,7 @@ STYLE = """
         font-size: 10pt;
     }
     """
-WORKTYPE = ['Filing (not yet available)', 'Search (SIW)']
+WORKTYPE = ['Filing', 'Search (SIW)']
 
 
 # initial design for our application
@@ -205,14 +204,11 @@ class Search(QDialog):
 
         # check what the user chose
         if importance == 'Low/Medium':
-            #self.selected_TAT = MEDIUM_TAT
             self.selected_TAT = self.client_TAT[importance]
-            print('medium')
         elif importance == 'Critical':
-            #self.selected_TAT = CRITICAL_TAT
             self.selected_TAT = self.client_TAT[importance]
         else:
-            print('Amazing!')
+            print('BET: unsual - no importance selected?')
 
     def on_with_artworkCheckBox_stateChanged(self):
         """ Event handler for with_artworkCheckBox """
@@ -230,6 +226,7 @@ class Search(QDialog):
         else:
             self.image = ''
 
+    # TODO: for deletion 5.20.2015
     def on_templateTextEdit_textChanged(self):
 
         print("Someone wrote something on the preview box")
@@ -239,19 +236,16 @@ class Search(QDialog):
 
         # get date selected
         due_date = self.due_dateDateEdit.date()
-
         # check if special_instructionLineEdit has content
         if self.special_instructionLineEdit.text():
             self.special_ins = SPECIAL_INS.format(self.special_instructionLineEdit.text())
         else:
             self.special_ins = ''
-
         # consolidate anything :)
         self.html = TEMPLATE.substitute(special=self.special_ins,
                                         artwork=self.artwork,
                                         TAT=self.selected_TAT.format(due_date.toString(self.date_format)),
                                         image=self.image)
-
         # show output
         self.templateTextEdit.setHtml(self.html.strip())
 
@@ -261,7 +255,7 @@ class Search(QDialog):
         self.special_instructionLineEdit.clear()   # clean any text inside this widget
         self.templateTextEdit.clear()   # same here
 
-    # TODO: make use of this idle function in the near future else delete! :)
+    # TODO: for deletion 5.20.2015
     def exchange_data(self):
         """ Event handler for testLineEdit """
 
@@ -296,18 +290,15 @@ class BETWindow(QMainWindow):
 
         self.statusLabel = QLabel()
         self.testTextEdit = QTextEdit()
-        #self.testTextEdit.setMinimumSize(200, 200)
-        #self.testTextEdit.setAlignment(Qt.AlignCenter)
-        #self.testTextEdit.setContextMenuPolicy(Qt.ActionsContextMenu)
 
         # Dock Widget
-        #self.testDocking = QDockWidget("toolbar", self)
-        #self.testDocking.setObjectName("toolbar")
-        #self.testDocking.setAllowedAreas(Qt.AllDockWidgetAreas)
+        # self.testDocking = QDockWidget("toolbar", self)
+        # self.testDocking.setObjectName("toolbar")
+        # self.testDocking.setAllowedAreas(Qt.AllDockWidgetAreas)
         # add widget to be inserted inside self.testDocking
-        #self.testListWidget = QListWidget()
-        #self.testDocking.setWidget(self.testListWidget)
-        #self.addDockWidget(Qt.RightDockWidgetArea, self.testDocking)
+        # self.testListWidget = QListWidget()
+        # self.testDocking.setWidget(self.testListWidget)
+        # self.addDockWidget(Qt.RightDockWidgetArea, self.testDocking)
 
         # Central Widget
         self.setCentralWidget(self.testTextEdit)
@@ -403,20 +394,21 @@ class BETWindow(QMainWindow):
 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
-                print("CODING: show dialog for creating a search template")
+                # show Search template
                 newTemplateDialog = Search(self)
                 if newTemplateDialog.exec_():
                     # if the user hit 'Generate', populate testTextEdit in BETWindow
-                    superstar = newTemplateDialog.templateTextEdit.toHtml() # get any text inside the preview QTextEdit
+                    superstar = newTemplateDialog.templateTextEdit.toHtml()  # get any text inside the preview QTextEdit
                     self.testTextEdit.setHtml(superstar)   # transmit the data to the main window
-                else:
-                    print("Someone hit Esc")
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
-                print("CODING: show dialog for creating a filing template")
+                # show message box here
+                not_available_msg = QMessageBox()
+                not_available_msg.setIcon(QMessageBox.Information)
+                not_available_msg.setWindowTitle("BET | Message")
+                not_available_msg.setText("'Filing' is not yet available. Send an email to GSMGBB for some updates.")
+                not_available_msg.exec()
             else:
-                print("Amazing")
-        else:
-            print("Cancel")
+                print("BET: unusual - no template selected?")
 
 
 # Dialogs starts here...
