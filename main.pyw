@@ -6,15 +6,15 @@
     Next release date (NRD): Sep 1, 2015 -v0.3
  """
 
-# TODO: create a new QDialog for filing template
-
 __author__ = 'Niño'
 # TODO: reminder, your are now currently working for another version of this app
 __version__ = 0.3   # current version, see NRD
 
-from design import APP, BETWindow, Search
+from design import APP, BET, Filing, Search
 
 if __name__ == '__main__':
-    window = BETWindow(__version__)
+    window = BET(__version__)
+    #window = Search()
+    #window = Filing()
     window.show()
     APP.exec_()

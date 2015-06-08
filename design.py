@@ -1,15 +1,21 @@
-# Create GUI here
+"""
+    Outline of classes inside this file.
+    * BET(QMainWindow)
+        + New(QDialog)
+    * Filing(QDialog)
+    * Search(QDialog)
+"""
 
 import sys
+import bipc_resources   # Don't remove this!
 
 from string import Template
+
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit,
                              QListWidget, QGridLayout, QDialog, QApplication, QDesktopWidget, QAction, QHBoxLayout,
                              QVBoxLayout, QGroupBox, QMessageBox)
 from PyQt5.QtGui import QIcon, QKeySequence, QTextDocument
 from PyQt5.QtCore import QDate, Qt
-
-import bipc_resources   # Don't remove this!
 
 APP = QApplication(sys.argv)
 
@@ -51,7 +57,242 @@ STYLE = """
 WORKTYPE = ['Filing', 'Search (SIW)']
 
 
-# initial design for our application
+# UTILITY functions: define handy function blocks here
+def show_message_box():
+    """ Handy message box creation """
+
+    not_available_msg = QMessageBox()
+    not_available_msg.setIcon(QMessageBox.Information)
+    not_available_msg.setWindowTitle("BET | Message")
+    not_available_msg.setText("'Filing' is not yet available. Send an email to GSMGBB for some updates.")
+    not_available_msg.exec()
+
+# Main window for our application
+class BET(QMainWindow):
+    sequenceNumber = 0
+    windowList = []
+
+    def __init__(self, version, parent=None):
+        super(BET, self).__init__(parent)
+
+        # resident variables
+        self.__version__ = version
+
+        self._widgets()
+        # self._layout()   TODO: for deletion 5.14.2015 (candidate)
+        self._properties()
+
+        self._createActions()
+        self._createMenus()
+        self._createToolBars()
+        self._createStatusBar()
+
+        self._connections()
+
+    def _widgets(self):
+
+        self.statusLabel = QLabel()
+        self.testTextEdit = QTextEdit()
+
+        # TODO: think hard if you still need to add docking functionality on this application
+        # Dock Widget
+        # self.testDocking = QDockWidget("toolbar", self)
+        # self.testDocking.setObjectName("toolbar")
+        # self.testDocking.setAllowedAreas(Qt.AllDockWidgetAreas)
+        # add widget to be inserted inside self.testDocking
+        # self.testListWidget = QListWidget()
+        # self.testDocking.setWidget(self.testListWidget)
+        # self.addDockWidget(Qt.RightDockWidgetArea, self.testDocking)
+
+        # Central Widget
+        self.setCentralWidget(self.testTextEdit)
+
+    def _properties(self):
+        """ Main Window properties """
+
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.resize(600, 350)   # width, height
+        # set BET to center screen
+        self.screenMainSize = QDesktopWidget().screenGeometry()
+        print("screen size:", self.screenMainSize)
+        self.BETsize = self.geometry()
+        # horizontal position = screenwidth - windowwidth /2
+        hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
+        vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
+        self.move(hpos, vpos)
+        print("BET size:", self.BETsize)
+        self.setWindowTitle("BET %s" % self.__version__)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint |
+                            Qt.WindowCloseButtonHint)
+
+    def _connections(self):
+        """ Connect widget signals and slots """
+
+        self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
+        self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
+
+    def _createActions(self):
+
+        # Remember: when creating a QAction, it should have a parent
+        # File menu: actions's inside this menu
+        self.newAction = QAction(QIcon(":/new.png"), "&New", self, shortcut=QKeySequence.New,
+                                 statusTip="Create a new template", toolTip="New", triggered=self.newTemplate)
+        self.exitAction = QAction("E&xit", self, shortcut="Ctrl+Q",
+                                  statusTip="Exit the application", triggered=self.close)
+
+        # Edit menu: actions inside this menu
+        self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self, shortcut=QKeySequence.Cut, enabled=False,
+                                statusTip="Cut to clipboard", toolTip="Cut", triggered=self.testTextEdit.cut)
+        self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self, shortcut=QKeySequence.Copy, enabled=False,
+                                  statusTip="Copy to clipboard", toolTip="Copy", triggered=self.testTextEdit.copy)
+        self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self, shortcut=QKeySequence.Paste,
+                                   statusTip="Paste from clipboard", toolTip="Paste", triggered=self.testTextEdit.paste)
+        self.select_allAction = QAction(QIcon(":/select_all.png"), "Select &All", self, shortcut=QKeySequence.SelectAll,
+                                        statusTip="Select all", triggered=self.testTextEdit.selectAll)
+
+    def _createMenus(self):
+        """ FILE, EDIT (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help """
+
+        # File: application's commands
+        self.fileMenu = self.menuBar().addMenu("&File")
+        self.fileMenu.addAction(self.newAction)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.exitAction)
+
+        # Edit: undo, redo, cut, copy or paste
+        self.editMenu = self.menuBar().addMenu("&Edit")
+        self.editMenu.addAction(self.cutAction)
+        self.editMenu.addAction(self.copyAction)
+        self.editMenu.addAction(self.pasteAction)
+        self.editMenu.addSeparator()
+        self.editMenu.addAction(self.select_allAction)
+
+    def _createToolBars(self):
+
+        # File: toolbars
+        self.fileToolBar = self.addToolBar("File")
+        self.fileToolBar.setMovable(False)
+        self.fileToolBar.addAction(self.newAction)
+
+        # Edit: toolbars
+        self.editToolBar = self.addToolBar("Edit")
+        self.editToolBar.setMovable(False)
+        self.editToolBar.addAction(self.cutAction)
+        self.editToolBar.addAction(self.copyAction)
+        self.editToolBar.addAction(self.pasteAction)
+        self.editToolBar.addSeparator()
+        self.editToolBar.addAction(self.select_allAction)
+
+    def _createStatusBar(self):
+
+        self.status = self.statusBar()
+        self.status.addPermanentWidget(self.statusLabel)
+        self.status.showMessage("Ready", 6000)
+
+    def newTemplate(self):
+
+        newWindow = New(self)
+        # BET.windowList.append(newWindow)
+        # TODO: make "Add new template" center here
+        newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
+
+        if newWindow.exec_():
+            if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
+                # show Search template
+                templateDialog = Search(self)
+                if templateDialog.exec_():
+                    # if the user hit 'Generate', populate testTextEdit in BET
+                    superstar = templateDialog.templateTextEdit.toHtml()  # get any text inside the preview QTextEdit
+                    self.testTextEdit.setHtml(superstar)   # transmit the data to the main window
+            elif newWindow.templateListWidget.currentItem().text() == "Filing":
+                # show filing template dialog here
+                templateDialog = Filing(self)
+                if templateDialog.exec_():
+                    print("BET: Filing dialog success execution")
+            else:
+                print("BET: unusual - no template selected?")
+
+# Dialogs starts here...
+class New(QDialog):
+
+    def __init__(self, parent=None):
+        super(New, self).__init__(parent)
+
+        self._widgets()
+        self._layout()
+        self._properties()
+        self._connections()
+
+    def _widgets(self):
+
+        self.templateLabel = QLabel("Template:")
+        self.templateListWidget = QListWidget()
+        self.templateListWidget.addItems(WORKTYPE)
+        self.templateListWidget.setCurrentRow(0)
+        self.createPushButton = QPushButton("&Create")
+        self.cancelPushButton = QPushButton("C&ancel")
+
+    def _layout(self):
+
+        grid = QGridLayout()
+        grid.addWidget(self.templateLabel, 0, 0)
+        grid.addWidget(self.templateListWidget, 1, 0)
+
+        buttons = QHBoxLayout()
+        buttons.addStretch(1)
+        buttons.addWidget(self.createPushButton)
+        buttons.addWidget(self.cancelPushButton)
+
+        combine = QVBoxLayout()
+        combine.addLayout(grid)
+        combine.addLayout(buttons)
+
+        self.setLayout(combine)
+
+    def _properties(self):
+
+        # self.setAttribute(Qt.WA_DeleteOnClose)
+        self.setWindowTitle("Add new Template")
+        self.resize(250, 100)
+
+    def _connections(self):
+
+        self.templateListWidget.itemDoubleClicked.connect(self.accept)
+        self.createPushButton.clicked.connect(self.accept)
+        self.cancelPushButton.clicked.connect(self.reject)
+
+# TODO: create filing dialog here...
+# Main dialog for filing template
+class Filing(QDialog):
+
+    def __init__(self, parent=None):
+        super(Filing, self).__init__(parent)
+        self._widgets()
+        self._layout()
+        self._properties()
+        self._connections()
+
+    def _widgets(self):
+
+        self.TMNCLabel = QLabel("TMNC:")
+        self.ToTMLabel = QLabel("Type of Trade Mark:")
+        self.special_instructionsLabel = QLabel("Special Instructions:")
+        self.previewLabel = QLabel("Preview:")
+
+    def _layout(self):
+
+        pass
+
+    def _properties(self):
+
+        self.resize(500, 450)
+        self.setWindowTitle("Filing Template | Testing")
+
+    def _connections(self):
+
+        pass
+
+# Main dialog for searching template
 class Search(QDialog):
 
     def __init__(self, parent=None):
@@ -149,7 +390,8 @@ class Search(QDialog):
 
         self.due_dateDateEdit.setDisplayFormat(self.date_format)   # ex. 14 Mar 2015
         self.due_dateDateEdit.setCalendarPopup(True)
-        self.special_instructionLineEdit.setPlaceholderText("Input test string here...")
+        self.special_instructionLineEdit.setPlaceholderText("Read correspondence for further instructions")
+        # TODO: search somewhere in GQR wherein you can apply something informative on this tooltip
         self.with_artworkCheckBox.setToolTip("Hello artwork tooltip?")
         self.with_imageCheckBox.setToolTip("i can do that too!")
         # you need this to style templateTextEdit
@@ -176,7 +418,6 @@ class Search(QDialog):
         self.with_artworkCheckBox.stateChanged.connect(self.on_with_artworkCheckBox_stateChanged)
         self.with_imageCheckBox.stateChanged.connect(self.on_with_imageCheckBox_stateChanged)
         self.previewButton.clicked.connect(self.on_previewButton_clicked)
-        self.templateTextEdit.textChanged.connect(self.on_templateTextEdit_textChanged)
         # the generate button will only retrieve and throw data based on the input widgets
         self.generateButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
@@ -226,11 +467,6 @@ class Search(QDialog):
         else:
             self.image = ''
 
-    # TODO: for deletion 5.20.2015
-    def on_templateTextEdit_textChanged(self):
-
-        print("Someone wrote something on the preview box")
-
     def on_previewButton_clicked(self):
         """ Preview the user's input inside the previewTextEdit """
 
@@ -254,222 +490,3 @@ class Search(QDialog):
 
         self.special_instructionLineEdit.clear()   # clean any text inside this widget
         self.templateTextEdit.clear()   # same here
-
-    # TODO: for deletion 5.20.2015
-    def exchange_data(self):
-        """ Event handler for testLineEdit """
-
-        # if the user directly inserted something on the previewTextEdit, copy all text
-        #self.templateTextEdit.selectAll()
-        pass
-
-
-# my second GUI design for this application (trying to mimic e-Docs)
-class BETWindow(QMainWindow):
-    sequenceNumber = 0
-    windowList = []
-
-    def __init__(self, version, parent=None):
-        super(BETWindow, self).__init__(parent)
-
-        # resident variables
-        self.__version__ = version
-
-        self._widgets()
-        # self._layout()   TODO: for deletion 5.14.2015 (candidate)
-        self._properties()
-
-        self._createActions()
-        self._createMenus()
-        self._createToolBars()
-        self._createStatusBar()
-
-        self._connections()
-
-    def _widgets(self):
-
-        self.statusLabel = QLabel()
-        self.testTextEdit = QTextEdit()
-
-        # Dock Widget
-        # self.testDocking = QDockWidget("toolbar", self)
-        # self.testDocking.setObjectName("toolbar")
-        # self.testDocking.setAllowedAreas(Qt.AllDockWidgetAreas)
-        # add widget to be inserted inside self.testDocking
-        # self.testListWidget = QListWidget()
-        # self.testDocking.setWidget(self.testListWidget)
-        # self.addDockWidget(Qt.RightDockWidgetArea, self.testDocking)
-
-        # Central Widget
-        self.setCentralWidget(self.testTextEdit)
-
-    def _properties(self):
-        """ Main Window properties """
-
-        self.setAttribute(Qt.WA_DeleteOnClose)
-        self.resize(600, 350)   # width, height
-        # set BETWindow to center screen
-        self.screenMainSize = QDesktopWidget().screenGeometry()
-        print("screen size:", self.screenMainSize)
-        self.BETsize = self.geometry()
-        # horizontal position = screenwidth - windowwidth /2
-        hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
-        vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
-        self.move(hpos, vpos)
-        print("BETWindow size:", self.BETsize)
-        self.setWindowTitle("BET %s" % self.__version__)
-        self.setWindowFlags(Qt.WindowMinimizeButtonHint |
-                            Qt.WindowCloseButtonHint)
-
-    def _connections(self):
-        """ Connect widget signals and slots """
-
-        self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
-        self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
-
-    def _createActions(self):
-
-        # Remember: when creating an QAction, it should have a parent
-        # File menu: actions's inside this menu
-        self.newAction = QAction(QIcon(":/new.png"), "&New", self, shortcut=QKeySequence.New,
-                                 statusTip="Create a new template", toolTip="New", triggered=self.newTemplate)
-        self.exitAction = QAction("E&xit", self, shortcut="Ctrl+Q",
-                                  statusTip="Exit the application", triggered=self.close)
-
-        # Edit menu: actions inside this menu
-        self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self, shortcut=QKeySequence.Cut, enabled=False,
-                                statusTip="Cut to clipboard", toolTip="Cut", triggered=self.testTextEdit.cut)
-        self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self, shortcut=QKeySequence.Copy, enabled=False,
-                                  statusTip="Copy to clipboard", toolTip="Copy", triggered=self.testTextEdit.copy)
-        self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self, shortcut=QKeySequence.Paste,
-                                   statusTip="Paste from clipboard", toolTip="Paste", triggered=self.testTextEdit.paste)
-        self.select_allAction = QAction(QIcon(":/select_all.png"), "Select &All", self, shortcut=QKeySequence.SelectAll,
-                                        statusTip="Select all", triggered=self.testTextEdit.selectAll)
-
-    def _createMenus(self):
-        """ FILE, Edit (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help """
-
-        # File: application's commands
-        self.fileMenu = self.menuBar().addMenu("&File")
-        self.fileMenu.addAction(self.newAction)
-        self.fileMenu.addSeparator()
-        self.fileMenu.addAction(self.exitAction)
-
-        # Edit: undo, redo, cut, copy or paste
-        self.editMenu = self.menuBar().addMenu("&Edit")
-        self.editMenu.addAction(self.cutAction)
-        self.editMenu.addAction(self.copyAction)
-        self.editMenu.addAction(self.pasteAction)
-        self.editMenu.addSeparator()
-        self.editMenu.addAction(self.select_allAction)
-
-    def _createToolBars(self):
-
-        # File: toolbars
-        self.fileToolBar = self.addToolBar("File")
-        self.fileToolBar.setMovable(False)
-        self.fileToolBar.addAction(self.newAction)
-
-        # Edit: toolbars
-        self.editToolBar = self.addToolBar("Edit")
-        self.editToolBar.setMovable(False)
-        self.editToolBar.addAction(self.cutAction)
-        self.editToolBar.addAction(self.copyAction)
-        self.editToolBar.addAction(self.pasteAction)
-        self.editToolBar.addSeparator()
-        self.editToolBar.addAction(self.select_allAction)
-
-    def _createStatusBar(self):
-
-        self.status = self.statusBar()
-        self.status.addPermanentWidget(self.statusLabel)
-        self.status.showMessage("Ready", 6000)
-
-    def newTemplate(self):
-
-        newWindow = NewTemplateDialog(self)
-        # BETWindow.windowList.append(newWindow)
-        # TODO: make "Add new template" center here
-        newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
-
-        if newWindow.exec_():
-            if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
-                # show Search template
-                newTemplateDialog = Search(self)
-                if newTemplateDialog.exec_():
-                    # if the user hit 'Generate', populate testTextEdit in BETWindow
-                    superstar = newTemplateDialog.templateTextEdit.toHtml()  # get any text inside the preview QTextEdit
-                    self.testTextEdit.setHtml(superstar)   # transmit the data to the main window
-            elif newWindow.templateListWidget.currentItem().text() == "Filing":
-                # show message box here
-                not_available_msg = QMessageBox()
-                not_available_msg.setIcon(QMessageBox.Information)
-                not_available_msg.setWindowTitle("BET | Message")
-                not_available_msg.setText("'Filing' is not yet available. Send an email to GSMGBB for some updates.")
-                not_available_msg.exec()
-            else:
-                print("BET: unusual - no template selected?")
-
-
-# Dialogs starts here...
-class NewTemplateDialog(QDialog):
-
-    def __init__(self, parent=None):
-        super(NewTemplateDialog, self).__init__(parent)
-
-        self._widgets()
-        self._layout()
-        self._properties()
-        self._connections()
-
-    def _widgets(self):
-
-        self.templateLabel = QLabel("Template:")
-        self.templateListWidget = QListWidget()
-        self.templateListWidget.addItems(WORKTYPE)
-        self.templateListWidget.setCurrentRow(0)
-        self.createPushButton = QPushButton("&Create")
-        self.cancelPushButton = QPushButton("C&ancel")
-
-    def _layout(self):
-
-        grid = QGridLayout()
-        grid.addWidget(self.templateLabel, 0, 0)
-        grid.addWidget(self.templateListWidget, 1, 0)
-
-        buttons = QHBoxLayout()
-        buttons.addStretch(1)
-        buttons.addWidget(self.createPushButton)
-        buttons.addWidget(self.cancelPushButton)
-
-        combine = QVBoxLayout()
-        combine.addLayout(grid)
-        combine.addLayout(buttons)
-
-        self.setLayout(combine)
-
-    def _properties(self):
-
-        # self.setAttribute(Qt.WA_DeleteOnClose)
-        self.setWindowTitle("Add new Template")
-        self.resize(250, 100)
-
-    def _connections(self):
-
-        self.templateListWidget.itemDoubleClicked.connect(self.accept)
-        self.createPushButton.clicked.connect(self.accept)
-        self.cancelPushButton.clicked.connect(self.reject)
-
-    def on_test_slot(self):  # TODO: for deletion 5.14.2015
-        # TEST: open a new template
-        print("TEST: slot")
-        if self.templateListWidget.currentItem().text() == "Search (SIW)":
-            dialog = Search()
-            if dialog.exec_():
-                print(self.templateListWidget.currentItem().text())
-            else:
-                print("Do the recap!")
-        elif self.templateListWidget.currentItem().text() == "Filing":
-            print(self.templateListWidget.currentItem().text())
-        else:
-            print("Matulog ka na!")
