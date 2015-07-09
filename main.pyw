@@ -10,11 +10,13 @@ __author__ = 'Niño'
 # TODO: reminder, your are now currently working for another version of this app
 __version__ = 0.3   # current version, see NRD
 
-from design import APP, BET, Filing, Search
+from main_window import BET
+from resources.constants import APP
 
 if __name__ == '__main__':
+    APP.setOrganizationName("GIPSC Core Team")
+    APP.setOrganizationDomain("bakermckenzie.com")
+    APP.setApplicationName("BET")
     window = BET(__version__)
-    #window = Search()
-    #window = Filing()
     window.show()
     APP.exec_()

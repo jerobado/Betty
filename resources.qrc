@@ -5,6 +5,8 @@
         <file alias="copy.png">images/copy_32.png</file>
         <file alias="paste.png">images/paste_32.png</file>
         <file alias="select_all.png">images/select_all_32.png</file>
+        <file alias="settings.png">images/settings_32.png</file>
+        <file alias="quit.png">images/quit_32.png</file>
     </qresource>
 </RCC>
 
