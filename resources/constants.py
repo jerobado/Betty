@@ -47,7 +47,7 @@ STYLE = """
 
 # used by dialogs/filing.py
 TYPE_TM = ['Arabic Characters',
-           'Design Only'
+           'Design Only',
            'Device Only',
            'Stylised Word',
            'Word-Device',

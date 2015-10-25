@@ -89,11 +89,10 @@ class Search(QDialog):
         input_fieldsGroupBox = QGroupBox("Input Fields")
         input_fieldsGroupBox.setLayout(grid)
 
+        # arrange vertically
         center = QVBoxLayout()
         center.addLayout(label_combobox_HBoxLayout)
         center.addWidget(input_fieldsGroupBox)
-
-        # add widgets for output
         center.addWidget(self.previewLabel)
         center.addWidget(self.templateTextEdit)
 
@@ -155,7 +154,7 @@ class Search(QDialog):
         """ Event handler for self.clientComboBox """
 
         # TODO: i'm not satisfied with this code below but somehow it works, make this appealing in the near future ^^,
-        print("You selected", self.clientComboBox.currentText())
+        print("[BET]: You selected", self.clientComboBox.currentText())
         if self.clientComboBox.currentText() == 'GE':
             self.client_TAT = GE_TAT
             self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
@@ -216,5 +215,5 @@ class Search(QDialog):
     def on_clearButton_clicked(self):
         """ Event handler for clearing text inside self.special_instructionLineEdit and self.templateTextEdit """
 
-        self.special_instructionLineEdit.clear()   # clean any text inside this widget
+        self.special_instructionLineEdit.clear()    # clean any text inside this widget
         self.templateTextEdit.clear()               # same here

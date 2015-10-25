@@ -3,7 +3,7 @@
     Interface: GUI (PyQt5)
     Language: Python 3.4.3
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Sep 1, 2015 -v0.3
+    Next release date (NRD): Dec 1, 2015 -v0.3
  """
 
 __author__ = 'Niño'

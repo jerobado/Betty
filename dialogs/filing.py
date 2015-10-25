@@ -1,9 +1,10 @@
 __author__ = 'Jero'
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
-                             QTextEdit, QPushButton)
+                             QTextEdit, QPushButton, QGroupBox)
 
 from resources.constants import TYPE_TM
+
 
 # TODO: create filing dialog here...
 class Filing(QDialog):  # Main dialog for filing template
@@ -40,9 +41,12 @@ class Filing(QDialog):  # Main dialog for filing template
         grid.addWidget(self.ToTMComboBox, 1, 1)
         grid.addWidget(self.special_instructionsLabel, 2, 0)
         grid.addWidget(self.special_instructionsLineEdit, 2, 1)
-        grid.addWidget(self.previewLabel, 3, 0)
-        grid.addWidget(self.previewTextEdit, 4, 0, 1, 2)
 
+        # input widgets inside the QGroupBox
+        input_group = QGroupBox("Input Fields")
+        input_group.setLayout(grid)
+
+        # arrange the buttons horizontally
         buttons = QHBoxLayout()
         buttons.addStretch()
         buttons.addWidget(self.previewButton)
@@ -51,7 +55,9 @@ class Filing(QDialog):  # Main dialog for filing template
 
         # set everything vertically
         vertical = QVBoxLayout()
-        vertical.addLayout(grid)
+        vertical.addWidget(input_group)
+        vertical.addWidget(self.previewLabel)
+        vertical.addWidget(self.previewTextEdit)
         vertical.addLayout(buttons)
 
         # now let your parent arrange everything for you
@@ -64,4 +70,5 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def _connections(self):
 
+        # TODO: connect something here
         pass

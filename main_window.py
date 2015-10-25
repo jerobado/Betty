@@ -6,6 +6,8 @@
     * Search(QDialog) -> moved to dialogs/search.py
 """
 
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QMessageBox)
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtCore import Qt, QSettings, QVariant, QSize, QPoint
@@ -14,6 +16,7 @@ from resources import bipc_resources   # Don't remove this!
 
 # Application settings variables
 APPEND = True   # default, any new template created will overwrite the previous one
+
 
 # UTILITY functions: define handy function blocks here
 def show_message_box():
@@ -25,6 +28,11 @@ def show_message_box():
     not_available_msg.setText("'Filing' is not yet available. Send an email to GSMGBB for some updates.")
     not_available_msg.exec()
 
+def show_whats_new():
+    """ Handy 'print' statement that will tell you what new template is added on the main window. """
+
+    print('[BET]: New template added')
+
 # Main window for our application
 class BET(QMainWindow):
 
@@ -35,7 +43,6 @@ class BET(QMainWindow):
         self.__version__ = version
 
         self._widgets()
-        # self._layout()   TODO: for deletion 5.14.2015 (candidate)
         self._properties()
 
         self._createActions()
@@ -159,19 +166,22 @@ class BET(QMainWindow):
     # Define BET slots here
     def on_newTemplate_action(self):
         """ Event handler for File > New """
-
+ 
         from dialogs.new import New
-
+        
+        print("[BET]: Selecting new template")  # BET prompt
+        
         newWindow = New(self)
         # BET.windowList.append(newWindow)
         # TODO: make "Add new template" center here
         newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
-
+ 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
+                print("[BET]: Search template selected")  # BET prompt
                 # show Search template
                 from dialogs.search import Search
-
+ 
                 templateDialog = Search()
                 if templateDialog.exec_():
                     # if the user hit 'Generate', populate testTextEdit in BET
@@ -182,16 +192,18 @@ class BET(QMainWindow):
                         self.testTextEdit.setHtml(superstar)
                     else:
                         self.testTextEdit.append(superstar)
+                    show_whats_new()
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
-
+ 
                 # show filing template dialog here
                 from dialogs.filing import Filing
-
+ 
                 dialog = Filing()
+                print("[BET]: Filing template selected")  # BET prompt
                 if dialog.exec_():
-                    print("BET: Filing dialog success execution")
+                    so_whats_new()  # BET prompt
             else:
-                print("BET: unusual - no template selected?")
+                print("[BET]: Unusual, no template selected?")
 
     # TODO: retain the previous state when the user closed the application
     def on_settings_action(self):
