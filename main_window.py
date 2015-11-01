@@ -8,9 +8,10 @@
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QMessageBox)
+from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QMessageBox, QDockWidget,
+                             QListWidget)
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtCore import Qt, QSettings, QVariant, QSize, QPoint
+from PyQt5.QtCore import Qt, QSettings, QVariant, QSize, QPoint  # you imported something here that's never use!
 
 from resources import bipc_resources   # Don't remove this!
 
@@ -49,6 +50,7 @@ class BET(QMainWindow):
         self._createMenus()
         self._createToolBars()
         self._createStatusBar()
+        self._createDockWindows()
 
         self._connections()
 
@@ -56,16 +58,6 @@ class BET(QMainWindow):
 
         self.statusLabel = QLabel()
         self.testTextEdit = QTextEdit()
-
-        # TODO: think hard if you still need to add docking functionality on this application
-        # Dock Widget
-        # self.testDocking = QDockWidget("toolbar", self)
-        # self.testDocking.setObjectName("toolbar")
-        # self.testDocking.setAllowedAreas(Qt.AllDockWidgetAreas)
-        # add widget to be inserted inside self.testDocking
-        # self.testListWidget = QListWidget()
-        # self.testDocking.setWidget(self.testListWidget)
-        # self.addDockWidget(Qt.RightDockWidgetArea, self.testDocking)
 
         # Central Widget
         self.setCentralWidget(self.testTextEdit)
@@ -96,7 +88,7 @@ class BET(QMainWindow):
     def _createActions(self):
 
         # Remember: when creating a QAction, it should have a parent
-        # File menu: actions's inside this menu
+        # File menu: actions inside this menu
         self.newAction = QAction(QIcon(":/new.png"), "&New", self, shortcut=QKeySequence.New,
                                  statusTip="Create a new template", toolTip="New", triggered=self.on_newTemplate_action)
         self.settingsAction = QAction(QIcon(":/settings.png"), "Se&ttings", self, shortcut="Ctrl+Alt+S",
@@ -106,7 +98,7 @@ class BET(QMainWindow):
 
         # Edit menu: actions inside this menu
         self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self, shortcut=QKeySequence.Cut, enabled=False,
-                                statusTip="Cut to clipboard", toolTip="Cut", triggered=self.testTextEdit.cut)
+                                 statusTip="Cut to clipboard", toolTip="Cut", triggered=self.testTextEdit.cut)
         self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self, shortcut=QKeySequence.Copy, enabled=False,
                                   statusTip="Copy to clipboard", toolTip="Copy", triggered=self.testTextEdit.copy)
         self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self, shortcut=QKeySequence.Paste,
@@ -137,6 +129,9 @@ class BET(QMainWindow):
         self.editMenu.addSeparator()
         self.editMenu.addAction(self.select_allAction)
 
+        # View: Tracker
+        self.viewMenu = self.menuBar().addMenu("&View")
+
         # Settings: check...
         self.settingsMenu = self.menuBar().addMenu("Se&ttings")
         self.settingsMenu.addAction(self.checkAction)
@@ -163,25 +158,41 @@ class BET(QMainWindow):
         self.status.addPermanentWidget(self.statusLabel)
         self.status.showMessage("Ready", 6000)
 
+    def _createDockWindows(self):
+        """ Event handler for View > Tracker """
+
+        # TODO: think hard if you still need to add docking functionality on this application (yes it is ^^)
+        # Dock Widget
+        self.tracker_dock = QDockWidget("Tracker", self)
+        self.tracker_dock.setObjectName("Tracker")
+        self.tracker_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+        # Add widget to be inserted inside self.tracker_dock
+        self.trackerListWidget = QListWidget()
+        self.tracker_dock.setWidget(self.trackerListWidget)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
+        # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
+        self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
+        print("BET: Tracker activated")
+
     # Define BET slots here
     def on_newTemplate_action(self):
         """ Event handler for File > New """
- 
+
         from dialogs.new import New
-        
+
         print("[BET]: Selecting new template")  # BET prompt
-        
+
         newWindow = New(self)
         # BET.windowList.append(newWindow)
         # TODO: make "Add new template" center here
         newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
- 
+
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
                 print("[BET]: Search template selected")  # BET prompt
                 # show Search template
                 from dialogs.search import Search
- 
+
                 templateDialog = Search()
                 if templateDialog.exec_():
                     # if the user hit 'Generate', populate testTextEdit in BET
@@ -194,10 +205,10 @@ class BET(QMainWindow):
                         self.testTextEdit.append(superstar)
                     show_whats_new()
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
- 
+
                 # show filing template dialog here
                 from dialogs.filing import Filing
- 
+
                 dialog = Filing()
                 print("[BET]: Filing template selected")  # BET prompt
                 if dialog.exec_():

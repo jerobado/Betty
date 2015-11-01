@@ -8,7 +8,7 @@
 
 __author__ = 'Niño'
 # TODO: reminder, your are now currently working for another version of this app
-__version__ = 0.3   # current version, see NRD
+__version__ = 0.3   # Current version, see NRD
 
 from main_window import BET
 from resources.constants import APP
