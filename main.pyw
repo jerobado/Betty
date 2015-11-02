@@ -13,7 +13,24 @@ __version__ = 0.3   # Current version, see NRD
 from main_window import BET
 from resources.constants import APP
 
+
+# TEST: just checking my PyQt version
+def check_version():
+
+    import sys
+    from PyQt5.QtCore import QT_VERSION_STR
+    from PyQt5.Qt import PYQT_VERSION_STR
+    from sip import SIP_VERSION_STR
+
+    print("Python version:", sys.version[:5])
+    print("Qt version:", QT_VERSION_STR)
+    print("PyQt version:", PYQT_VERSION_STR)
+    print("SIP version:", SIP_VERSION_STR)
+
+
 if __name__ == '__main__':
+    # Shibuya daw :)
+    check_version()
     APP.setOrganizationName("GIPSC Core Team")
     APP.setOrganizationDomain("bakermckenzie.com")
     APP.setApplicationName("BET")
