@@ -1,5 +1,8 @@
+# BET > dialogs > search.py
 
-from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit,
+__author__ = 'Jero'
+
+from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit, QSpinBox,
                              QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget)
 from PyQt5.QtGui import QTextDocument, QTextCharFormat
 from PyQt5.QtCore import QDate
@@ -12,7 +15,6 @@ from resources.constants import (SPECIAL_INS,
                                  TEMPLATE,
                                  STYLE)
 
-__author__ = 'Jero'
 
 # Main dialog for searching template
 class Search(QDialog):
@@ -48,6 +50,7 @@ class Search(QDialog):
         self.defaultCalender = QCalendarWidget()
         self.currentDateFormat = QTextCharFormat()
         self.currentDateFormat.setFontWeight(75)
+        self.daysSpinBox = QSpinBox()
         self.importanceComboBox = QComboBox()  # provide a list when using this widget for it's content
         self.importanceComboBox.insertItem(0, "Low/Medium")
         self.importanceComboBox.insertItem(1, "Critical")
@@ -73,6 +76,7 @@ class Search(QDialog):
         label_dateEdit_tandem = QHBoxLayout()
         label_dateEdit_tandem.addWidget(self.due_dateLabel)
         label_dateEdit_tandem.addWidget(self.due_dateDateEdit)
+        label_dateEdit_tandem.addWidget(self.daysSpinBox)
 
         label_comboBox_tandem = QHBoxLayout()
         label_comboBox_tandem.addWidget(self.importanceLabel)
