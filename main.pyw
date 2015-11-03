@@ -22,11 +22,10 @@ def check_version():
     from PyQt5.Qt import PYQT_VERSION_STR
     from sip import SIP_VERSION_STR
 
-    print("Python version:", sys.version[:5])
-    print("Qt version:", QT_VERSION_STR)
-    print("PyQt version:", PYQT_VERSION_STR)
-    print("SIP version:", SIP_VERSION_STR)
-
+    print("[BET]: Python version", sys.version[:5])
+    print("[BET]: Qt version", QT_VERSION_STR)
+    print("[BET]: PyQt version", PYQT_VERSION_STR)
+    print("[BET]: SIP version", SIP_VERSION_STR)
 
 if __name__ == '__main__':
     # Shibuya daw :)

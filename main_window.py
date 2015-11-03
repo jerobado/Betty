@@ -29,10 +29,12 @@ def show_message_box():
     not_available_msg.setText("'Filing' is not yet available. Send an email to GSMGBB for some updates.")
     not_available_msg.exec()
 
+
 def show_whats_new():
     """ Handy 'print' statement that will tell you what new template is added on the main window. """
 
     print('[BET]: New template added')
+
 
 # Main window for our application
 class BET(QMainWindow):
@@ -69,13 +71,13 @@ class BET(QMainWindow):
         self.resize(600, 350)   # width, height
         # set BET to center screen
         self.screenMainSize = QDesktopWidget().screenGeometry()
-        print("screen size:", self.screenMainSize)
+        print("[BET]: screen size:", self.screenMainSize)
         self.BETsize = self.geometry()
         # horizontal position = screenwidth - windowwidth /2
         hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
         vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
         self.move(hpos, vpos)
-        print("BET size:", self.BETsize)
+        print("[BET]: size", self.BETsize)
         self.setWindowTitle("BET %s" % self.__version__)
         #self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
 
@@ -172,7 +174,7 @@ class BET(QMainWindow):
         self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
         self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
-        print("BET: Tracker activated")
+        print("[BET]: Tracker activated")
 
     # Define BET slots here
     def on_newTemplate_action(self):
@@ -212,7 +214,8 @@ class BET(QMainWindow):
                 dialog = Filing()
                 print("[BET]: Filing template selected")  # BET prompt
                 if dialog.exec_():
-                    so_whats_new()  # BET prompt
+                    # TODO: your Filing template is somehow functional, once refined try to connect it here
+                    print("[BET]: anyare?")
             else:
                 print("[BET]: Unusual, no template selected?")
 

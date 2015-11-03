@@ -1,4 +1,7 @@
-# define global and constant variables here
+# BET > resources > constants.py
+# Define global and constant variables here
+
+__author__ = 'Jero'
 
 import sys
 
@@ -6,13 +9,10 @@ from PyQt5.QtWidgets import QApplication
 
 from string import Template
 
-__author__ = 'Jero'
-
 # used by main.pyw
 APP = QApplication(sys.argv)
 
 # used by dialogs/search.py
-SPECIAL_INS = "<div><p><b>{}</b></p></div>"
 WITH_ARTWORK = "<div><p>Artwork attached to illustrate how the mark will appear on pack.</p></div>"
 WITH_IMAGE = "<div><p>The trade mark to be searched is as shown in the attached image file.</p></div>"
 # TEST: trying to consolidate TAT template in a dictionary, Unilever first TODO: so far, so good
@@ -37,7 +37,8 @@ GE_TAT = {
         If the due date falls on a weekend, holiday or non-working day, please send us your search \
         analysis on the next business day.</p></div>"""
 }
-TEMPLATE = Template("$special $artwork $TAT $image")
+SEARCH_SPECIAL = "<div><p><b>{}</b></p></div>"
+SEARCH_TEMPLATE = Template("$special $artwork $TAT $image")
 STYLE = """
     div {
         font-family: "Arial";
@@ -54,3 +55,15 @@ TYPE_TM = ['Arabic Characters',
            'Word-Design',
            'Word in standard characters']
 WORK_TYPE = ['Filing', 'Search (SIW)']
+FILING = """
+        <p>The trade mark to be filed is as shown in the attached image file. The type of trade mark is <b>{0}</b>.</p>
+
+        <p>Please note that the mark is referred to in GIPM and should be referred to in all correspondence
+        as <b>{1}</b>.</p>
+
+        <p>For your information, as part of our trade mark naming conventions, we use descriptive terms (e.g., DEVICE,
+        STYLISED, FOREIGN CHARACTERS, SLOGAN, PACKAGING, THREE-DIMENSIONAL, LABEL, etc.) to aid in the identification
+        of trade marks, which differ from PLAIN BLOCK CAPITAL LETTERS. Such descriptive terms are added to the end of
+        a trade mark, but they DO NOT FORM PART OF THE TRADE MARK itself.</p>"""
+FILING_SPECIAL = "<p><b>{0}</b></p>"
+FILING_TEMPLATE = Template("$special $filing")

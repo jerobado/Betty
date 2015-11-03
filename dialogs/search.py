@@ -7,12 +7,12 @@ from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBo
 from PyQt5.QtGui import QTextDocument, QTextCharFormat
 from PyQt5.QtCore import QDate
 
-from resources.constants import (SPECIAL_INS,
+from resources.constants import (SEARCH_SPECIAL,
+                                 SEARCH_TEMPLATE,
                                  WITH_ARTWORK,
                                  WITH_IMAGE,
                                  UN_TAT,
                                  GE_TAT,
-                                 TEMPLATE,
                                  STYLE)
 
 
@@ -44,7 +44,7 @@ class Search(QDialog):
         self.clientComboBox.insertItem(1, "Unilever")
         self.clientComboBox.setCurrentIndex(1)
         self.due_dateLabel = QLabel("Due Date:")
-        self.importanceLabel = QLabel("Importance:")
+        self.importanceLabel = QLabel("Importance (Urgency):")
         self.special_instructionLabel = QLabel("Special Instruction:")
         self.due_dateDateEdit = QDateEdit(QDate.currentDate())  # initialize by current date
         self.defaultCalender = QCalendarWidget()
@@ -199,25 +199,27 @@ class Search(QDialog):
             self.image = ''
 
     def on_previewButton_clicked(self):
-        """ Preview the user's input inside the previewTextEdit """
+        """ Preview the user's input inside the self.previewTextEdit """
 
-        # get date selected
+        # Get date selected
         due_date = self.due_dateDateEdit.date()
         # check if special_instructionLineEdit has content
         if self.special_instructionLineEdit.text():
-            self.special_ins = SPECIAL_INS.format(self.special_instructionLineEdit.text())
+            self.special_ins = SEARCH_SPECIAL.format(self.special_instructionLineEdit.text())
         else:
             self.special_ins = ''
-        # consolidate anything :)
-        self.html = TEMPLATE.substitute(special=self.special_ins,
-                                        artwork=self.artwork,
-                                        TAT=self.selected_TAT.format(due_date.toString(self.date_format)),
-                                        image=self.image)
-        # show output
+
+        # Consolidate anything :)
+        self.html = SEARCH_TEMPLATE.substitute(special=self.special_ins,
+                                               artwork=self.artwork,
+                                               TAT=self.selected_TAT.format(due_date.toString(self.date_format)),
+                                               image=self.image)
+
+        # Show output
         self.templateTextEdit.setHtml(self.html.strip())
 
     def on_clearButton_clicked(self):
         """ Event handler for clearing text inside self.special_instructionLineEdit and self.templateTextEdit """
 
-        self.special_instructionLineEdit.clear()    # clean any text inside this widget
-        self.templateTextEdit.clear()               # same here
+        self.special_instructionLineEdit.clear()
+        self.templateTextEdit.clear()

@@ -1,9 +1,11 @@
+# BET > dialogs > filing.py
+
 __author__ = 'Jero'
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
                              QTextEdit, QPushButton, QGroupBox)
 
-from resources.constants import TYPE_TM
+from resources.constants import TYPE_TM, FILING, FILING_SPECIAL, FILING_TEMPLATE
 
 
 # TODO: create filing dialog here...
@@ -70,5 +72,29 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def _connections(self):
 
-        # TODO: connect something here
-        pass
+        self.clearButton.clicked.connect(self.on_clearButton_clicked)
+        self.previewButton.clicked.connect(self.on_previewButton_clicked)
+
+    # EVENT HANDLER starts here
+    def on_clearButton_clicked(self):
+
+        self.TMNCLineEdit.clear()
+        self.special_instructionsLineEdit.clear()
+        self.previewTextEdit.clear()
+
+    def on_previewButton_clicked(self):
+
+        # Check if self.special_instructionsLineEdit has no content
+        if not self.special_instructionsLineEdit.text():
+            special_instruction = FILING_SPECIAL.format(self.special_instructionsLineEdit.text())
+        else:
+            special_instruction = ''
+
+        # Consolidate
+        html = FILING_TEMPLATE.substitute(special=special_instruction,
+                                          filing=FILING.format(self.TMNCLineEdit.text(),
+                                                               self.ToTMComboBox.currentText()))
+
+        # Show result
+        self.previewTextEdit.setHtml(html)
+        print("[BET]: Preview button clicked under Filing form")
