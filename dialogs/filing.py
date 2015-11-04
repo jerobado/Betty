@@ -4,8 +4,9 @@ __author__ = 'Jero'
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
                              QTextEdit, QPushButton, QGroupBox)
+from PyQt5.QtGui import QTextDocument
 
-from resources.constants import TYPE_TM, FILING, FILING_SPECIAL, FILING_TEMPLATE
+from resources.constants import TYPE_TM, FILING, FILING_SPECIAL, FILING_TEMPLATE, STYLE
 
 
 # TODO: create filing dialog here...
@@ -67,13 +68,17 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def _properties(self):
 
+        font_style = QTextDocument()
+        font_style.setDefaultStyleSheet(STYLE)
+        self.previewTextEdit.setDocument(font_style)
         self.resize(410, 550)  # width, height
         self.setWindowTitle("Filing Template | Testing")
 
     def _connections(self):
 
-        self.clearButton.clicked.connect(self.on_clearButton_clicked)
         self.previewButton.clicked.connect(self.on_previewButton_clicked)
+        self.generateButton.clicked.connect(self.accept)
+        self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
     # EVENT HANDLER starts here
     def on_clearButton_clicked(self):
@@ -85,7 +90,7 @@ class Filing(QDialog):  # Main dialog for filing template
     def on_previewButton_clicked(self):
 
         # Check if self.special_instructionsLineEdit has no content
-        if not self.special_instructionsLineEdit.text():
+        if self.special_instructionsLineEdit.text():
             special_instruction = FILING_SPECIAL.format(self.special_instructionsLineEdit.text())
         else:
             special_instruction = ''

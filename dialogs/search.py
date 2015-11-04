@@ -44,10 +44,10 @@ class Search(QDialog):
         self.clientComboBox.insertItem(1, "Unilever")
         self.clientComboBox.setCurrentIndex(1)
         self.due_dateLabel = QLabel("Due Date:")
-        self.importanceLabel = QLabel("Importance (Urgency):")
+        self.importanceLabel = QLabel("Select Importance:")
         self.special_instructionLabel = QLabel("Special Instruction:")
         self.due_dateDateEdit = QDateEdit(QDate.currentDate())  # initialize by current date
-        self.defaultCalender = QCalendarWidget()
+        self.defaultCalendar = QCalendarWidget()
         self.currentDateFormat = QTextCharFormat()
         self.currentDateFormat.setFontWeight(75)
         self.daysSpinBox = QSpinBox()
@@ -118,14 +118,14 @@ class Search(QDialog):
 
         self.due_dateDateEdit.setDisplayFormat(self.date_format)   # ex. 14 Mar 2015
         self.due_dateDateEdit.setCalendarPopup(True)
-        self.due_dateDateEdit.setCalendarWidget(self.defaultCalender)
-        self.defaultCalender.setGridVisible(True)
-        self.defaultCalender.setDateTextFormat(QDate.currentDate(), self.currentDateFormat)
+        self.due_dateDateEdit.setCalendarWidget(self.defaultCalendar)
+        self.defaultCalendar.setGridVisible(True)
+        self.defaultCalendar.setDateTextFormat(QDate.currentDate(), self.currentDateFormat)
         self.special_instructionLineEdit.setPlaceholderText("Read correspondence for further instructions")
         # TODO: search somewhere in GQR wherein you can apply something informative on this tooltip
         self.with_artworkCheckBox.setToolTip("Hello artwork tooltip?")
         self.with_imageCheckBox.setToolTip("i can do that too!")
-        # you need this to style templateTextEdit
+        # you need this to style self.templateTextEdit
         style_document = QTextDocument()
         style_document.setDefaultStyleSheet(STYLE)
         # apply style
@@ -171,10 +171,10 @@ class Search(QDialog):
     def on_importanceComboBox_activated(self):
         """ Event handler for self.importanceComboBox """
 
-        # get selected importance
+        # Get selected importance
         importance = self.importanceComboBox.currentText()
 
-        # check what the user chose
+        # Check what the user chose
         if importance == 'Low/Medium':
             self.selected_TAT = self.client_TAT[importance]
         elif importance == 'Critical':
@@ -183,7 +183,7 @@ class Search(QDialog):
             print('BET: unsual - no importance selected?')
 
     def on_with_artworkCheckBox_stateChanged(self):
-        """ Event handler for with_artworkCheckBox """
+        """ Event handler for self.with_artworkCheckBox """
 
         if self.with_artworkCheckBox.isChecked():
             self.artwork = WITH_ARTWORK
@@ -203,7 +203,8 @@ class Search(QDialog):
 
         # Get date selected
         due_date = self.due_dateDateEdit.date()
-        # check if special_instructionLineEdit has content
+
+        # Check if special_instructionLineEdit has content
         if self.special_instructionLineEdit.text():
             self.special_ins = SEARCH_SPECIAL.format(self.special_instructionLineEdit.text())
         else:

@@ -200,24 +200,24 @@ class BET(QMainWindow):
                     # if the user hit 'Generate', populate testTextEdit in BET
                     # get any text inside the preview QTextEdit
                     superstar = templateDialog.templateTextEdit.toHtml()
-                    if APPEND:  # Default
-                        # transmit the data to the main window overriding any text
-                        self.testTextEdit.setHtml(superstar)
-                    else:
-                        self.testTextEdit.append(superstar)
-                    show_whats_new()
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
-
-                # show filing template dialog here
+                # Show filing template dialog here
                 from dialogs.filing import Filing
 
                 dialog = Filing()
                 print("[BET]: Filing template selected")  # BET prompt
                 if dialog.exec_():
                     # TODO: your Filing template is somehow functional, once refined try to connect it here
-                    print("[BET]: anyare?")
+                    superstar = dialog.previewTextEdit.toHtml()
             else:
                 print("[BET]: Unusual, no template selected?")
+
+            # Check if Appending is activated
+            if APPEND:
+                # transmit the data to the main window overriding any text
+                self.testTextEdit.setHtml(superstar)
+            else:
+                self.testTextEdit.append(superstar)
 
     # TODO: retain the previous state when the user closed the application
     def on_settings_action(self):

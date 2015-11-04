@@ -40,7 +40,7 @@ GE_TAT = {
 SEARCH_SPECIAL = "<div><p><b>{}</b></p></div>"
 SEARCH_TEMPLATE = Template("$special $artwork $TAT $image")
 STYLE = """
-    div {
+    p {
         font-family: "Arial";
         font-size: 10pt;
     }
