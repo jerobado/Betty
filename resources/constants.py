@@ -12,6 +12,14 @@ from string import Template
 # used by main.pyw
 APP = QApplication(sys.argv)
 
+# Use by the two templates
+STYLE = """
+    p {
+        font-family: "Arial";
+        font-size: 10pt;
+    }
+    """
+
 # used by dialogs/search.py
 WITH_ARTWORK = "<div><p>Artwork attached to illustrate how the mark will appear on pack.</p></div>"
 WITH_IMAGE = "<div><p>The trade mark to be searched is as shown in the attached image file.</p></div>"
@@ -39,12 +47,6 @@ GE_TAT = {
 }
 SEARCH_SPECIAL = "<div><p><b>{}</b></p></div>"
 SEARCH_TEMPLATE = Template("$special $artwork $TAT $image")
-STYLE = """
-    p {
-        font-family: "Arial";
-        font-size: 10pt;
-    }
-    """
 
 # used by dialogs/filing.py
 TYPE_TM = ['Arabic Characters',
