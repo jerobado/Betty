@@ -6,6 +6,7 @@ from resources.constants import WORK_TYPE
 
 __author__ = 'Jero'
 
+
 # Dialogs starts here...
 class New(QDialog):
 

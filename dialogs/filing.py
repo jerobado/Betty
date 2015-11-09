@@ -9,7 +9,6 @@ from PyQt5.QtGui import QTextDocument
 from resources.constants import TYPE_TM, FILING, FILING_SPECIAL, FILING_TEMPLATE, STYLE
 
 
-# TODO: create filing dialog here...
 class Filing(QDialog):  # Main dialog for filing template
 
     def __init__(self, parent=None):

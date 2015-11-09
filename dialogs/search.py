@@ -21,8 +21,11 @@ class Search(QDialog):
 
     def __init__(self, parent=None):
         super(Search, self).__init__(parent)
+
         # resident variables
         self.date_format = 'd MMM yyyy'
+        self.due_date = QDate()
+        self.today = QDate.currentDate()
         self.selected_TAT = ''
         self.artwork = ''
         self.image = ''
@@ -145,13 +148,26 @@ class Search(QDialog):
         """ Connect every PyQt widgets here """
 
         self.clientComboBox.activated.connect(self.on_clientComboBox_activated)
+        self.due_dateDateEdit.dateChanged.connect(self.on_due_dateDateEdit_dateChanged)
+        self.daysSpinBox.valueChanged.connect(self.on_daysSpinBox_valueChanged)
         self.importanceComboBox.activated.connect(self.on_importanceComboBox_activated)
         self.with_artworkCheckBox.stateChanged.connect(self.on_with_artworkCheckBox_stateChanged)
         self.with_imageCheckBox.stateChanged.connect(self.on_with_imageCheckBox_stateChanged)
         self.previewButton.clicked.connect(self.on_previewButton_clicked)
-        # the generate button will only retrieve and throw data based on the input widgets
+        # The generate button will only retrieve and throw data based on the input widgets
         self.generateButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
+
+    # TEST: event handling for self.dueDateEdit.dateChanged
+    def on_due_dateDateEdit_dateChanged(self):
+        """ Event handler for self.due_dateDateEdit
+
+            return QDate
+        """
+
+        # Get any selected date when the user uses the calendar
+        self.due_date = self.due_dateDateEdit.date()
+        return self.due_date
 
     # EVENT HANDLING starts here...
     def on_clientComboBox_activated(self):
@@ -198,11 +214,12 @@ class Search(QDialog):
         else:
             self.image = ''
 
+    def on_daysSpinBox_valueChanged(self):
+
+        self.due_date = self.today.addDays(self.daysSpinBox.value())
+
     def on_previewButton_clicked(self):
         """ Preview the user's input inside the self.previewTextEdit """
-
-        # Get date selected
-        due_date = self.due_dateDateEdit.date()
 
         # Check if special_instructionLineEdit has content
         if self.special_instructionLineEdit.text():
@@ -213,7 +230,7 @@ class Search(QDialog):
         # Consolidate anything :)
         self.html = SEARCH_TEMPLATE.substitute(special=self.special_ins,
                                                artwork=self.artwork,
-                                               TAT=self.selected_TAT.format(due_date.toString(self.date_format)),
+                                               TAT=self.selected_TAT.format(self.due_date.toString(self.date_format)),
                                                image=self.image)
 
         # Show output

@@ -89,6 +89,7 @@ class BET(QMainWindow):
 
     def _createActions(self):
 
+        # Remember: when using QIcon, don't forget to update resources.qrc
         # Remember: when creating a QAction, it should have a parent
         # File menu: actions inside this menu
         self.newAction = QAction(QIcon(":/new.png"), "&New", self, shortcut=QKeySequence.New,
@@ -163,7 +164,6 @@ class BET(QMainWindow):
     def _createDockWindows(self):
         """ Event handler for View > Tracker """
 
-        # TODO: think hard if you still need to add docking functionality on this application (yes it is ^^)
         # Dock Widget
         self.tracker_dock = QDockWidget("Tracker", self)
         self.tracker_dock.setObjectName("Tracker")
@@ -176,7 +176,7 @@ class BET(QMainWindow):
         self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
         print("[BET]: Tracker activated")
 
-    # Define BET slots here
+    # SLOTS: Define BET slots here
     def on_newTemplate_action(self):
         """ Event handler for File > New """
 
@@ -195,29 +195,34 @@ class BET(QMainWindow):
                 # show Search template
                 from dialogs.search import Search
 
-                templateDialog = Search()
-                if templateDialog.exec_():
-                    # if the user hit 'Generate', populate testTextEdit in BET
+                searchDialog = Search(self)
+                if searchDialog.exec_():
+                    # if the user hit 'Generate', populate self.testTextEdit in BET
                     # get any text inside the preview QTextEdit
-                    superstar = templateDialog.templateTextEdit.toHtml()
+                    superstar = searchDialog.templateTextEdit.toHtml()
+                    self.checkIfAppendTemplate(superstar)
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
                 from dialogs.filing import Filing
 
-                dialog = Filing()
+                filingDialog = Filing(self)
                 print("[BET]: Filing template selected")  # BET prompt
-                if dialog.exec_():
+                if filingDialog.exec_():
                     # TODO: your Filing template is somehow functional, once refined try to connect it here
-                    superstar = dialog.previewTextEdit.toHtml()
+                    superstar = filingDialog.previewTextEdit.toHtml()
+                    self.checkIfAppendTemplate(superstar)
             else:
                 print("[BET]: Unusual, no template selected?")
 
-            # Check if Appending is activated
-            if APPEND:
-                # transmit the data to the main window overriding any text
-                self.testTextEdit.setHtml(superstar)
-            else:
-                self.testTextEdit.append(superstar)
+    # UTILITIES: functional task use by BET window
+    def checkIfAppendTemplate(self, superstar):
+
+        # Check if Appending is activated
+        if APPEND:
+            # transmit the data to the main window overriding any text
+            self.testTextEdit.setHtml(superstar)
+        else:
+            self.testTextEdit.append(superstar)
 
     # TODO: retain the previous state when the user closed the application
     def on_settings_action(self):
