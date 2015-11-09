@@ -20,6 +20,7 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def _widgets(self):
 
+        self.trackerLineEdit = QLineEdit()
         self.TMNCLabel = QLabel("TMNC:")
         self.ToTMLabel = QLabel("Type of Trade Mark:")
         self.special_instructionsLabel = QLabel("Special Instructions:")
@@ -35,6 +36,10 @@ class Filing(QDialog):  # Main dialog for filing template
         self.clearButton = QPushButton("&Clear")
 
     def _layout(self):
+
+        tracker_layout = QHBoxLayout()
+        tracker_layout.addWidget(self.trackerLineEdit)
+        tracker_layout.addStretch()
 
         grid = QGridLayout()
         grid.addWidget(self.TMNCLabel, 0, 0)
@@ -57,6 +62,7 @@ class Filing(QDialog):  # Main dialog for filing template
 
         # set everything vertically
         vertical = QVBoxLayout()
+        vertical.addLayout(tracker_layout)
         vertical.addWidget(input_group)
         vertical.addWidget(self.previewLabel)
         vertical.addWidget(self.previewTextEdit)
@@ -67,6 +73,8 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def _properties(self):
 
+        self.trackerLineEdit.setPlaceholderText("GRN, Country, Date etc.")
+        self.trackerLineEdit.setFrame(False)
         font_style = QTextDocument()
         font_style.setDefaultStyleSheet(STYLE)
         self.previewTextEdit.setDocument(font_style)

@@ -41,6 +41,7 @@ class Search(QDialog):
     def _widgets(self):
         """ Create new PyQt widgets here """
 
+        self.trackerLineEdit = QLineEdit()
         self.clientLabel = QLabel("Client:")
         self.clientComboBox = QComboBox()
         self.clientComboBox.insertItem(0, "GE")
@@ -72,6 +73,8 @@ class Search(QDialog):
 
         # clientLabel + clientComboBox
         label_combobox_HBoxLayout = QHBoxLayout()
+        #label_combobox_HBoxLayout.addWidget(self.trackerLabel)
+        label_combobox_HBoxLayout.addWidget(self.trackerLineEdit)
         label_combobox_HBoxLayout.addStretch()
         label_combobox_HBoxLayout.addWidget(self.clientLabel)
         label_combobox_HBoxLayout.addWidget(self.clientComboBox)
@@ -96,14 +99,14 @@ class Search(QDialog):
         input_fieldsGroupBox = QGroupBox("Input Fields")
         input_fieldsGroupBox.setLayout(grid)
 
-        # arrange vertically
+        # Arrange vertically
         center = QVBoxLayout()
         center.addLayout(label_combobox_HBoxLayout)
         center.addWidget(input_fieldsGroupBox)
         center.addWidget(self.previewLabel)
         center.addWidget(self.templateTextEdit)
 
-        # layout buttons
+        # Layout buttons
         buttons = QHBoxLayout()
         buttons.addStretch()
         buttons.addWidget(self.previewButton)
@@ -119,6 +122,8 @@ class Search(QDialog):
     def _properties(self):
         """ Set properties of PyQt widgets here """
 
+        self.trackerLineEdit.setPlaceholderText("GRN, Country, Date etc.")
+        self.trackerLineEdit.setFrame(False)
         self.due_dateDateEdit.setDisplayFormat(self.date_format)   # ex. 14 Mar 2015
         self.due_dateDateEdit.setCalendarPopup(True)
         self.due_dateDateEdit.setCalendarWidget(self.defaultCalendar)
@@ -134,13 +139,13 @@ class Search(QDialog):
         # apply style
         self.templateTextEdit.setDocument(style_document)
 
-        # set default TAT values:
-        #self.selected_TAT = MEDIUM_TAT
+        # set default TAT values
         self.client_TAT = UN_TAT
 
         # TEST: see line 37
         self.selected_TAT = UN_TAT['Low/Medium']   # set default
 
+        # For the main window
         self.setWindowTitle("Search (SIW) Template | Testing")
         self.resize(410, 550)  # width, height
 

@@ -164,6 +164,7 @@ class BET(QMainWindow):
     def _createDockWindows(self):
         """ Event handler for View > Tracker """
 
+        # TODO: implement your amazing tracker :)
         # Dock Widget
         self.tracker_dock = QDockWidget("Tracker", self)
         self.tracker_dock.setObjectName("Tracker")
