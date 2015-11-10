@@ -122,7 +122,7 @@ class Search(QDialog):
     def _properties(self):
         """ Set properties of PyQt widgets here """
 
-        self.trackerLineEdit.setPlaceholderText("GRN, Country, Date etc.")
+        self.trackerLineEdit.setPlaceholderText("Marker")
         self.trackerLineEdit.setFrame(False)
         self.due_dateDateEdit.setDisplayFormat(self.date_format)   # ex. 14 Mar 2015
         self.due_dateDateEdit.setCalendarPopup(True)

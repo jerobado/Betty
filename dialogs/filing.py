@@ -73,7 +73,7 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def _properties(self):
 
-        self.trackerLineEdit.setPlaceholderText("GRN, Country, Date etc.")
+        self.trackerLineEdit.setPlaceholderText("Marker")
         self.trackerLineEdit.setFrame(False)
         font_style = QTextDocument()
         font_style.setDefaultStyleSheet(STYLE)

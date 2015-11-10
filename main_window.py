@@ -9,9 +9,9 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QMessageBox, QDockWidget,
-                             QListWidget)
+                             QListWidget, QAbstractItemView)
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtCore import Qt, QSettings, QVariant, QSize, QPoint  # you imported something here that's never use!
+from PyQt5.QtCore import Qt, QDateTime, QSettings, QVariant, QSize, QPoint  # you imported something here that's never use!
 
 from resources import bipc_resources   # Don't remove this!
 
@@ -30,10 +30,10 @@ def show_message_box():
     not_available_msg.exec()
 
 
-def show_whats_new():
+def anyare(message):
     """ Handy 'print' statement that will tell you what new template is added on the main window. """
 
-    print('[BET]: New template added')
+    print('[BET]:', message)
 
 
 # Main window for our application
@@ -60,6 +60,7 @@ class BET(QMainWindow):
 
         self.statusLabel = QLabel()
         self.testTextEdit = QTextEdit()
+        #self.trackerListWidgetAbstract = QAbstractItemView()
 
         # Central Widget
         self.setCentralWidget(self.testTextEdit)
@@ -67,9 +68,12 @@ class BET(QMainWindow):
     def _properties(self):
         """ Main Window properties """
 
+        # For the main window
         self.setAttribute(Qt.WA_DeleteOnClose)
-        self.resize(600, 350)   # width, height
-        # set BET to center screen
+        # Width, height
+        self.resize(600, 350)
+
+        # Set BET to center screen
         self.screenMainSize = QDesktopWidget().screenGeometry()
         print("[BET]: screen size:", self.screenMainSize)
         self.BETsize = self.geometry()
@@ -79,11 +83,11 @@ class BET(QMainWindow):
         self.move(hpos, vpos)
         print("[BET]: size", self.BETsize)
         self.setWindowTitle("BET %s" % self.__version__)
-        #self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)
 
     def _connections(self):
         """ Connect widget signals and slots """
 
+        self.trackerListWidget.itemDoubleClicked.connect(self.on_trackerListWidget_itemDoubleClicked)
         self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
         self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
 
@@ -169,10 +173,14 @@ class BET(QMainWindow):
         self.tracker_dock = QDockWidget("Tracker", self)
         self.tracker_dock.setObjectName("Tracker")
         self.tracker_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+
         # Add widget to be inserted inside self.tracker_dock
         self.trackerListWidget = QListWidget()
+        #self.trackerListWidget.setState(QAbstractItemView.EditingState)
+        self.trackerListWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.tracker_dock.setWidget(self.trackerListWidget)
         self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
+
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
         self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
         print("[BET]: Tracker activated")
@@ -201,6 +209,7 @@ class BET(QMainWindow):
                     # if the user hit 'Generate', populate self.testTextEdit in BET
                     # get any text inside the preview QTextEdit
                     superstar = searchDialog.templateTextEdit.toHtml()
+                    self.add_to_tracker(searchDialog.trackerLineEdit.text())
                     self.checkIfAppendTemplate(superstar)
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
@@ -211,9 +220,15 @@ class BET(QMainWindow):
                 if filingDialog.exec_():
                     # TODO: your Filing template is somehow functional, once refined try to connect it here
                     superstar = filingDialog.previewTextEdit.toHtml()
+                    self.add_to_tracker(filingDialog.trackerLineEdit.text())
                     self.checkIfAppendTemplate(superstar)
             else:
                 print("[BET]: Unusual, no template selected?")
+
+    # EVENT HANDLER: define it here
+    def on_trackerListWidget_itemDoubleClicked(self):
+
+        anyare("pisti")
 
     # UTILITIES: functional task use by BET window
     def checkIfAppendTemplate(self, superstar):
@@ -224,6 +239,20 @@ class BET(QMainWindow):
             self.testTextEdit.setHtml(superstar)
         else:
             self.testTextEdit.append(superstar)
+
+    def add_to_tracker(self, users_marker):
+
+        # TODO: try to use QListWidgetItem when adding an item to your tracker listwidget
+        # Check if the user put something on the marker
+        if users_marker:
+            # Populate the tracker widget
+            self.trackerListWidget.addItem(users_marker)
+        else:
+            # Set the default market to current date and time
+            default_marker = QDateTime()
+            marker_of_the_day = default_marker.currentDateTime()
+            sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm')
+            self.trackerListWidget.addItem(sarah)
 
     # TODO: retain the previous state when the user closed the application
     def on_settings_action(self):
