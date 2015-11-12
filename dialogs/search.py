@@ -9,6 +9,8 @@ from PyQt5.QtCore import QDate
 
 from resources.constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
+                                 ARTWORK_TOOLTIP,
+                                 IMAGE_TOOLTIP,
                                  WITH_ARTWORK,
                                  WITH_IMAGE,
                                  UN_TAT,
@@ -131,12 +133,12 @@ class Search(QDialog):
         self.defaultCalendar.setDateTextFormat(QDate.currentDate(), self.currentDateFormat)
         self.special_instructionLineEdit.setPlaceholderText("Read correspondence for further instructions")
         # TODO: search somewhere in GQR wherein you can apply something informative on this tooltip
-        self.with_artworkCheckBox.setToolTip("Hello artwork tooltip?")
-        self.with_imageCheckBox.setToolTip("i can do that too!")
-        # you need this to style self.templateTextEdit
+        self.with_artworkCheckBox.setToolTip(ARTWORK_TOOLTIP)
+        self.with_imageCheckBox.setToolTip(IMAGE_TOOLTIP)
+        # You need this to style self.templateTextEdit
         style_document = QTextDocument()
         style_document.setDefaultStyleSheet(STYLE)
-        # apply style
+        # Apply style
         self.templateTextEdit.setDocument(style_document)
 
         # set default TAT values

@@ -23,6 +23,14 @@ STYLE = """
 # used by dialogs/search.py
 WITH_ARTWORK = "<div><p>Artwork attached to illustrate how the mark will appear on pack.</p></div>"
 WITH_IMAGE = "<div><p>The trade mark to be searched is as shown in the attached image file.</p></div>"
+
+# TOOLTIPS
+ARTWORK_TOOLTIP = """Artwork attached to illustrate how the mark will appear on pack.<br> \
+                Always verify with the sender if the image provided is the actual image to be searched or the image \
+                is just an artwork."""
+IMAGE_TOOLTIP = "The trade mark to be searched is as shown in the attached image file."
+
+
 # TEST: trying to consolidate TAT template in a dictionary, Unilever first TODO: so far, so good
 UN_TAT = {
     'Low/Medium': """
@@ -34,6 +42,7 @@ UN_TAT = {
         If the due date falls on a weekend, holiday or non-working day, please send us your search \
         analysis before then.</p></div>"""
 }
+
 # next is GE
 GE_TAT = {
     'Low/Medium': """

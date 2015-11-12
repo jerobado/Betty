@@ -44,6 +44,7 @@ class BET(QMainWindow):
 
         # resident variables
         self.__version__ = version
+        self.TEMP_TEMPLATE_STORAGE_LIST = []
 
         self._widgets()
         self._properties()
@@ -208,9 +209,11 @@ class BET(QMainWindow):
                 if searchDialog.exec_():
                     # if the user hit 'Generate', populate self.testTextEdit in BET
                     # get any text inside the preview QTextEdit
+                    # this will return HTML to superstar
                     superstar = searchDialog.templateTextEdit.toHtml()
                     self.add_to_tracker(searchDialog.trackerLineEdit.text())
-                    self.checkIfAppendTemplate(superstar)
+                    self.add_to_storage(superstar)
+                    self.check_if_append(superstar)
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
                 from dialogs.filing import Filing
@@ -218,31 +221,32 @@ class BET(QMainWindow):
                 filingDialog = Filing(self)
                 print("[BET]: Filing template selected")  # BET prompt
                 if filingDialog.exec_():
-                    # TODO: your Filing template is somehow functional, once refined try to connect it here
                     superstar = filingDialog.previewTextEdit.toHtml()
                     self.add_to_tracker(filingDialog.trackerLineEdit.text())
-                    self.checkIfAppendTemplate(superstar)
+                    self.add_to_storage(superstar)
+                    self.check_if_append(superstar)
             else:
                 print("[BET]: Unusual, no template selected?")
 
     # EVENT HANDLER: define it here
     def on_trackerListWidget_itemDoubleClicked(self):
 
-        anyare("pisti")
+        anyare("[BET]: item {} selected".format(self.trackerListWidget.currentRow()))
+        selected_template_html = self.TEMP_TEMPLATE_STORAGE_LIST[self.trackerListWidget.currentRow()]
+        self.check_if_append(selected_template_html)
 
     # UTILITIES: functional task use by BET window
-    def checkIfAppendTemplate(self, superstar):
+    def check_if_append(self, superstar):
 
         # Check if Appending is activated
         if APPEND:
-            # transmit the data to the main window overriding any text
+            # Transmit the data to the main window overriding any text
             self.testTextEdit.setHtml(superstar)
         else:
             self.testTextEdit.append(superstar)
 
     def add_to_tracker(self, users_marker):
 
-        # TODO: try to use QListWidgetItem when adding an item to your tracker listwidget
         # Check if the user put something on the marker
         if users_marker:
             # Populate the tracker widget
@@ -253,6 +257,11 @@ class BET(QMainWindow):
             marker_of_the_day = default_marker.currentDateTime()
             sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm')
             self.trackerListWidget.addItem(sarah)
+
+    def add_to_storage(self, template):
+
+        self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
+        anyare("new template added to temporary storage")
 
     # TODO: retain the previous state when the user closed the application
     def on_settings_action(self):
