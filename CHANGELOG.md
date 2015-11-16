@@ -8,7 +8,7 @@ _Release date: 2016-03-01_
 ## BET 0.3
 _Release date: 2015-12-01_
 
-### Feature
+### BET
 * **Added**: Template tracker
 * **Added**: Appending of template      
 

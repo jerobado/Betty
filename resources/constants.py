@@ -65,6 +65,7 @@ TYPE_TM = ['Arabic Characters',
            'Hangul Characters',
            'Katakana Characters',
            'Stylised Word',
+           'Three Dimensional',
            'Word-Device',
            'Word-Design',
            'Word in standard characters']
