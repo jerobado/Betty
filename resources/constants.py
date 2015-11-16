@@ -65,8 +65,11 @@ TYPE_TM = ['Arabic Characters',
            'Hangul Characters',
            'Katakana Characters',
            'Stylised Word',
-           'Word-Device',
+           'Slogan',
+           'Slogan-Design',
+           'Slogan-Device',
            'Word-Design',
+           'Word-Device',
            'Word in standard characters']
 WORK_TYPE = ['Filing', 'Search (SIW)']
 FILING = """
