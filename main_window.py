@@ -61,7 +61,6 @@ class BET(QMainWindow):
 
         self.statusLabel = QLabel()
         self.testTextEdit = QTextEdit()
-        #self.trackerListWidgetAbstract = QAbstractItemView()
 
         # Central Widget
         self.setCentralWidget(self.testTextEdit)
@@ -72,17 +71,17 @@ class BET(QMainWindow):
         # For the main window
         self.setAttribute(Qt.WA_DeleteOnClose)
         # Width, height
-        self.resize(600, 350)
+        self.resize(700, 350)
 
         # Set BET to center screen
         self.screenMainSize = QDesktopWidget().screenGeometry()
-        print("[BET]: screen size:", self.screenMainSize)
+        #print("[BET]: screen size:", self.screenMainSize)
         self.BETsize = self.geometry()
         # horizontal position = screenwidth - windowwidth /2
         hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
         vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
         self.move(hpos, vpos)
-        print("[BET]: size", self.BETsize)
+        #print("[BET]: size", self.BETsize)
         self.setWindowTitle("BET %s" % self.__version__)
 
     def _connections(self):
@@ -99,8 +98,8 @@ class BET(QMainWindow):
         # File menu: actions inside this menu
         self.newAction = QAction(QIcon(":/new.png"), "&New", self, shortcut=QKeySequence.New,
                                  statusTip="Create a new template", toolTip="New", triggered=self.on_newTemplate_action)
-        self.settingsAction = QAction(QIcon(":/settings.png"), "Se&ttings", self, shortcut="Ctrl+Alt+S",
-                                      statusTip="Edit application settings", triggered=self.on_settings_action)
+        #self.settingsAction = QAction(QIcon(":/settings.png"), "Se&ttings", self, shortcut="Ctrl+Alt+S",
+        #                              statusTip="Edit application settings", triggered=self.on_settings_action)
         self.exitAction = QAction(QIcon(":/quit.png"), "E&xit", self, shortcut="Ctrl+Q",
                                   statusTip="Exit the application", triggered=self.close)
 
@@ -125,8 +124,8 @@ class BET(QMainWindow):
         self.fileMenu = self.menuBar().addMenu("&File")
         self.fileMenu.addAction(self.newAction)
         self.fileMenu.addSeparator()
-        self.fileMenu.addAction(self.settingsAction)
-        self.fileMenu.addSeparator()
+        #self.fileMenu.addAction(self.settingsAction)
+        #self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.exitAction)
 
         # Edit: undo, redo, cut, copy or paste
@@ -231,7 +230,7 @@ class BET(QMainWindow):
     # EVENT HANDLER: define it here
     def on_trackerListWidget_itemDoubleClicked(self):
 
-        anyare("[BET]: item {} selected".format(self.trackerListWidget.currentRow()))
+        anyare("item {} selected".format(self.trackerListWidget.currentRow()))
         selected_template_html = self.TEMP_TEMPLATE_STORAGE_LIST[self.trackerListWidget.currentRow()]
         self.check_if_append(selected_template_html)
 

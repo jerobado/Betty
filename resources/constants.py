@@ -59,8 +59,11 @@ SEARCH_TEMPLATE = Template("$special $artwork $TAT $image")
 
 # used by dialogs/filing.py
 TYPE_TM = ['Arabic Characters',
+           'Chinese Characters',
            'Design Only',
            'Device Only',
+           'Hangul Characters',
+           'Katakana Characters',
            'Stylised Word',
            'Word-Device',
            'Word-Design',

@@ -67,7 +67,8 @@ class Search(QDialog):
         self.previewLabel = QLabel("Preview:")
         self.templateTextEdit = QTextEdit()
         self.previewButton = QPushButton("Pr&eview")
-        self.generateButton = QPushButton("&Generate")
+        self.addButton = QPushButton("&Add")
+        self.addButton.setEnabled(False)
         self.clearButton = QPushButton("&Clear")
 
     def _layout(self):
@@ -112,7 +113,7 @@ class Search(QDialog):
         buttons = QHBoxLayout()
         buttons.addStretch()
         buttons.addWidget(self.previewButton)
-        buttons.addWidget(self.generateButton)
+        buttons.addWidget(self.addButton)
         buttons.addWidget(self.clearButton)
 
         # add layout to the group
@@ -162,7 +163,7 @@ class Search(QDialog):
         self.with_imageCheckBox.stateChanged.connect(self.on_with_imageCheckBox_stateChanged)
         self.previewButton.clicked.connect(self.on_previewButton_clicked)
         # The generate button will only retrieve and throw data based on the input widgets
-        self.generateButton.clicked.connect(self.accept)
+        self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
     # TEST: event handling for self.dueDateEdit.dateChanged
@@ -242,6 +243,9 @@ class Search(QDialog):
 
         # Show output
         self.templateTextEdit.setHtml(self.html.strip())
+
+        # Enable self.addButton
+        self.addButton.setEnabled(True)
 
     def on_clearButton_clicked(self):
         """ Event handler for clearing text inside self.special_instructionLineEdit and self.templateTextEdit """

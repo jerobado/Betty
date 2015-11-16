@@ -32,7 +32,8 @@ class Filing(QDialog):  # Main dialog for filing template
         self.special_instructionsLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.previewTextEdit = QTextEdit()
         self.previewButton = QPushButton("Pr&eview")
-        self.generateButton = QPushButton("&Generate")
+        self.addButton = QPushButton("&Add")
+        self.addButton.setEnabled(False)
         self.clearButton = QPushButton("&Clear")
 
     def _layout(self):
@@ -57,7 +58,7 @@ class Filing(QDialog):  # Main dialog for filing template
         buttons = QHBoxLayout()
         buttons.addStretch()
         buttons.addWidget(self.previewButton)
-        buttons.addWidget(self.generateButton)
+        buttons.addWidget(self.addButton)
         buttons.addWidget(self.clearButton)
 
         # set everything vertically
@@ -84,7 +85,7 @@ class Filing(QDialog):  # Main dialog for filing template
     def _connections(self):
 
         self.previewButton.clicked.connect(self.on_previewButton_clicked)
-        self.generateButton.clicked.connect(self.accept)
+        self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
     # EVENT HANDLER starts here
@@ -109,4 +110,8 @@ class Filing(QDialog):  # Main dialog for filing template
 
         # Show result
         self.previewTextEdit.setHtml(html)
+
+        # Enable self.addButton
+        self.addButton.setEnabled(True)
+
         print("[BET]: Preview button clicked under Filing form")
