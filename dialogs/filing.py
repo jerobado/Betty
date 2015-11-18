@@ -105,8 +105,8 @@ class Filing(QDialog):  # Main dialog for filing template
 
         # Consolidate
         html = FILING_TEMPLATE.substitute(special=special_instruction,
-                                          filing=FILING.format(self.TMNCLineEdit.text(),
-                                                               self.ToTMComboBox.currentText()))
+                                          filing=FILING.format(self.ToTMComboBox.currentText(),
+                                                               self.TMNCLineEdit.text()))
 
         # Show result
         self.previewTextEdit.setHtml(html)
