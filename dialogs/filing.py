@@ -1,4 +1,4 @@
-# BET > dialogs > filing.py
+# Betty > dialogs > filing.py
 
 __author__ = 'Jero'
 
@@ -28,6 +28,7 @@ class Filing(QDialog):  # Main dialog for filing template
         self.TMNCLineEdit = QLineEdit()
         self.ToTMComboBox = QComboBox()
         self.ToTMComboBox.insertItems(0, TYPE_TM)
+        self.ToTMComboBox.setCurrentText('Word in standard characters')
         self.special_instructionsLineEdit = QLineEdit()
         self.special_instructionsLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.previewTextEdit = QTextEdit()
@@ -51,7 +52,7 @@ class Filing(QDialog):  # Main dialog for filing template
         grid.addWidget(self.special_instructionsLineEdit, 2, 1)
 
         # input widgets inside the QGroupBox
-        input_group = QGroupBox("Input Fields")
+        input_group = QGroupBox("Set Criteria")
         input_group.setLayout(grid)
 
         # arrange the buttons horizontally
@@ -80,7 +81,7 @@ class Filing(QDialog):  # Main dialog for filing template
         font_style.setDefaultStyleSheet(STYLE)
         self.previewTextEdit.setDocument(font_style)
         self.resize(410, 550)  # width, height
-        self.setWindowTitle("Filing Template | Testing")
+        self.setWindowTitle("Filing Template")
 
     def _connections(self):
 

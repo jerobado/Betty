@@ -1,4 +1,4 @@
-# BET > resources > constants.py
+# Betty > resources > constants.py
 # Define global and constant variables here
 
 __author__ = 'Jero'
@@ -134,3 +134,18 @@ FILING = """
         a trade mark, but they DO NOT FORM PART OF THE TRADE MARK itself.</p>"""
 FILING_SPECIAL = "<p><b>{0}</b></p>"
 FILING_TEMPLATE = Template("$special $filing")
+
+# use by main_window.py
+ABOUT = """
+        <div>
+            Betty 0.3-beta
+            <hr>
+        </div>
+
+        <div>
+            <br>
+            # <b>Objective</b>: handy application for creating email template in BIPC<br>
+            # <b>Created</b>: 10 Mar 2015 12:06 AM<br>
+            # <b>Author</b>: GSMGBB
+        </div>
+        """

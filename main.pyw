@@ -27,12 +27,20 @@ def check_version():
     print("[BET]: PyQt version", PYQT_VERSION_STR)
     print("[BET]: SIP version", SIP_VERSION_STR)
 
+
+# For showing the icon in the taskbar
+def icon_settings():
+
+    import ctypes
+    APP_ID = u'bakermckenzie.gipsc.betty.03'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
+
 if __name__ == '__main__':
-    # Shibuya daw :)
     check_version()
+    icon_settings()
     APP.setOrganizationName("GIPSC Core Team")
     APP.setOrganizationDomain("bakermckenzie.com")
-    APP.setApplicationName("BET")
+    APP.setApplicationName("Betty")
     window = BET(__version__)
     window.show()
     APP.exec_()

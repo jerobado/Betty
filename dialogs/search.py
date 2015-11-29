@@ -1,4 +1,4 @@
-# BET > dialogs > search.py
+# Betty > dialogs > search.py
 
 __author__ = 'Jero'
 
@@ -76,7 +76,6 @@ class Search(QDialog):
 
         # clientLabel + clientComboBox
         label_combobox_HBoxLayout = QHBoxLayout()
-        #label_combobox_HBoxLayout.addWidget(self.trackerLabel)
         label_combobox_HBoxLayout.addWidget(self.trackerLineEdit)
         label_combobox_HBoxLayout.addStretch()
         label_combobox_HBoxLayout.addWidget(self.clientLabel)
@@ -99,7 +98,7 @@ class Search(QDialog):
         grid.addWidget(self.special_instructionLabel, 2, 0)
         grid.addWidget(self.special_instructionLineEdit, 3, 0, 1, 3)
 
-        input_fieldsGroupBox = QGroupBox("Input Fields")
+        input_fieldsGroupBox = QGroupBox("Set Criteria")
         input_fieldsGroupBox.setLayout(grid)
 
         # Arrange vertically
@@ -133,7 +132,6 @@ class Search(QDialog):
         self.defaultCalendar.setGridVisible(True)
         self.defaultCalendar.setDateTextFormat(QDate.currentDate(), self.currentDateFormat)
         self.special_instructionLineEdit.setPlaceholderText("Read correspondence for further instructions")
-        # TODO: search somewhere in GQR wherein you can apply something informative on this tooltip
         self.with_artworkCheckBox.setToolTip(ARTWORK_TOOLTIP)
         self.with_imageCheckBox.setToolTip(IMAGE_TOOLTIP)
         # You need this to style self.templateTextEdit
@@ -149,7 +147,7 @@ class Search(QDialog):
         self.selected_TAT = UN_TAT['Low/Medium']   # set default
 
         # For the main window
-        self.setWindowTitle("Search (SIW) Template | Testing")
+        self.setWindowTitle("Search (SIW) Template")
         self.resize(410, 550)  # width, height
 
     def _connections(self):
@@ -181,7 +179,6 @@ class Search(QDialog):
     def on_clientComboBox_activated(self):
         """ Event handler for self.clientComboBox """
 
-        # TODO: i'm not satisfied with this code below but somehow it works, make this appealing in the near future ^^,
         print("[BET]: You selected", self.clientComboBox.currentText())
         if self.clientComboBox.currentText() == 'GE':
             self.client_TAT = GE_TAT

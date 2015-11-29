@@ -1,3 +1,4 @@
+# Betty > dialogs > new.py
 
 from PyQt5.QtWidgets import (QLabel, QListWidget, QPushButton, QGridLayout, QHBoxLayout, QVBoxLayout,
                              QDialog)

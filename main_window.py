@@ -8,32 +8,16 @@
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QMessageBox, QDockWidget,
-                             QListWidget, QAbstractItemView)
+from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QDockWidget, QListWidget,
+                             QAbstractItemView)
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtCore import Qt, QDateTime, QSettings, QVariant, QSize, QPoint  # you imported something here that's never use!
+from PyQt5.QtCore import Qt, QDateTime
 
 from resources import bipc_resources   # Don't remove this!
+from resources.constants import ABOUT
 
 # Application settings variables
 APPEND = True   # default, any new template created will overwrite the previous one
-
-
-# UTILITY functions: define handy function blocks here
-def show_message_box():
-    """ Handy message box creation """
-
-    not_available_msg = QMessageBox()
-    not_available_msg.setIcon(QMessageBox.Information)
-    not_available_msg.setWindowTitle("BET | Message")
-    not_available_msg.setText("'Filing' is not yet available. Send an email to GSMGBB for some updates.")
-    not_available_msg.exec()
-
-
-def anyare(message):
-    """ Handy 'print' statement that will tell you what new template is added on the main window. """
-
-    print('[BET]:', message)
 
 
 # Main window for our application
@@ -82,7 +66,8 @@ class BET(QMainWindow):
         vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
         self.move(hpos, vpos)
         #print("[BET]: size", self.BETsize)
-        self.setWindowTitle("BET %s" % self.__version__)
+        self.setWindowTitle("Betty %s" % self.__version__)
+        self.setWindowIcon(QIcon('images/TOOLS.ico'))
 
     def _connections(self):
         """ Connect widget signals and slots """
@@ -114,8 +99,12 @@ class BET(QMainWindow):
                                         statusTip="Select all", triggered=self.testTextEdit.selectAll)
 
         # Settings: testing a checkable action inside a menu
-        self.checkAction = QAction("Append Template", self, checkable=True,
-                                   statusTip="Append created template to editor", triggered=self.testCheckAction)
+        self.appendAction = QAction("Append Template", self, checkable=True,
+                                   statusTip="Append created template to editor", triggered=self.on_appendAction_clicked)
+
+        # Help: actions inside this menu
+        self.aboutAction = QAction("&About", self, statusTip="Show information about Betty",
+                                   triggered=self.on_aboutAction_clicked)
 
     def _createMenus(self):
         """ FILE, EDIT (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help """
@@ -141,7 +130,11 @@ class BET(QMainWindow):
 
         # Settings: check...
         self.settingsMenu = self.menuBar().addMenu("Se&ttings")
-        self.settingsMenu.addAction(self.checkAction)
+        self.settingsMenu.addAction(self.appendAction)
+
+        # Help: About
+        self.helpMenu = self.menuBar().addMenu("&Help")
+        self.helpMenu.addAction(self.aboutAction)
 
     def _createToolBars(self):
 
@@ -176,7 +169,6 @@ class BET(QMainWindow):
 
         # Add widget to be inserted inside self.tracker_dock
         self.trackerListWidget = QListWidget()
-        #self.trackerListWidget.setState(QAbstractItemView.EditingState)
         self.trackerListWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.tracker_dock.setWidget(self.trackerListWidget)
         self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
@@ -230,7 +222,6 @@ class BET(QMainWindow):
     # EVENT HANDLER: define it here
     def on_trackerListWidget_itemDoubleClicked(self):
 
-        anyare("item {} selected".format(self.trackerListWidget.currentRow()))
         selected_template_html = self.TEMP_TEMPLATE_STORAGE_LIST[self.trackerListWidget.currentRow()]
         self.check_if_append(selected_template_html)
 
@@ -260,7 +251,11 @@ class BET(QMainWindow):
     def add_to_storage(self, template):
 
         self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
-        anyare("new template added to temporary storage")
+
+    # MENU ACTIONS: define slots here for menu
+    def on_aboutAction_clicked(self):
+
+        self.testTextEdit.setHtml(ABOUT)
 
     # TODO: retain the previous state when the user closed the application
     def on_settings_action(self):
@@ -274,11 +269,11 @@ class BET(QMainWindow):
                 global APPEND
                 APPEND = False
 
-    def testCheckAction(self):  # much better
+    def on_appendAction_clicked(self):  # much better
 
         global APPEND
 
-        if self.checkAction.isChecked():
+        if self.appendAction.isChecked():
             APPEND = False
         else:
             APPEND = True
