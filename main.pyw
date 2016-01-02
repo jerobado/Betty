@@ -3,12 +3,12 @@
     Interface: GUI (PyQt5)
     Language: Python 3.4.3
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Dec 1, 2015 -v0.3
+    Next release date (NRD): Mar 1, 2016 -v0.4
  """
 
 __author__ = 'Jero'
 # TODO: reminder, your are now currently working for another version of this app
-__version__ = 0.3   # Current version, see NRD
+__version__ = 0.4   # Current version, see NRD
 
 from main_window import BET
 from resources.constants import APP

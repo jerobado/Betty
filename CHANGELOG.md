@@ -1,4 +1,4 @@
-# Project-BET Change Log
+# Betty Change Log
 This file will serve the official change log for BET future versions.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
