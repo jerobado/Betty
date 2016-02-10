@@ -26,7 +26,7 @@ class Search(QDialog):
 
         # resident variables
         self.date_format = 'd MMM yyyy'
-        self.due_date = QDate()
+        self.due_date = QDate.currentDate()
         self.today = QDate.currentDate()
         self.selected_TAT = ''
         self.artwork = ''
@@ -61,8 +61,8 @@ class Search(QDialog):
         self.importanceComboBox.insertItem(0, "Low/Medium")
         self.importanceComboBox.insertItem(1, "Critical")
         self.importanceComboBox.setCurrentIndex(0)
-        self.with_artworkCheckBox = QCheckBox("with artwork")
-        self.with_imageCheckBox = QCheckBox("with image")
+        self.with_artworkCheckBox = QCheckBox("With Artwork")
+        self.with_imageCheckBox = QCheckBox("With Image")
         self.special_instructionLineEdit = QLineEdit()
         self.previewLabel = QLabel("Preview:")
         self.templateTextEdit = QTextEdit()

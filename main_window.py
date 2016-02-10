@@ -78,6 +78,7 @@ class BET(QMainWindow):
 
     def _createActions(self):
 
+        # TODO: implement a good shortcut system when navigating your application
         # Remember: when using QIcon, don't forget to update resources.qrc
         # Remember: when creating a QAction, it should have a parent
         # File menu: actions inside this menu
@@ -99,7 +100,7 @@ class BET(QMainWindow):
                                         statusTip="Select all", triggered=self.testTextEdit.selectAll)
 
         # Settings: testing a checkable action inside a menu
-        self.appendAction = QAction("Append Template", self, checkable=True,
+        self.appendAction = QAction("&Append Template", self, checkable=True,
                                    statusTip="Append created template to editor", triggered=self.on_appendAction_clicked)
 
         # Help: actions inside this menu
@@ -129,7 +130,7 @@ class BET(QMainWindow):
         self.viewMenu = self.menuBar().addMenu("&View")
 
         # Settings: check...
-        self.settingsMenu = self.menuBar().addMenu("Se&ttings")
+        self.settingsMenu = self.menuBar().addMenu("&Settings")
         self.settingsMenu.addAction(self.appendAction)
 
         # Help: About
@@ -161,7 +162,7 @@ class BET(QMainWindow):
     def _createDockWindows(self):
         """ Event handler for View > Tracker """
 
-        # TODO: implement your amazing tracker :)
+        # TODO: add an icon identifier for Searching and Filing
         # Dock Widget
         self.tracker_dock = QDockWidget("Tracker", self)
         self.tracker_dock.setObjectName("Tracker")
@@ -205,6 +206,8 @@ class BET(QMainWindow):
                     self.add_to_tracker(searchDialog.trackerLineEdit.text())
                     self.add_to_storage(superstar)
                     self.check_if_append(superstar)
+                    # trying to add a status message in the main form
+                    self.status.showMessage("New Search template added", 6000)
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
                 from dialogs.filing import Filing
@@ -216,6 +219,7 @@ class BET(QMainWindow):
                     self.add_to_tracker(filingDialog.trackerLineEdit.text())
                     self.add_to_storage(superstar)
                     self.check_if_append(superstar)
+                    self.status.showMessage("New Filing template added", 6000)
             else:
                 print("[BET]: Unusual, no template selected?")
 

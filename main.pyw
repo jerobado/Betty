@@ -7,7 +7,6 @@
  """
 
 __author__ = 'Jero'
-# TODO: reminder, your are now currently working for another version of this app
 __version__ = 0.4   # Current version, see NRD
 
 from main_window import BET
