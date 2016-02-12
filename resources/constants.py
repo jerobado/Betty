@@ -30,9 +30,19 @@ ARTWORK_TOOLTIP = """Artwork attached to illustrate how the mark will appear on 
                 is just an artwork."""
 IMAGE_TOOLTIP = "The trade mark to be searched is as shown in the attached image file."
 
-
-# TEST: trying to consolidate TAT template in a dictionary, Unilever first TODO: so far, so good
 UN_TAT = {
+    'Low/Medium': """
+        <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis before then.</p></div>""",
+    'Critical': """
+        <div><p><b>DEADLINE: URGENT, {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis before then.</p></div>"""
+}
+
+# next is Google
+GOOGLE_TAT = {
     'Low/Medium': """
         <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
         If the due date falls on a weekend, holiday or non-working day, please send us your search \

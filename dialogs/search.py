@@ -13,6 +13,7 @@ from resources.constants import (SEARCH_SPECIAL,
                                  IMAGE_TOOLTIP,
                                  WITH_ARTWORK,
                                  WITH_IMAGE,
+                                 GOOGLE_TAT,
                                  UN_TAT,
                                  GE_TAT,
                                  STYLE)
@@ -183,9 +184,15 @@ class Search(QDialog):
 
         print("[BET]: You selected", self.clientComboBox.currentText())
         if self.clientComboBox.currentText() == 'GE':
+            print("[BET]: GE_TAT")
             self.client_TAT = GE_TAT
             self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
+        elif self.clientComboBox.currentText() == 'Google':
+            print("[BET]: GOOGLE_TAT")
+            self.client_TAT = GOOGLE_TAT
+            self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Unilever':
+            print("[BET]: UN_TAT")
             self.client_TAT = UN_TAT
             self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
         else:
