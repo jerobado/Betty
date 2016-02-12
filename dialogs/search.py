@@ -50,7 +50,7 @@ class Search(QDialog):
         self.clientComboBox.insertItem(0, "GE")
         self.clientComboBox.insertItem(1, "Google")
         self.clientComboBox.insertItem(2, "Unilever")
-        self.clientComboBox.setCurrentIndex(1)
+        self.clientComboBox.setCurrentText("Unilever")
         self.due_dateLabel = QLabel("Due Date:")
         self.importanceLabel = QLabel("Select Importance:")
         self.special_instructionLabel = QLabel("Special Instruction:")
