@@ -9,9 +9,6 @@
 __author__ = 'Jero'
 __version__ = 0.4   # Current version, see NRD
 
-from main_window import BET
-from resources.constants import APP
-
 
 # TEST: just checking my PyQt version
 def check_version():
@@ -35,11 +32,11 @@ def icon_settings():
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 if __name__ == '__main__':
+    from main_window import BET
+    from resources.constants import APP
+
     check_version()
     icon_settings()
-    APP.setOrganizationName("GIPSC Core Team")
-    APP.setOrganizationDomain("bakermckenzie.com")
-    APP.setApplicationName("Betty")
     window = BET(__version__)
     window.show()
     APP.exec_()

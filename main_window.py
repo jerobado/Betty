@@ -11,7 +11,7 @@
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QDockWidget, QListWidget,
                              QAbstractItemView)
 from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtCore import Qt, QDateTime
+from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize
 
 from resources import bipc_resources   # Don't remove this!
 from resources.constants import ABOUT
@@ -32,6 +32,7 @@ class BET(QMainWindow):
 
         self._widgets()
         self._properties()
+        self._readSettings()
 
         self._createActions()
         self._createMenus()
@@ -54,20 +55,27 @@ class BET(QMainWindow):
 
         # For the main window
         self.setAttribute(Qt.WA_DeleteOnClose)
-        # Width, height
-        self.resize(700, 350)
 
         # Set BET to center screen
         self.screenMainSize = QDesktopWidget().screenGeometry()
-        #print("[BET]: screen size:", self.screenMainSize)
         self.BETsize = self.geometry()
-        # horizontal position = screenwidth - windowwidth /2
-        hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
-        vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
-        self.move(hpos, vpos)
-        #print("[BET]: size", self.BETsize)
+        # horizontal position = screenwidth - windowwidth / 2
+        self.hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
+        self.vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
         self.setWindowTitle("Betty %s" % self.__version__)
         self.setWindowIcon(QIcon('images/TOOLS.ico'))
+
+    def _readSettings(self):
+        settings = QSettings("GIPSC Core Team", "Betty")
+        position = settings.value("position", QPoint(self.hpos, self.vpos))
+        size = settings.value("size", QSize(700, 350))  # width, height
+        self.resize(size)
+        self.move(position)
+
+    def _writeSettings(self):
+        settings = QSettings("GIPSC Core Team", "Betty")
+        settings.setValue("position", self.pos())
+        settings.setValue("size", self.size())
 
     def _connections(self):
         """ Connect widget signals and slots """
@@ -281,3 +289,8 @@ class BET(QMainWindow):
             APPEND = False
         else:
             APPEND = True
+
+    def closeEvent(self, event):
+        # Get the last applications last state before totally closing
+        print("[BET]: writing last application settings")
+        self._writeSettings()
