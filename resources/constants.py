@@ -148,7 +148,7 @@ FILING_TEMPLATE = Template("$special $filing")
 # use by main_window.py
 ABOUT = """
         <div>
-            Betty 0.3-beta
+            Betty 0.4-beta
             <hr>
         </div>
 

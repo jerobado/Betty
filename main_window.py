@@ -90,30 +90,57 @@ class BET(QMainWindow):
         # Remember: when using QIcon, don't forget to update resources.qrc
         # Remember: when creating a QAction, it should have a parent
         # File menu: actions inside this menu
-        self.newAction = QAction(QIcon(":/new.png"), "&New", self, shortcut=QKeySequence.New,
-                                 statusTip="Create a new template", toolTip="New", triggered=self.on_newTemplate_action)
-        #self.settingsAction = QAction(QIcon(":/settings.png"), "Se&ttings", self, shortcut="Ctrl+Alt+S",
-        #                              statusTip="Edit application settings", triggered=self.on_settings_action)
-        self.exitAction = QAction(QIcon(":/quit.png"), "E&xit", self, shortcut="Ctrl+Q",
-                                  statusTip="Exit the application", triggered=self.close)
+        self.newAction = QAction(QIcon(":/new.png"), "&New", self,
+                shortcut=QKeySequence.New,
+                statusTip="Create a new template",
+                toolTip="New",
+                triggered=self.on_newTemplate_action)
+        #self.settingsAction = QAction(QIcon(":/settings.png"), "Se&ttings", self,
+        #       shortcut="Ctrl+Alt+S",
+        #       statusTip="Edit application settings",
+        #       triggered=self.on_settings_action)
+        self.exitAction = QAction(QIcon(":/quit.png"), "E&xit", self,
+                shortcut="Ctrl+Q",
+                statusTip="Exit the application",
+                triggered=self.close)
 
         # Edit menu: actions inside this menu
-        self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self, shortcut=QKeySequence.Cut, enabled=False,
-                                 statusTip="Cut to clipboard", toolTip="Cut", triggered=self.testTextEdit.cut)
-        self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self, shortcut=QKeySequence.Copy, enabled=False,
-                                  statusTip="Copy to clipboard", toolTip="Copy", triggered=self.testTextEdit.copy)
-        self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self, shortcut=QKeySequence.Paste,
-                                   statusTip="Paste from clipboard", toolTip="Paste", triggered=self.testTextEdit.paste)
-        self.select_allAction = QAction(QIcon(":/select_all.png"), "Select &All", self, shortcut=QKeySequence.SelectAll,
-                                        statusTip="Select all", triggered=self.testTextEdit.selectAll)
+        self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self,
+                shortcut=QKeySequence.Cut,
+                enabled=False,
+                statusTip="Cut to clipboard",
+                toolTip="Cut",
+                triggered=self.testTextEdit.cut)
+        self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self,
+                shortcut=QKeySequence.Copy,
+                enabled=False,
+                statusTip="Copy to clipboard",
+                toolTip="Copy",
+                triggered=self.testTextEdit.copy)
+        self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self,
+                shortcut=QKeySequence.Paste,
+                statusTip="Paste from clipboard",
+                toolTip="Paste",
+                triggered=self.testTextEdit.paste)
+        self.select_allAction = QAction(QIcon(":/select_all.png"), "Select &All", self,
+                shortcut=QKeySequence.SelectAll,
+                statusTip="Select all",
+                triggered=self.testTextEdit.selectAll)
 
         # Settings: testing a checkable action inside a menu
-        self.appendAction = QAction("&Append Template", self, checkable=True,
-                                   statusTip="Append created template to editor", triggered=self.on_appendAction_clicked)
+        self.appendAction = QAction("&Append Template", self,
+                checkable=True,
+                statusTip="Append created template to editor",
+                triggered=self.on_appendAction_clicked)
+        self.continuousAction = QAction("Add &Continuously", self,
+                checkable = True,
+                statusTip="Add template without interruption",
+                triggered=self.on_continuousAction_clicked)
 
         # Help: actions inside this menu
-        self.aboutAction = QAction("&About", self, statusTip="Show information about Betty",
-                                   triggered=self.on_aboutAction_clicked)
+        self.aboutAction = QAction("&About", self,
+                statusTip="Show information about Betty",
+                triggered=self.on_aboutAction_clicked)
 
     def _createMenus(self):
         """ FILE, EDIT (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help """
@@ -140,6 +167,7 @@ class BET(QMainWindow):
         # Settings: check...
         self.settingsMenu = self.menuBar().addMenu("&Settings")
         self.settingsMenu.addAction(self.appendAction)
+        self.settingsMenu.addAction(self.continuousAction)
 
         # Help: About
         self.helpMenu = self.menuBar().addMenu("&Help")
@@ -206,23 +234,16 @@ class BET(QMainWindow):
                 from dialogs.search import Search
 
                 searchDialog = Search(self)
-                if searchDialog.exec_():
-                    # if the user hit 'Generate', populate self.testTextEdit in BET
-                    # get any text inside the preview QTextEdit
-                    # this will return HTML to superstar
-                    superstar = searchDialog.templateTextEdit.toHtml()
-                    self.add_to_tracker(searchDialog.trackerLineEdit.text())
-                    self.add_to_storage(superstar)
-                    self.check_if_append(superstar)
-                    # trying to add a status message in the main form
-                    self.status.showMessage("New Search template added", 6000)
+                self.non_modal(searchDialog)
+                #self.window_modal(searchDialog)
+
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
                 from dialogs.filing import Filing
 
                 filingDialog = Filing(self)
                 print("[BET]: Filing template selected")  # BET prompt
-                if filingDialog.exec_():
+                if filingDialog.exec_():  # this will show the dialog first
                     superstar = filingDialog.previewTextEdit.toHtml()
                     self.add_to_tracker(filingDialog.trackerLineEdit.text())
                     self.add_to_storage(superstar)
@@ -257,12 +278,38 @@ class BET(QMainWindow):
             # Set the default market to current date and time
             default_marker = QDateTime()
             marker_of_the_day = default_marker.currentDateTime()
-            sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm')
+            sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm:ss')
             self.trackerListWidget.addItem(sarah)
 
     def add_to_storage(self, template):
 
         self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
+
+    def window_modal(self, dialog):
+        if dialog.exec_():  # this will show the dialog first
+            # if the user hit 'Add' button, populate self.testTextEdit in BET
+            # get any text inside the preview QTextEdit
+            # this will return HTML to superstar
+            superstar = dialog.templateTextEdit.toHtml()
+            self.add_to_tracker(dialog.trackerLineEdit.text())
+            self.add_to_storage(superstar)
+            self.check_if_append(superstar)
+            # trying to add a status message in the main form
+            self.status.showMessage("New Search template added", 6000)
+
+    def non_modal(self, dialog):
+        dialog.show()
+        dialog.setAttribute(Qt.WA_DeleteOnClose)
+        dialog.setWindowModality(Qt.NonModal)
+        # if the user hit 'Add' button, populate self.testTextEdit in BET
+        # get any text inside the preview QTextEdit
+        # this will return HTML to superstar
+        superstar = dialog.templateTextEdit.toHtml()
+        self.add_to_tracker(dialog.trackerLineEdit.text())
+        self.add_to_storage(superstar)
+        self.check_if_append(superstar)
+        # trying to add a status message in the main form
+        self.status.showMessage("New Search template added", 6000)
 
     # MENU ACTIONS: define slots here for menu
     def on_aboutAction_clicked(self):
@@ -270,6 +317,7 @@ class BET(QMainWindow):
         self.testTextEdit.setHtml(ABOUT)
 
     # TODO: retain the previous state when the user closed the application
+    # TODO: this function has no meaning while Betty is currently running
     def on_settings_action(self):
         """ Event handler for File > Settings """
 
@@ -290,7 +338,13 @@ class BET(QMainWindow):
         else:
             APPEND = True
 
+    def on_continuousAction_clicked(self):
+        print("[BET]: forms will not close unless explicitly killed :)")
+
+
+
+    # REUSE: only re-write QMainWindow's resident functions here
     def closeEvent(self, event):
         # Get the last applications last state before totally closing
-        print("[BET]: writing last application settings")
+        print("[BET]: Closed. Writing last application settings...")
         self._writeSettings()

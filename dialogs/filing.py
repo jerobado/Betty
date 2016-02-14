@@ -81,7 +81,7 @@ class Filing(QDialog):  # Main dialog for filing template
         font_style.setDefaultStyleSheet(STYLE)
         self.previewTextEdit.setDocument(font_style)
         self.resize(410, 550)  # width, height
-        self.setWindowTitle("Filing Template")
+        self.setWindowTitle("Filing Template Form")
 
     def _connections(self):
 

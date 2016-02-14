@@ -3,9 +3,9 @@
 __author__ = 'Jero'
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit, QSpinBox,
-                             QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget)
+                             QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget, QCompleter)
 from PyQt5.QtGui import QTextDocument, QTextCharFormat
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, QStringListModel, Qt
 
 from resources.constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
@@ -34,6 +34,13 @@ class Search(QDialog):
         self.image = ''
         self.special_ins = ''
         self.client_TAT = ''
+
+        # TEST: trying to implement QCompleter here
+        self.suggested_markers_model = QStringListModel()
+        self.suggested_markers_model.setStringList(["bapples", "banana", "apple", "orange", "amazing"])
+        self.tracker_completer = QCompleter()
+        self.tracker_completer.setModel(self.suggested_markers_model)
+        self.tracker_completer.setCaseSensitivity(Qt.CaseInsensitive)
 
         # resident functions
         self._widgets()
@@ -129,6 +136,7 @@ class Search(QDialog):
 
         self.trackerLineEdit.setPlaceholderText("Marker")
         self.trackerLineEdit.setFrame(False)
+        self.trackerLineEdit.setCompleter(self.tracker_completer)
         self.due_dateDateEdit.setDisplayFormat(self.date_format)   # ex. 14 Mar 2015
         self.due_dateDateEdit.setCalendarPopup(True)
         self.due_dateDateEdit.setCalendarWidget(self.defaultCalendar)
@@ -142,6 +150,8 @@ class Search(QDialog):
         style_document.setDefaultStyleSheet(STYLE)
         # Apply style
         self.templateTextEdit.setDocument(style_document)
+        #self.setAttribute(Qt.WA_DeleteOnClose)
+        #self.setWindowModality(Qt.NonModal)
 
         # set default TAT values
         self.client_TAT = UN_TAT
@@ -150,7 +160,7 @@ class Search(QDialog):
         self.selected_TAT = UN_TAT['Low/Medium']   # set default
 
         # For the main window
-        self.setWindowTitle("Search (SIW) Template")
+        self.setWindowTitle("Search (SIW) Template Form")
         self.resize(410, 550)  # width, height
 
     def _connections(self):
@@ -258,3 +268,11 @@ class Search(QDialog):
 
         self.special_instructionLineEdit.clear()
         self.templateTextEdit.clear()
+
+    # OVERRIDING: starts here
+    def accept(self):
+        print("[BET]: New Search template added, writing last known settings")
+        self.done(1)
+
+    def closeEvent(self, event):
+        print("[BET]: Searching (SIW) Template Form was closed")
