@@ -5,7 +5,7 @@ __author__ = 'Jero'
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit, QSpinBox,
                              QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget, QCompleter)
 from PyQt5.QtGui import QTextDocument, QTextCharFormat
-from PyQt5.QtCore import QDate, QStringListModel, Qt
+from PyQt5.QtCore import QDate, QStringListModel, Qt, QSettings, QSize, QPoint
 
 from resources.constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
@@ -47,6 +47,14 @@ class Search(QDialog):
         self._layout()
         self._properties()
         self._connections()
+        self._readSettings()
+
+        # print current position of search dialog
+        print("[BET]: search > my current position is at", self.pos())
+        print("[BET]: search > my current x position is at", self.x())
+        print("[BET]: search > my current y position is at", self.y())
+        print("[BET]: search > my current size is", self.width(), self.height())
+        print("[BET]: search > CURRENT self.size value", self.size())
 
     def _widgets(self):
         """ Create new PyQt widgets here """
@@ -161,7 +169,19 @@ class Search(QDialog):
 
         # For the main window
         self.setWindowTitle("Search (SIW) Template Form")
-        self.resize(410, 550)  # width, height
+
+    def _readSettings(self):
+        settings = QSettings("GIPSC Core Teamx", "Bettyx")
+        position = settings.value("position", QPoint(200, 200))
+        size = settings.value("size", QSize(410, 550))
+        self.move(position)
+        self.resize(size)
+        print("_readSettings: size =", size)
+
+    def _writeSettings(self):
+        settings = QSettings("GIPSC Core Teamx", "Bettyx")
+        settings.setValue("position", self.pos())
+        settings.setValue("size", self.size())
 
     def _connections(self):
         """ Connect every PyQt widgets here """
@@ -271,8 +291,10 @@ class Search(QDialog):
 
     # OVERRIDING: starts here
     def accept(self):
-        print("[BET]: New Search template added, writing last known settings")
+        print("[BET]: New Search template added, writing last known settings.")
+        self._writeSettings()
         self.done(1)
 
     def closeEvent(self, event):
-        print("[BET]: Searching (SIW) Template Form was closed")
+        print("[BET]: Searching (SIW) Template Form was closed. Writing last known settings.")
+        self._writeSettings()

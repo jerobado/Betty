@@ -60,17 +60,21 @@ class BET(QMainWindow):
         self.screenMainSize = QDesktopWidget().screenGeometry()
         self.BETsize = self.geometry()
         # horizontal position = screenwidth - windowwidth / 2
-        self.hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
-        self.vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
+        #self.hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
+        #self.vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
+        #print(self.hpos, self.vpos)
         self.setWindowTitle("Betty %s" % self.__version__)
         self.setWindowIcon(QIcon('images/TOOLS.ico'))
 
     def _readSettings(self):
         settings = QSettings("GIPSC Core Team", "Betty")
-        position = settings.value("position", QPoint(self.hpos, self.vpos))
+        #position = settings.value("position", QPoint(self.hpos, self.vpos))
+        position = settings.value("position", QPoint(200, 600))
         size = settings.value("size", QSize(700, 350))  # width, height
-        self.resize(size)
         self.move(position)
+        self.resize(size)
+        print("main_window pos", self.pos())
+        print("main_window size", self.size())
 
     def _writeSettings(self):
         settings = QSettings("GIPSC Core Team", "Betty")
@@ -234,8 +238,9 @@ class BET(QMainWindow):
                 from dialogs.search import Search
 
                 searchDialog = Search(self)
-                self.non_modal(searchDialog)
-                #self.window_modal(searchDialog)
+
+                #self.non_modal(searchDialog)
+                self.window_modal(searchDialog)
 
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
@@ -297,19 +302,21 @@ class BET(QMainWindow):
             # trying to add a status message in the main form
             self.status.showMessage("New Search template added", 6000)
 
+    # TODO: this part here is terribly a bleeding one
     def non_modal(self, dialog):
         dialog.show()
-        dialog.setAttribute(Qt.WA_DeleteOnClose)
+        #dialog.setAttribute(Qt.WA_DeleteOnClose)
         dialog.setWindowModality(Qt.NonModal)
         # if the user hit 'Add' button, populate self.testTextEdit in BET
         # get any text inside the preview QTextEdit
         # this will return HTML to superstar
-        superstar = dialog.templateTextEdit.toHtml()
-        self.add_to_tracker(dialog.trackerLineEdit.text())
-        self.add_to_storage(superstar)
-        self.check_if_append(superstar)
+        #superstar = dialog.templateTextEdit.toHtml()
+        print("non-modal: waiting")
+        #self.add_to_tracker(dialog.trackerLineEdit.text())
+        #self.add_to_storage(superstar)
+        # TODO: you are stuck here, kaya matulog ka na!
         # trying to add a status message in the main form
-        self.status.showMessage("New Search template added", 6000)
+        #self.status.showMessage("New Search template added", 6000)
 
     # MENU ACTIONS: define slots here for menu
     def on_aboutAction_clicked(self):
@@ -340,8 +347,6 @@ class BET(QMainWindow):
 
     def on_continuousAction_clicked(self):
         print("[BET]: forms will not close unless explicitly killed :)")
-
-
 
     # REUSE: only re-write QMainWindow's resident functions here
     def closeEvent(self, event):
