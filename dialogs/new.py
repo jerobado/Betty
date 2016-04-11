@@ -2,6 +2,7 @@
 
 from PyQt5.QtWidgets import (QLabel, QListWidget, QPushButton, QGridLayout, QHBoxLayout, QVBoxLayout,
                              QDialog)
+from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
 
 from resources.constants import WORK_TYPE
 
@@ -18,6 +19,7 @@ class New(QDialog):
         self._layout()
         self._properties()
         self._connections()
+        self._readSettings()    # read current state of this dialog
 
     def _widgets(self):
 
@@ -49,10 +51,44 @@ class New(QDialog):
 
         # self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle("Add new Template")
-        self.resize(250, 100)
+        #self.resize(250, 100)
 
     def _connections(self):
 
         self.templateListWidget.itemDoubleClicked.connect(self.accept)
         self.createPushButton.clicked.connect(self.accept)
         self.cancelPushButton.clicked.connect(self.reject)
+
+    def _readSettings(self):
+
+        settings = QSettings("NEW", "new_dialog")
+        position = settings.value("position", QPoint(200, 200))
+        size = settings.value("size", QSize(250, 100))
+        self.move(position)
+        self.resize(size)
+
+    def _writeSettings(self):
+
+        settings = QSettings("NEW", "new_dialog")
+        settings.setValue("position", self.pos())
+        settings.setValue("size", self.size())
+
+    def accept(self):
+
+        self._writeSettings()
+        self.done(1)
+
+    def keyPressEvent(self, event):
+
+        if event.key() == Qt.Key_Escape:
+            self._writeSettings()
+            self.close()
+
+    def reject(self):
+
+        self._writeSettings()
+        self.close()
+
+    def closeEvent(self, event):
+
+        self._writeSettings()

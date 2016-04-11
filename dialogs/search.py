@@ -47,7 +47,7 @@ class Search(QDialog):
         self._layout()
         self._properties()
         self._connections()
-        self._readSettings()
+        self._readSettings()    # read current state of this dialog
 
         # print current position of search dialog
         print("[BET]: search > my current position is at", self.pos())
@@ -171,7 +171,7 @@ class Search(QDialog):
         self.setWindowTitle("Search (SIW) Template Form")
 
     def _readSettings(self):
-        settings = QSettings("GIPSC Core Teamx", "Bettyx")
+        settings = QSettings("SEARCHING", "search_dialog")
         position = settings.value("position", QPoint(200, 200))
         size = settings.value("size", QSize(410, 550))
         self.move(position)
@@ -179,7 +179,7 @@ class Search(QDialog):
         print("_readSettings: size =", size)
 
     def _writeSettings(self):
-        settings = QSettings("GIPSC Core Teamx", "Bettyx")
+        settings = QSettings("SEARCHING", "search_dialog")
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
 
@@ -294,6 +294,12 @@ class Search(QDialog):
         print("[BET]: New Search template added, writing last known settings.")
         self._writeSettings()
         self.done(1)
+
+    def keyPressEvent(self, event):
+
+        if event.key() == Qt.Key_Escape:
+            self._writeSettings()
+            self.close()
 
     def closeEvent(self, event):
         print("[BET]: Searching (SIW) Template Form was closed. Writing last known settings.")

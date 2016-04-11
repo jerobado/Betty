@@ -5,6 +5,7 @@ __author__ = 'Jero'
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
                              QTextEdit, QPushButton, QGroupBox)
 from PyQt5.QtGui import QTextDocument
+from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
 
 from resources.constants import TYPE_TM, FILING, FILING_SPECIAL, FILING_TEMPLATE, STYLE
 
@@ -17,6 +18,7 @@ class Filing(QDialog):  # Main dialog for filing template
         self._layout()
         self._properties()
         self._connections()
+        self._readSettings()    # read current state of this dialog
 
     def _widgets(self):
 
@@ -89,6 +91,20 @@ class Filing(QDialog):  # Main dialog for filing template
         self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
+    def _readSettings(self):
+
+        settings = QSettings("FILING", "filing_dialog")
+        position = settings.value("position", QPoint(200, 200))
+        size = settings.value("size", QSize(410, 550))
+        self.move(position)
+        self.resize(size)
+
+    def _writeSettings(self):
+
+        settings = QSettings("FILING", "filing_dialog")
+        settings.setValue("position", self.pos())
+        settings.setValue("size", self.size())
+
     # EVENT HANDLER starts here
     def on_clearButton_clicked(self):
 
@@ -116,3 +132,19 @@ class Filing(QDialog):  # Main dialog for filing template
         self.addButton.setEnabled(True)
 
         print("[BET]: Preview button clicked under Filing form")
+
+    # OVERRIDING: starts here
+    def accept(self):
+
+        self._writeSettings()
+        self.done(1)
+
+    def keyPressEvent(self, event):
+
+        if event.key() == Qt.Key_Escape:
+            self._writeSettings()
+            self.close()
+
+    def closeEvent(self, event):
+
+        self._writeSettings()

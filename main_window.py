@@ -229,7 +229,7 @@ class BET(QMainWindow):
         newWindow = New(self)
         # BET.windowList.append(newWindow)
         # TODO: make "Add new template" center here
-        newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
+        #newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
