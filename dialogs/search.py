@@ -13,6 +13,7 @@ from resources.constants import (SEARCH_SPECIAL,
                                  IMAGE_TOOLTIP,
                                  WITH_ARTWORK,
                                  WITH_IMAGE,
+                                 GOOGLE_DEFAULT,
                                  GOOGLE_TAT,
                                  UN_TAT,
                                  GE_TAT,
@@ -34,6 +35,7 @@ class Search(QDialog):
         self.image = ''
         self.special_ins = ''
         self.client_TAT = ''
+        self.DEFAULT_SI = ''
 
         # TEST: trying to implement QCompleter here
         self.suggested_markers_model = QStringListModel()
@@ -215,14 +217,17 @@ class Search(QDialog):
         print("[BET]: You selected", self.clientComboBox.currentText())
         if self.clientComboBox.currentText() == 'GE':
             print("[BET]: GE_TAT")
+            self.DEFAULT_SI = ""
             self.client_TAT = GE_TAT
             self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Google':
             print("[BET]: GOOGLE_TAT")
+            self.DEFAULT_SI = GOOGLE_DEFAULT
             self.client_TAT = GOOGLE_TAT
             self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Unilever':
             print("[BET]: UN_TAT")
+            self.DEFAULT_SI = ""
             self.client_TAT = UN_TAT
             self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
         else:
@@ -272,10 +277,12 @@ class Search(QDialog):
             self.special_ins = ''
 
         # Consolidate anything :)
-        self.html = SEARCH_TEMPLATE.substitute(special=self.special_ins,
+        self.html = SEARCH_TEMPLATE.substitute(default=self.DEFAULT_SI,
+                                               special=self.special_ins,
                                                artwork=self.artwork,
                                                TAT=self.selected_TAT.format(self.due_date.toString(self.date_format)),
                                                image=self.image)
+
 
         # Show output
         self.templateTextEdit.setHtml(self.html.strip())

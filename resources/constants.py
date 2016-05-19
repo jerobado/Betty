@@ -52,6 +52,10 @@ GOOGLE_TAT = {
         If the due date falls on a weekend, holiday or non-working day, please send us your search \
         analysis before then.</p></div>"""
 }
+GOOGLE_DEFAULT = """
+        <div><p>In determining your analysis, please note that we are only concerned with the ability to \
+        <b><u>use</u></b> the mark, <b><u>not to register</u></b> the mark.</p></div>"""
+
 
 # next is GE
 GE_TAT = {
@@ -65,7 +69,7 @@ GE_TAT = {
         analysis on the next business day.</p></div>"""
 }
 SEARCH_SPECIAL = "<div><p><b>{}</b></p></div>"
-SEARCH_TEMPLATE = Template("$special $artwork $TAT $image")
+SEARCH_TEMPLATE = Template("$default $special $artwork $TAT $image")
 
 # used by dialogs/filing.py
 TYPE_TM = ['Advertising Strip',
