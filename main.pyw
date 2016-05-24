@@ -3,11 +3,11 @@
     Interface: GUI (PyQt5)
     Language: Python 3.4.3
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Mar 1, 2016 -v0.4
+    Next release date (NRD): Jul 1, 2016 -v0.4-alpha
  """
 
 __author__ = 'Jero'
-__version__ = 0.4   # Current version, see NRD
+__version__ = '0.4-alpha'   # Current version, see NRD
 
 
 # TEST: just checking my PyQt version

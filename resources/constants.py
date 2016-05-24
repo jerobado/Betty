@@ -152,13 +152,15 @@ FILING_TEMPLATE = Template("$special $filing")
 # use by main_window.py
 ABOUT = """
         <div>
-            Betty 0.4-beta
+            Betty 0.4-alpha
             <hr>
         </div>
 
         <div>
             <br>
-            # <b>Objective</b>: handy application for creating email template in BIPC<br>
+            # <b>Description</b>: An application that can be use alongside BIPC for creating workplan.<br>
+            # <b>Objective</b>: To provide rapid creation of templates (TAT, default special instructions) that \
+                adheres to the standard process use by the Core Team.<br>
             # <b>Created</b>: 10 Mar 2015 12:06 AM<br>
             # <b>Author</b>: GSMGBB
         </div>
