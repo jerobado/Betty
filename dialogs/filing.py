@@ -7,13 +7,23 @@ from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayou
 from PyQt5.QtGui import QTextDocument
 from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
 
-from resources.constants import TYPE_TM, FILING, FILING_SPECIAL, FILING_TEMPLATE, STYLE
+from resources.constants import (TYPE_TM,
+                                 FILING,
+                                 FILING_SPECIAL,
+                                 FILING_TEMPLATE,
+                                 STYLE,
+                                 GE_DEFAULT)
 
 
 class Filing(QDialog):  # Main dialog for filing template
 
     def __init__(self, parent=None):
         super(Filing, self).__init__(parent)
+
+        # resident variables
+        self.DEFAULT_SI = ''
+
+        # resident functions
         self._widgets()
         self._layout()
         self._properties()
@@ -23,6 +33,12 @@ class Filing(QDialog):  # Main dialog for filing template
     def _widgets(self):
 
         self.trackerLineEdit = QLineEdit()
+        self.clientLabel = QLabel("Client:")
+        self.clientComboBox = QComboBox()
+        # TODO: you also need a freaking list to hold your growing clients here XD
+        self.clientComboBox.insertItem(0, "GE")
+        self.clientComboBox.insertItem(1, "Unilever")
+        self.clientComboBox.setCurrentText("Unilever")
         self.TMNCLabel = QLabel("TMNC:")
         self.ToTMLabel = QLabel("Type of Trade Mark:")
         self.special_instructionsLabel = QLabel("Special Instructions:")
@@ -44,6 +60,8 @@ class Filing(QDialog):  # Main dialog for filing template
         tracker_layout = QHBoxLayout()
         tracker_layout.addWidget(self.trackerLineEdit)
         tracker_layout.addStretch()
+        tracker_layout.addWidget(self.clientLabel)
+        tracker_layout.addWidget(self.clientComboBox)
 
         grid = QGridLayout()
         grid.addWidget(self.TMNCLabel, 0, 0)
@@ -87,6 +105,7 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def _connections(self):
 
+        self.clientComboBox.activated.connect(self.on_clientComboBox_activated)
         self.previewButton.clicked.connect(self.on_previewButton_clicked)
         self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
@@ -106,6 +125,17 @@ class Filing(QDialog):  # Main dialog for filing template
         settings.setValue("size", self.size())
 
     # EVENT HANDLER starts here
+    def on_clientComboBox_activated(self):
+        """" Event handler for the client dropdown list """
+
+        print("[BET]: You selected", self.clientComboBox.currentText())
+        if self.clientComboBox.currentText() == 'GE':
+            self.DEFAULT_SI = GE_DEFAULT
+        elif self.clientComboBox.currentText() == 'Unilever':
+            self.DEFAULT_SI = ""
+        else:
+            print("#edw")
+
     def on_clearButton_clicked(self):
 
         self.TMNCLineEdit.clear()
@@ -121,7 +151,8 @@ class Filing(QDialog):  # Main dialog for filing template
             special_instruction = ''
 
         # Consolidate
-        html = FILING_TEMPLATE.substitute(special=special_instruction,
+        html = FILING_TEMPLATE.substitute(default=self.DEFAULT_SI,
+                                          special=special_instruction,
                                           filing=FILING.format(self.ToTMComboBox.currentText(),
                                                                self.TMNCLineEdit.text()))
 

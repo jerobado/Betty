@@ -135,7 +135,15 @@ TYPE_TM = ['Advertising Strip',
            'Word-Design',
            'Word-Device',
            'Word-Label']
+
 WORK_TYPE = ['Filing', 'Search (SIW)']
+
+GE_DEFAULT = """
+        </div><p><b>
+        The description of goods should be exactly as listed in the record. If you believe that the description \
+        proposed by our client is likely to be rejected, you should review and confirm any revision to the goods with \
+        GIPSC before filing the application.
+        </p></b></div>"""
 FILING = """
         <p>The trade mark to be filed is as shown in the attached image file. The type of trade mark is <b>{0}</b>.</p>
 
@@ -147,7 +155,7 @@ FILING = """
         of trade marks, which differ from PLAIN BLOCK CAPITAL LETTERS. Such descriptive terms are added to the end of
         a trade mark, but they DO NOT FORM PART OF THE TRADE MARK itself.</p>"""
 FILING_SPECIAL = "<p><b>{0}</b></p>"
-FILING_TEMPLATE = Template("$special $filing")
+FILING_TEMPLATE = Template("$default $special $filing")
 
 # use by main_window.py
 ABOUT = """
