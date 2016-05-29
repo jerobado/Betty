@@ -160,16 +160,17 @@ FILING_TEMPLATE = Template("$default $special $filing")
 # use by main_window.py
 ABOUT = """
         <div>
-            Betty 0.4-alpha
+            <b>Betty 0.4-alpha</b>
             <hr>
         </div>
-
         <div>
+            An application that can be use alongside BIPC for creating workplan.
             <br>
-            # <b>Description</b>: An application that can be use alongside BIPC for creating workplan.<br>
-            # <b>Objective</b>: To provide rapid creation of templates (TAT, default special instructions) that \
-                adheres to the standard process use by the Core Team.<br>
-            # <b>Created</b>: 10 Mar 2015 12:06 AM<br>
-            # <b>Author</b>: GSMGBB
+            To provide rapid creation of special instruction templates that adheres to the standard process use by \
+            the Core Team.
+            <br><br>
+            Created: 10 Mar 2015 12:06 AM
+            <br>
+            Author: GSMGBB
         </div>
         """

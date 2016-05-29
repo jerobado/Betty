@@ -9,7 +9,7 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QDockWidget, QListWidget,
-                             QAbstractItemView)
+                             QAbstractItemView, QMessageBox)
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize
 
@@ -321,7 +321,7 @@ class BET(QMainWindow):
     # MENU ACTIONS: define slots here for menu
     def on_aboutAction_clicked(self):
 
-        self.testTextEdit.setHtml(ABOUT)
+        QMessageBox.about(self, "About Betty", ABOUT)
 
     # TODO: retain the previous state when the user closed the application
     # TODO: this function has no meaning while Betty is currently running
