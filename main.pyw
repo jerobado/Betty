@@ -1,13 +1,15 @@
-""" BIPC Template: email template generator for BIPC
+""" Betty: special instruction generator for BIPC
 
     Interface: GUI (PyQt5)
     Language: Python 3.4.3
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Jul 1, 2016 -v0.4-alpha
+    Next release date (NRD): Jul 1, 2016 -v0.4a
+    Next release date (NRD): Aug 1, 2016 -v0.4b
+    Next release date (NRD): Sep 1, 2016 -v0.4
  """
 
-__author__ = 'Jero'
-__version__ = '0.4-alpha'   # Current version, see NRD
+__author__ = 'GSMGBB'
+__version__ = '0.4a'   # Current version, see NRD
 
 
 # TEST: just checking my PyQt version

@@ -171,7 +171,7 @@ class BET(QMainWindow):
         # Settings: check...
         self.settingsMenu = self.menuBar().addMenu("&Settings")
         self.settingsMenu.addAction(self.appendAction)
-        self.settingsMenu.addAction(self.continuousAction)
+        #self.settingsMenu.addAction(self.continuousAction)
 
         # Help: About
         self.helpMenu = self.menuBar().addMenu("&Help")
@@ -227,9 +227,6 @@ class BET(QMainWindow):
         print("[BET]: Selecting new template")  # BET prompt
 
         newWindow = New(self)
-        # BET.windowList.append(newWindow)
-        # TODO: make "Add new template" center here
-        #newWindow.move(self.x() + 175, self.y() + 125)  # attempting to move
 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
@@ -323,7 +320,6 @@ class BET(QMainWindow):
 
         QMessageBox.about(self, "About Betty", ABOUT)
 
-    # TODO: retain the previous state when the user closed the application
     # TODO: this function has no meaning while Betty is currently running
     def on_settings_action(self):
         """ Event handler for File > Settings """

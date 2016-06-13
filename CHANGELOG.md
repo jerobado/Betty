@@ -1,31 +1,37 @@
-# Betty Change Log
-This file will serve the official change log for BET future versions.
-This project adheres to [Semantic Versioning](http://semver.org/).
+**CHANGELOG**
+New features, bug and hot fixes to be added here.
 
-## BET 0.4 [Unreleased]
-_Release date: 2016-03-01_
+**Betty 0.4a [Unreleased]**
+Release date: 2016-07-01
 
-## BET 0.3
-_Release date: 2015-12-01_
+* User Interface (UI)
+    * Retains the last known window size and position after closing the application
+* Filing
+    * Added client selection in Filing form (GE and Unilever)
+    * Added default special instructions in GE
+* Searching
+    * Google added as new client in Searching form
+    * Added default special instruction in Google
 
-### BET
-* **Added**: Template tracker
-* **Added**: Appending of template      
+**Betty 0.3**
+Release date: 2015-12-01
 
-### Filing
-* **Added**: Filing template
+* User Interface (UI)
+    * Added Template tracker
+    * Added sub-menu 'Append Template'      
+* Filing
+    * Added Filing template/form
+* Searching
+    * Added Marker field for tracking purposes
 
-### Searching
-* **Added**: A new marker for tracking purposes
+**Betty 0.2**
+Release date: 2015-05-29
 
-## BET 0.2
-_Release date: 2015-05-29_
+* Searching
+    * Added Searching template/form
 
-### Searching
-* **Added**: Searching template
+**Betty 0.1**
+Date created: 2015-03-10
 
-## BET 0.1
-_Date created: 2015-03-10_
-
-### Initial
-Added everything here :)
+* Initial
+    * Added everything here :)

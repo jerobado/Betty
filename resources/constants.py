@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import QApplication
 
 from string import Template
 
+from main import __author__, __version__
+
 # used by main.pyw
 APP = QApplication(sys.argv)
 
@@ -160,7 +162,7 @@ FILING_TEMPLATE = Template("$default $special $filing")
 # use by main_window.py
 ABOUT = """
         <div>
-            <b>Betty 0.4-alpha</b>
+            <b>Betty {0}</b>
             <hr>
         </div>
         <div>
@@ -171,6 +173,9 @@ ABOUT = """
             <br><br>
             Created: 10 Mar 2015 12:06 AM
             <br>
-            Author: GSMGBB
+            Author: {1}
+            <br>
+            Site: <a href="https://github.com/mokachokokarbon/Project-BET"
+                     style="text-decoration:None">Fork me on GitHub!</a>
         </div>
-        """
+        """.format(__version__, __author__)
