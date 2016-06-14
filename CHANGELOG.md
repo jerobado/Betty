@@ -1,10 +1,13 @@
 **CHANGELOG**
-New features, bug and hot fixes to be added here.
+
+New features, functions, bug and hot fixes to be added here.
 
 **Betty 0.4a [Unreleased]**
+
 Release date: 2016-07-01
 
 * User Interface (UI)
+    * Resize the main window to make it larger 
     * Retains the last known window size and position after closing the application
 * Filing
     * Added client selection in Filing form (GE and Unilever)
@@ -12,8 +15,10 @@ Release date: 2016-07-01
 * Searching
     * Google added as new client in Searching form
     * Added default special instruction in Google
+    * Formatted the special instruction _"Artwork attached to illustrate..."_ into Bold 
 
 **Betty 0.3**
+
 Release date: 2015-12-01
 
 * User Interface (UI)
@@ -25,12 +30,14 @@ Release date: 2015-12-01
     * Added Marker field for tracking purposes
 
 **Betty 0.2**
+
 Release date: 2015-05-29
 
 * Searching
     * Added Searching template/form
 
 **Betty 0.1**
+
 Date created: 2015-03-10
 
 * Initial

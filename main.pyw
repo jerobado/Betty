@@ -16,14 +16,25 @@ __version__ = '0.4a'   # Current version, see NRD
 def check_version():
 
     import sys
+    import logging
+
     from PyQt5.QtCore import QT_VERSION_STR
     from PyQt5.Qt import PYQT_VERSION_STR
     from sip import SIP_VERSION_STR
 
-    print("[BET]: Python version", sys.version[:5])
-    print("[BET]: Qt version", QT_VERSION_STR)
-    print("[BET]: PyQt version", PYQT_VERSION_STR)
-    print("[BET]: SIP version", SIP_VERSION_STR)
+    logfile = "log\log_sessions.log"
+
+    logging.basicConfig(filename=logfile,
+                        filemode='w',
+                        level=logging.DEBUG,
+                        format='%(asctime)s %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
+
+    logging.info("[BET]: CHECK TOOLS VERSION")
+    logging.info("[BET]: Python version {}".format(sys.version[:5]))
+    logging.info("[BET]: Qt version {}".format(QT_VERSION_STR))
+    logging.info("[BET]: PyQt version {}".format(PYQT_VERSION_STR))
+    logging.info("[BET]: SIP version {}".format(SIP_VERSION_STR))
 
 
 # For showing the icon in the taskbar

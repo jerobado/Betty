@@ -3,7 +3,8 @@ Betty
 An application that can be use alongside BIPC for creating workplan. Implemented exclusively on Python and PyQt.
 
 **Developers**
-For the bleeding edge of Betty, the essential tools are listed below if you want to join the party:
+
+For the bloody side of this project, the essential tools are listed below if you want to join the party:
 
 * Pre-requisite:
     * Python 3.4.3

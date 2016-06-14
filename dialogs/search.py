@@ -2,6 +2,8 @@
 
 __author__ = 'Jero'
 
+import logging
+
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit, QSpinBox,
                              QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget, QCompleter)
 from PyQt5.QtGui import QTextDocument, QTextCharFormat
@@ -50,13 +52,6 @@ class Search(QDialog):
         self._properties()
         self._connections()
         self._readSettings()    # read current state of this dialog
-
-        # print current position of search dialog
-        print("[BET]: search > my current position is at", self.pos())
-        print("[BET]: search > my current x position is at", self.x())
-        print("[BET]: search > my current y position is at", self.y())
-        print("[BET]: search > my current size is", self.width(), self.height())
-        print("[BET]: search > CURRENT self.size value", self.size())
 
     def _widgets(self):
         """ Create new PyQt widgets here """
@@ -178,7 +173,6 @@ class Search(QDialog):
         size = settings.value("size", QSize(410, 550))
         self.move(position)
         self.resize(size)
-        print("_readSettings: size =", size)
 
     def _writeSettings(self):
         settings = QSettings("SEARCHING", "search_dialog")
@@ -214,24 +208,24 @@ class Search(QDialog):
     def on_clientComboBox_activated(self):
         """ Event handler for self.clientComboBox """
 
-        print("[BET]: You selected", self.clientComboBox.currentText())
+        logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
         if self.clientComboBox.currentText() == 'GE':
-            print("[BET]: GE_TAT")
+            logging.info("[BET]: GE_TAT")
             self.DEFAULT_SI = ""
             self.client_TAT = GE_TAT
             self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Google':
-            print("[BET]: GOOGLE_TAT")
+            logging.info("[BET]: GOOGLE_TAT")
             self.DEFAULT_SI = GOOGLE_DEFAULT
             self.client_TAT = GOOGLE_TAT
             self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Unilever':
-            print("[BET]: UN_TAT")
+            logging.info("[BET]: UN_TAT")
             self.DEFAULT_SI = ""
             self.client_TAT = UN_TAT
             self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
         else:
-            print("#edw")
+            logging.info("#edw")
 
     def on_importanceComboBox_activated(self):
         """ Event handler for self.importanceComboBox """
@@ -298,7 +292,7 @@ class Search(QDialog):
 
     # OVERRIDING: starts here
     def accept(self):
-        print("[BET]: New Search template added, writing last known settings.")
+        logging.info("[BET]: New Search template added, writing last known settings.")
         self._writeSettings()
         self.done(1)
 
@@ -309,5 +303,5 @@ class Search(QDialog):
             self.close()
 
     def closeEvent(self, event):
-        print("[BET]: Searching (SIW) Template Form was closed. Writing last known settings.")
+        logging.info("[BET]: Searching (SIW) Template Form was closed. Writing last known settings.")
         self._writeSettings()

@@ -23,7 +23,7 @@ STYLE = """
     """
 
 # used by dialogs/search.py
-WITH_ARTWORK = "<div><p>Artwork attached to illustrate how the mark will appear on pack.</p></div>"
+WITH_ARTWORK = "<div><p><b>Artwork attached to illustrate how the mark will appear on pack.</b></p></div>"
 WITH_IMAGE = "<div><p>The trade mark to be searched is as shown in the attached image file.</p></div>"
 
 # TOOLTIPS
@@ -171,7 +171,7 @@ ABOUT = """
             To provide rapid creation of special instruction templates that adheres to the standard process use by \
             the Core Team.
             <br><br>
-            Created: 10 Mar 2015 12:06 AM
+            Released: 1 Jul 2016
             <br>
             Author: {1}
             <br>

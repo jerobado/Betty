@@ -8,6 +8,8 @@
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
+import logging
+
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QDockWidget, QListWidget,
                              QAbstractItemView, QMessageBox)
 from PyQt5.QtGui import QIcon, QKeySequence
@@ -68,13 +70,10 @@ class BET(QMainWindow):
 
     def _readSettings(self):
         settings = QSettings("GIPSC Core Team", "Betty")
-        #position = settings.value("position", QPoint(self.hpos, self.vpos))
         position = settings.value("position", QPoint(200, 600))
         size = settings.value("size", QSize(700, 350))  # width, height
         self.move(position)
         self.resize(size)
-        print("main_window pos", self.pos())
-        print("main_window size", self.size())
 
     def _writeSettings(self):
         settings = QSettings("GIPSC Core Team", "Betty")
@@ -216,7 +215,7 @@ class BET(QMainWindow):
 
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
         self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
-        print("[BET]: Tracker activated")
+        logging.info("[BET]: Tracker activated")
 
     # SLOTS: Define BET slots here
     def on_newTemplate_action(self):
@@ -224,13 +223,13 @@ class BET(QMainWindow):
 
         from dialogs.new import New
 
-        print("[BET]: Selecting new template")  # BET prompt
+        logging.info("[BET]: Selecting new template")  # BET prompt
 
         newWindow = New(self)
 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
-                print("[BET]: Search template selected")  # BET prompt
+                logging.info("[BET]: Search template selected")  # BET prompt
                 # show Search template
                 from dialogs.search import Search
 
@@ -244,7 +243,7 @@ class BET(QMainWindow):
                 from dialogs.filing import Filing
 
                 filingDialog = Filing(self)
-                print("[BET]: Filing template selected")  # BET prompt
+                logging.info("[BET]: Filing template selected")  # BET prompt
                 if filingDialog.exec_():  # this will show the dialog first
                     superstar = filingDialog.previewTextEdit.toHtml()
                     self.add_to_tracker(filingDialog.trackerLineEdit.text())
@@ -252,7 +251,7 @@ class BET(QMainWindow):
                     self.check_if_append(superstar)
                     self.status.showMessage("New Filing template added", 6000)
             else:
-                print("[BET]: Unusual, no template selected?")
+                logging.warning("[BET]: Unusual, no template selected?")
 
     # EVENT HANDLER: define it here
     def on_trackerListWidget_itemDoubleClicked(self):
@@ -342,10 +341,10 @@ class BET(QMainWindow):
             APPEND = True
 
     def on_continuousAction_clicked(self):
-        print("[BET]: forms will not close unless explicitly killed :)")
+        logging.info("[BET]: forms will not close unless explicitly killed :)")
 
     # REUSE: only re-write QMainWindow's resident functions here
     def closeEvent(self, event):
         # Get the last applications last state before totally closing
-        print("[BET]: Closed. Writing last application settings...")
+        logging.info("[BET]: Closed. Writing last application settings...")
         self._writeSettings()

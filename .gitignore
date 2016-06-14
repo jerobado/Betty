@@ -46,3 +46,8 @@ Temporary Items
 *.iml
 dialogs/__pycache__/filing.cpython-34.pyc
 *.pyc
+.idea/
+__pycache__/
+dialogs/__pycache__/
+log/
+resources/__pycache__/
