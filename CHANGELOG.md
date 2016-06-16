@@ -9,6 +9,7 @@ Release date: 2016-07-01
 * User Interface (UI)
     * Resize the main window to make it larger 
     * Retains the last known window size and position after closing the application
+    * Revamp the 'About' section to show basic information about the application
 * Filing
     * Added client selection in Filing form (GE and Unilever)
     * Added default special instructions in GE

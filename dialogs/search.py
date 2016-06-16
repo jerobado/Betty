@@ -292,9 +292,9 @@ class Search(QDialog):
 
     # OVERRIDING: starts here
     def accept(self):
-        logging.info("[BET]: New Search template added, writing last known settings.")
         self._writeSettings()
         self.done(1)
+        logging.info("[BET]: New Search template added, writing last known settings")
 
     def keyPressEvent(self, event):
 

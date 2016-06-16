@@ -346,5 +346,5 @@ class BET(QMainWindow):
     # REUSE: only re-write QMainWindow's resident functions here
     def closeEvent(self, event):
         # Get the last applications last state before totally closing
-        logging.info("[BET]: Closed. Writing last application settings...")
         self._writeSettings()
+        logging.info("~~~~~~~~~~~~~~~~~~~~ BETTY TERMINATED ~~~~~~~~~~~~~~~~~~~")

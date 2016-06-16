@@ -171,6 +171,7 @@ class Filing(QDialog):  # Main dialog for filing template
 
         self._writeSettings()
         self.done(1)
+        logging.info("[BET]: New Filing template added")
 
     def keyPressEvent(self, event):
 

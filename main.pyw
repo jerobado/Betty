@@ -30,7 +30,7 @@ def check_version():
                         format='%(asctime)s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
 
-    logging.info("[BET]: CHECK TOOLS VERSION")
+    logging.info("~~~~~~~~~~~~~~~~~~~~~ BETTY STARTED ~~~~~~~~~~~~~~~~~~~~~")
     logging.info("[BET]: Python version {}".format(sys.version[:5]))
     logging.info("[BET]: Qt version {}".format(QT_VERSION_STR))
     logging.info("[BET]: PyQt version {}".format(PYQT_VERSION_STR))
