@@ -2,7 +2,7 @@
 
 New features, functions, bug and hot fixes to be added here.
 
-**Betty 0.4a [Unreleased]**
+**Betty 0.4**
 
 Release date: 2016-07-01
 
@@ -14,7 +14,7 @@ Release date: 2016-07-01
     * Added client selection in Filing form (GE and Unilever)
     * Added default special instructions in GE
 * Searching
-    * Google added as new client in Searching form
+    * Added _Google_ as new client in Searching form
     * Added default special instruction in Google
     * Formatted the special instruction _"Artwork attached to illustrate..."_ into Bold 
 

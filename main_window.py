@@ -57,14 +57,6 @@ class BET(QMainWindow):
 
         # For the main window
         self.setAttribute(Qt.WA_DeleteOnClose)
-
-        # Set BET to center screen
-        self.screenMainSize = QDesktopWidget().screenGeometry()
-        self.BETsize = self.geometry()
-        # horizontal position = screenwidth - windowwidth / 2
-        #self.hpos = (self.screenMainSize.width() - self.BETsize.width()) / 2
-        #self.vpos = (self.screenMainSize.height() - self.BETsize.height()) / 2
-        #print(self.hpos, self.vpos)
         self.setWindowTitle("Betty %s" % self.__version__)
         self.setWindowIcon(QIcon('images/TOOLS.ico'))
 
@@ -223,13 +215,13 @@ class BET(QMainWindow):
 
         from dialogs.new import New
 
-        logging.info("[BET]: Selecting new template")  # BET prompt
+        logging.info("[BET]: Selecting new template")
 
         newWindow = New(self)
 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
-                logging.info("[BET]: Search template selected")  # BET prompt
+                logging.info("[BET]: Search template selected")
                 # show Search template
                 from dialogs.search import Search
 

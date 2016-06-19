@@ -13,6 +13,7 @@ from main import __author__, __version__
 
 # used by main.pyw
 APP = QApplication(sys.argv)
+LOGFILE = "log\log_sessions.log"
 
 # Use by the two templates
 STYLE = """
@@ -166,10 +167,10 @@ ABOUT = """
             <hr>
         </div>
         <div>
-            An application that can be use alongside BIPC for creating workplan.
-            <br>
-            To provide rapid creation of special instruction templates that adheres to the standard process use by \
-            the Core Team.
+            <i>Betty is a program that can be use alongside BIPC for creating workplan.</i>
+            <br><br>
+            The main goal of <i>Betty</i> is to provide rapid creation of special instruction templates that adheres \
+            to the standard process use by the Core Team.
             <br><br>
             Released: 1 Jul 2016
             <br>

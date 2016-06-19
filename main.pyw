@@ -9,7 +9,7 @@
  """
 
 __author__ = 'GSMGBB'
-__version__ = '0.4a'   # Current version, see NRD
+__version__ = '0.4'   # Current version, see NRD
 
 
 # TEST: just checking my PyQt version
@@ -22,9 +22,9 @@ def check_version():
     from PyQt5.Qt import PYQT_VERSION_STR
     from sip import SIP_VERSION_STR
 
-    logfile = "log\log_sessions.log"
+    from resources.constants import LOGFILE
 
-    logging.basicConfig(filename=logfile,
+    logging.basicConfig(filename=LOGFILE,
                         filemode='w',
                         level=logging.DEBUG,
                         format='%(asctime)s %(message)s',
@@ -41,7 +41,7 @@ def check_version():
 def icon_settings():
 
     import ctypes
-    APP_ID = u'bakermckenzie.gipsc.betty.03'
+    APP_ID = u'bakermckenzie.gipsc.betty.04'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 if __name__ == '__main__':
