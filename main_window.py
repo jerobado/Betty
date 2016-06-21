@@ -8,7 +8,7 @@
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-import logging
+#import logging
 
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QDockWidget, QListWidget,
                              QAbstractItemView, QMessageBox)
@@ -59,6 +59,7 @@ class BET(QMainWindow):
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle("Betty %s" % self.__version__)
         self.setWindowIcon(QIcon('images/TOOLS.ico'))
+        #self.setWindowIcon(QIcon('images/logo_128.png'))
 
     def _readSettings(self):
         settings = QSettings("GIPSC Core Team", "Betty")
@@ -86,56 +87,56 @@ class BET(QMainWindow):
         # Remember: when creating a QAction, it should have a parent
         # File menu: actions inside this menu
         self.newAction = QAction(QIcon(":/new.png"), "&New", self,
-                shortcut=QKeySequence.New,
-                statusTip="Create a new template",
-                toolTip="New",
-                triggered=self.on_newTemplate_action)
+                                 shortcut=QKeySequence.New,
+                                 statusTip="Create a new template",
+                                 toolTip="New",
+                                 triggered=self.on_newTemplate_action)
         #self.settingsAction = QAction(QIcon(":/settings.png"), "Se&ttings", self,
         #       shortcut="Ctrl+Alt+S",
         #       statusTip="Edit application settings",
         #       triggered=self.on_settings_action)
         self.exitAction = QAction(QIcon(":/quit.png"), "E&xit", self,
-                shortcut="Ctrl+Q",
-                statusTip="Exit the application",
-                triggered=self.close)
+                                  shortcut="Ctrl+Q",
+                                  statusTip="Exit the application",
+                                  triggered=self.close)
 
         # Edit menu: actions inside this menu
         self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self,
-                shortcut=QKeySequence.Cut,
-                enabled=False,
-                statusTip="Cut to clipboard",
-                toolTip="Cut",
-                triggered=self.testTextEdit.cut)
+                                 shortcut=QKeySequence.Cut,
+                                 enabled=False,
+                                 statusTip="Cut to clipboard",
+                                 toolTip="Cut",
+                                 triggered=self.testTextEdit.cut)
         self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self,
-                shortcut=QKeySequence.Copy,
-                enabled=False,
-                statusTip="Copy to clipboard",
-                toolTip="Copy",
-                triggered=self.testTextEdit.copy)
+                                  shortcut=QKeySequence.Copy,
+                                  enabled=False,
+                                  statusTip="Copy to clipboard",
+                                  toolTip="Copy",
+                                  triggered=self.testTextEdit.copy)
         self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self,
-                shortcut=QKeySequence.Paste,
-                statusTip="Paste from clipboard",
-                toolTip="Paste",
-                triggered=self.testTextEdit.paste)
+                                   shortcut=QKeySequence.Paste,
+                                   statusTip="Paste from clipboard",
+                                   toolTip="Paste",
+                                   triggered=self.testTextEdit.paste)
         self.select_allAction = QAction(QIcon(":/select_all.png"), "Select &All", self,
-                shortcut=QKeySequence.SelectAll,
-                statusTip="Select all",
-                triggered=self.testTextEdit.selectAll)
+                                        shortcut=QKeySequence.SelectAll,
+                                        statusTip="Select all",
+                                        triggered=self.testTextEdit.selectAll)
 
         # Settings: testing a checkable action inside a menu
         self.appendAction = QAction("&Append Template", self,
-                checkable=True,
-                statusTip="Append created template to editor",
-                triggered=self.on_appendAction_clicked)
+                                    checkable=True,
+                                    statusTip="Append created template to editor",
+                                    triggered=self.on_appendAction_clicked)
         self.continuousAction = QAction("Add &Continuously", self,
-                checkable = True,
-                statusTip="Add template without interruption",
-                triggered=self.on_continuousAction_clicked)
+                                        checkable = True,
+                                        statusTip="Add template without interruption",
+                                        triggered=self.on_continuousAction_clicked)
 
         # Help: actions inside this menu
         self.aboutAction = QAction("&About", self,
-                statusTip="Show information about Betty",
-                triggered=self.on_aboutAction_clicked)
+                                   statusTip="Show information about Betty",
+                                   triggered=self.on_aboutAction_clicked)
 
     def _createMenus(self):
         """ FILE, EDIT (Cut, Copy, Paste), Format (Bold, UPPERCASE, etc., Help """
@@ -207,7 +208,7 @@ class BET(QMainWindow):
 
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
         self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
-        logging.info("[BET]: Tracker activated")
+        #logging.info("[BET]: Tracker activated")
 
     # SLOTS: Define BET slots here
     def on_newTemplate_action(self):
@@ -215,13 +216,13 @@ class BET(QMainWindow):
 
         from dialogs.new import New
 
-        logging.info("[BET]: Selecting new template")
+        #logging.info("[BET]: Selecting new template")
 
         newWindow = New(self)
 
         if newWindow.exec_():
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
-                logging.info("[BET]: Search template selected")
+                #logging.info("[BET]: Search template selected")
                 # show Search template
                 from dialogs.search import Search
 
@@ -235,7 +236,7 @@ class BET(QMainWindow):
                 from dialogs.filing import Filing
 
                 filingDialog = Filing(self)
-                logging.info("[BET]: Filing template selected")  # BET prompt
+                #logging.info("[BET]: Filing template selected")  # BET prompt
                 if filingDialog.exec_():  # this will show the dialog first
                     superstar = filingDialog.previewTextEdit.toHtml()
                     self.add_to_tracker(filingDialog.trackerLineEdit.text())
@@ -243,7 +244,8 @@ class BET(QMainWindow):
                     self.check_if_append(superstar)
                     self.status.showMessage("New Filing template added", 6000)
             else:
-                logging.warning("[BET]: Unusual, no template selected?")
+                #logging.warning("[BET]: Unusual, no template selected?")
+                pass
 
     # EVENT HANDLER: define it here
     def on_trackerListWidget_itemDoubleClicked(self):
@@ -333,10 +335,11 @@ class BET(QMainWindow):
             APPEND = True
 
     def on_continuousAction_clicked(self):
-        logging.info("[BET]: forms will not close unless explicitly killed :)")
+        #logging.info("[BET]: forms will not close unless explicitly killed :)")
+        pass
 
     # REUSE: only re-write QMainWindow's resident functions here
     def closeEvent(self, event):
         # Get the last applications last state before totally closing
         self._writeSettings()
-        logging.info("~~~~~~~~~~~~~~~~~~~~ BETTY TERMINATED ~~~~~~~~~~~~~~~~~~~")
+        #logging.info("~~~~~~~~~~~~~~~~~~~~ BETTY TERMINATED ~~~~~~~~~~~~~~~~~~~")

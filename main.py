@@ -48,8 +48,8 @@ if __name__ == '__main__':
     from main_window import BET
     from resources.constants import APP
 
-    check_version()
-    icon_settings()
+    #check_version()
     window = BET(__version__)
+    icon_settings()
     window.show()
     APP.exec_()

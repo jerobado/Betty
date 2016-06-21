@@ -1,6 +1,6 @@
 # Betty > dialogs > new.py
 
-import logging
+#import logging
 
 from PyQt5.QtWidgets import (QLabel, QListWidget, QPushButton, QGridLayout, QHBoxLayout, QVBoxLayout,
                              QDialog)
@@ -79,7 +79,7 @@ class New(QDialog):
 
         self._writeSettings()
         self.done(1)
-        logging.info("[BET]: Template selection accepted")
+        #logging.info("[BET]: Template selection accepted")
 
     def keyPressEvent(self, event):
 

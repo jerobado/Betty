@@ -11,7 +11,7 @@ from string import Template
 
 from main import __author__, __version__
 
-# used by main.pyw
+# used by main.py
 APP = QApplication(sys.argv)
 LOGFILE = "log\log_sessions.log"
 

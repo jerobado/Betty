@@ -2,7 +2,7 @@
 
 __author__ = 'Jero'
 
-import logging
+#import logging
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit, QSpinBox,
                              QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget, QCompleter)
@@ -208,24 +208,25 @@ class Search(QDialog):
     def on_clientComboBox_activated(self):
         """ Event handler for self.clientComboBox """
 
-        logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
+        #logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
         if self.clientComboBox.currentText() == 'GE':
-            logging.info("[BET]: GE_TAT")
+            #logging.info("[BET]: GE_TAT")
             self.DEFAULT_SI = ""
             self.client_TAT = GE_TAT
             self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Google':
-            logging.info("[BET]: GOOGLE_TAT")
+            #logging.info("[BET]: GOOGLE_TAT")
             self.DEFAULT_SI = GOOGLE_DEFAULT
             self.client_TAT = GOOGLE_TAT
             self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Unilever':
-            logging.info("[BET]: UN_TAT")
+            #logging.info("[BET]: UN_TAT")
             self.DEFAULT_SI = ""
             self.client_TAT = UN_TAT
             self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
         else:
-            logging.info("#edw")
+            #logging.info("#edw")
+            pass
 
     def on_importanceComboBox_activated(self):
         """ Event handler for self.importanceComboBox """
@@ -294,7 +295,7 @@ class Search(QDialog):
     def accept(self):
         self._writeSettings()
         self.done(1)
-        logging.info("[BET]: New Search template added, writing last known settings")
+        #logging.info("[BET]: New Search template added, writing last known settings")
 
     def keyPressEvent(self, event):
 
@@ -303,5 +304,5 @@ class Search(QDialog):
             self.close()
 
     def closeEvent(self, event):
-        logging.info("[BET]: Searching (SIW) Template Form was closed. Writing last known settings.")
+        #logging.info("[BET]: Searching (SIW) Template Form was closed. Writing last known settings.")
         self._writeSettings()

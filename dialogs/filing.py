@@ -2,7 +2,7 @@
 
 __author__ = 'Jero'
 
-import logging
+#import logging
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
                              QTextEdit, QPushButton, QGroupBox)
@@ -130,7 +130,7 @@ class Filing(QDialog):  # Main dialog for filing template
     def on_clientComboBox_activated(self):
         """" Event handler for the client dropdown list """
 
-        logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
+        #logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
         if self.clientComboBox.currentText() == 'GE':
             self.DEFAULT_SI = GE_DEFAULT
         elif self.clientComboBox.currentText() == 'Unilever':
@@ -164,14 +164,14 @@ class Filing(QDialog):  # Main dialog for filing template
         # Enable self.addButton
         self.addButton.setEnabled(True)
 
-        logging.info("[BET]: Preview button clicked under Filing form")
+        #logging.info("[BET]: Preview button clicked under Filing form")
 
     # OVERRIDING: starts here
     def accept(self):
 
         self._writeSettings()
         self.done(1)
-        logging.info("[BET]: New Filing template added")
+        #logging.info("[BET]: New Filing template added")
 
     def keyPressEvent(self, event):
 
