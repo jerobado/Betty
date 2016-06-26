@@ -8,6 +8,8 @@ Release date: 2016-09-01
 
 * User Interface (UI)
     * Added a title naming convention on the main window
+* Filing
+    * TMNC field now converts lowercase to uppercase
 
 **Patch 0.4**
 

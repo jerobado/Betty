@@ -1,7 +1,5 @@
 # Betty > dialogs > filing.py
 
-__author__ = 'Jero'
-
 #import logging
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
@@ -145,17 +143,19 @@ class Filing(QDialog):  # Main dialog for filing template
 
     def on_previewButton_clicked(self):
 
-        # Check if self.special_instructionsLineEdit has no content
-        if self.special_instructionsLineEdit.text():
-            special_instruction = FILING_SPECIAL.format(self.special_instructionsLineEdit.text())
-        else:
-            special_instruction = ''
+        # Get user's input
+        tmnc_trademark = self.TMNCLineEdit.text()
+        type_trademark = self.ToTMComboBox.currentText()
+        filing_special = self.special_instructionsLineEdit.text()
 
-        # Consolidate
+        # Check TMNC if not in uppercase
+        if not tmnc_trademark.isupper():
+            tmnc_trademark = str.upper(self.TMNCLineEdit.text())
+
+        # Consolidate user's input
         html = FILING_TEMPLATE.substitute(default=self.DEFAULT_SI,
-                                          special=special_instruction,
-                                          filing=FILING.format(self.ToTMComboBox.currentText(),
-                                                               self.TMNCLineEdit.text()))
+                                          special=FILING_SPECIAL.format(filing_special),
+                                          filing=FILING.format(type_trademark, tmnc_trademark))
 
         # Show result
         self.previewTextEdit.setHtml(html)

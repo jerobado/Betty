@@ -56,7 +56,6 @@ GOOGLE_DEFAULT = """
         <div><p>In determining your analysis, please note that we are only concerned with the ability to \
         <b><u>use</u></b> the mark, <b><u>not to register</u></b> the mark.</p></div>"""
 
-
 # next is GE
 GE_TAT = {
     'Low/Medium': """
