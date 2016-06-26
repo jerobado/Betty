@@ -9,7 +9,7 @@
  """
 
 __author__ = 'GSMGBB'
-__version__ = '0.4'   # Current version, see NRD
+__version__ = '0.5'   # Current version, see NRD
 
 
 # TEST: just checking my PyQt version

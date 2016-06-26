@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBo
                              QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget, QCompleter)
 from PyQt5.QtGui import QTextDocument, QTextCharFormat
 from PyQt5.QtCore import QDate, QStringListModel, Qt, QSettings, QSize, QPoint
-
 from resources.constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
                                  ARTWORK_TOOLTIP,

@@ -1,8 +1,15 @@
-**CHANGELOG**
+**Keep a CHANGELOG**
 
 New features, functions, bug and hot fixes to be added here.
 
-**Betty 0.4**
+**Patch 0.5** [Unreleased]
+
+Release date: 2016-09-01
+
+* User Interface (UI)
+    * Added a title naming convention on the main window
+
+**Patch 0.4**
 
 Release date: 2016-07-01
 
@@ -18,7 +25,7 @@ Release date: 2016-07-01
     * Added default special instruction in Google
     * Formatted the special instruction _"Artwork attached to illustrate..."_ into Bold 
 
-**Betty 0.3**
+**Patch 0.3**
 
 Release date: 2015-12-01
 
@@ -30,14 +37,14 @@ Release date: 2015-12-01
 * Searching
     * Added Marker field for tracking purposes
 
-**Betty 0.2**
+**Patch 0.2**
 
 Release date: 2015-05-29
 
 * Searching
     * Added Searching template/form
 
-**Betty 0.1**
+**Patch 0.1**
 
 Date created: 2015-03-10
 

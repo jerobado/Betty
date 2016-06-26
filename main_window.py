@@ -16,7 +16,7 @@ from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize
 
 from resources import bipc_resources   # Don't remove this!
-from resources.constants import ABOUT
+from resources.constants import ABOUT, TITLE
 
 # Application settings variables
 APPEND = True   # default, any new template created will overwrite the previous one
@@ -30,6 +30,7 @@ class BET(QMainWindow):
 
         # resident variables
         self.__version__ = version
+        self.sarah = ''
         self.TEMP_TEMPLATE_STORAGE_LIST = []
 
         self._widgets()
@@ -57,7 +58,7 @@ class BET(QMainWindow):
 
         # For the main window
         self.setAttribute(Qt.WA_DeleteOnClose)
-        self.setWindowTitle("Betty %s" % self.__version__)
+        self.setWindowTitle(TITLE)
         self.setWindowIcon(QIcon('images/TOOLS.ico'))
         #self.setWindowIcon(QIcon('images/logo_128.png'))
 
@@ -242,6 +243,7 @@ class BET(QMainWindow):
                     self.add_to_tracker(filingDialog.trackerLineEdit.text())
                     self.add_to_storage(superstar)
                     self.check_if_append(superstar)
+                    self.add_to_windowtitle()
                     self.status.showMessage("New Filing template added", 6000)
             else:
                 #logging.warning("[BET]: Unusual, no template selected?")
@@ -252,6 +254,7 @@ class BET(QMainWindow):
 
         selected_template_html = self.TEMP_TEMPLATE_STORAGE_LIST[self.trackerListWidget.currentRow()]
         self.check_if_append(selected_template_html)
+        self.setWindowTitle(' - '.join([self.trackerListWidget.currentItem().text(), TITLE]))
 
     # UTILITIES: functional task use by BET window
     def check_if_append(self, superstar):
@@ -265,20 +268,26 @@ class BET(QMainWindow):
 
     def add_to_tracker(self, users_marker):
 
+        self.sarah = users_marker
         # Check if the user put something on the marker
-        if users_marker:
+        if self.sarah:
             # Populate the tracker widget
-            self.trackerListWidget.addItem(users_marker)
+            self.trackerListWidget.addItem(self.sarah)
         else:
             # Set the default market to current date and time
             default_marker = QDateTime()
             marker_of_the_day = default_marker.currentDateTime()
-            sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm:ss')
-            self.trackerListWidget.addItem(sarah)
+            self.sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm:ss')
+            self.trackerListWidget.addItem(self.sarah)
 
     def add_to_storage(self, template):
 
         self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
+
+    def add_to_windowtitle(self):
+        """ This will set the window title based on the custom marker set by the user """
+
+        self.setWindowTitle(' - '.join([self.sarah, TITLE]))
 
     def window_modal(self, dialog):
         if dialog.exec_():  # this will show the dialog first
@@ -289,6 +298,7 @@ class BET(QMainWindow):
             self.add_to_tracker(dialog.trackerLineEdit.text())
             self.add_to_storage(superstar)
             self.check_if_append(superstar)
+            self.add_to_windowtitle()
             # trying to add a status message in the main form
             self.status.showMessage("New Search template added", 6000)
 

@@ -5,7 +5,6 @@
 from PyQt5.QtWidgets import (QLabel, QListWidget, QPushButton, QGridLayout, QHBoxLayout, QVBoxLayout,
                              QDialog)
 from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
-
 from resources.constants import WORK_TYPE
 
 __author__ = 'Jero'

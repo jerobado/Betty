@@ -4,11 +4,8 @@
 __author__ = 'Jero'
 
 import sys
-
-from PyQt5.QtWidgets import QApplication
-
 from string import Template
-
+from PyQt5.QtWidgets import QApplication
 from main import __author__, __version__
 
 # used by main.py
@@ -172,7 +169,7 @@ ABOUT = """
             The main goal of <i>Betty</i> is to provide rapid creation of special instruction templates that adheres \
             to the standard process use by the Core Team.
             <br><br>
-            Released: 1 Jul 2016
+            Released: 1 Sep 2016
             <br>
             Author: {1}
             <br>
@@ -180,3 +177,4 @@ ABOUT = """
                      style="text-decoration:None">Fork me on GitHub!</a>
         </div>
         """.format(__version__, __author__)
+TITLE = "Betty {}".format(__version__)

@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayou
                              QTextEdit, QPushButton, QGroupBox)
 from PyQt5.QtGui import QTextDocument
 from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
-
 from resources.constants import (TYPE_TM,
                                  FILING,
                                  FILING_SPECIAL,
