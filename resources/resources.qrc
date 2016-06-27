@@ -10,4 +10,4 @@
     </qresource>
 </RCC>
 
-<!-- pyrcc5 -o resources/bipc_resources.py resources.qrc -->
+<!-- pyrcc5 -o resources/bipc_resources.py resources/resources.qrc -->

@@ -10,11 +10,10 @@
 
 #import logging
 
-from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QDesktopWidget, QAction, QDockWidget, QListWidget,
-                             QAbstractItemView, QMessageBox)
-from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize
-
+from PyQt5.QtGui import QIcon, QKeySequence
+from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QAction, QDockWidget, QListWidget,
+                             QAbstractItemView, QMessageBox)
 from resources import bipc_resources   # Don't remove this!
 from resources.constants import ABOUT, TITLE
 
@@ -215,7 +214,7 @@ class BET(QMainWindow):
     def on_newTemplate_action(self):
         """ Event handler for File > New """
 
-        from dialogs.new import New
+        from src.dialogs.new import New
 
         #logging.info("[BET]: Selecting new template")
 
@@ -225,7 +224,7 @@ class BET(QMainWindow):
             if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
                 #logging.info("[BET]: Search template selected")
                 # show Search template
-                from dialogs.search import Search
+                from src.dialogs.search import Search
 
                 searchDialog = Search(self)
 
@@ -234,7 +233,7 @@ class BET(QMainWindow):
 
             elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
-                from dialogs.filing import Filing
+                from src.dialogs.filing import Filing
 
                 filingDialog = Filing(self)
                 #logging.info("[BET]: Filing template selected")  # BET prompt
@@ -327,7 +326,7 @@ class BET(QMainWindow):
     def on_settings_action(self):
         """ Event handler for File > Settings """
 
-        from dialogs.settings import Settings
+        from src.dialogs.settings import Settings
 
         dialog = Settings()
         if dialog.exec_():

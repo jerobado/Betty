@@ -5,8 +5,10 @@ __author__ = 'Jero'
 
 import sys
 from string import Template
+
 from PyQt5.QtWidgets import QApplication
-from main import __author__, __version__
+
+from src.main import __author__, __version__
 
 # used by main.py
 APP = QApplication(sys.argv)
