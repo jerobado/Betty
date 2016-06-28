@@ -41,7 +41,7 @@ def check_version():
 def icon_settings():
 
     import ctypes
-    APP_ID = u'bakermckenzie.gipsc.betty.04'
+    APP_ID = u'bakermckenzie.gipsc.betty.05'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 if __name__ == '__main__':

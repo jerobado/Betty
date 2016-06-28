@@ -58,7 +58,7 @@ class BET(QMainWindow):
         # For the main window
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle(TITLE)
-        self.setWindowIcon(QIcon('images/TOOLS.ico'))
+        self.setWindowIcon(QIcon(':/TOOLS.png'))
         #self.setWindowIcon(QIcon('images/logo_128.png'))
 
     def _readSettings(self):

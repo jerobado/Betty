@@ -7,7 +7,9 @@
         <file alias="select_all.png">images/select_all_32.png</file>
         <file alias="settings.png">images/settings_32.png</file>
         <file alias="quit.png">images/quit_32.png</file>
+        <file alias="TOOLS.png">images/TOOLS.png</file>
     </qresource>
 </RCC>
 
-<!-- pyrcc5 -o resources/bipc_resources.py resources/resources.qrc -->
+<!-- move resources.qrc in the root folder before running the command below -->
+<!-- pyrcc5 -o resources/bipc_resources.py resources.qrc -->
