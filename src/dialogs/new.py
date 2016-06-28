@@ -3,8 +3,8 @@
 #import logging
 
 from PyQt5.QtWidgets import (QLabel, QListWidget, QPushButton, QGridLayout, QHBoxLayout, QVBoxLayout,
-                             QDialog)
-from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
+                             QDialog, QListView)
+from PyQt5.QtCore import QSettings, QPoint, QSize, Qt, QAbstractItemModel, QStringListModel, QModelIndex
 from resources.constants import WORK_TYPE
 
 __author__ = 'Jero'
@@ -25,9 +25,32 @@ class New(QDialog):
     def _widgets(self):
 
         self.templateLabel = QLabel("Template:")
-        self.templateListWidget = QListWidget()
-        self.templateListWidget.addItems(WORK_TYPE)
-        self.templateListWidget.setCurrentRow(0)
+
+        # Replacing QListWidget
+        #self.templateListWidget = QListWidget()
+        #self.templateListWidget.addItems(WORK_TYPE)
+        #self.templateListWidget.setCurrentRow(0)
+
+        # TODO: next step, learn how QModelIndex works
+        # Trying to implement the model/view framework using QListView
+        # DATA: define here
+        xWORK_TYPE = ['Filing', 'Search (SIW)']
+
+        # MODEL: use QStringListModel
+        xWORK_TYPE_StringListModel = QStringListModel()
+        xWORK_TYPE_StringListModel.setStringList(xWORK_TYPE)
+
+        #index = QModelIndex()
+        #index = xWORK_TYPE_StringListModel.index()
+        #rowCount = xWORK_TYPE_StringListModel.rowCount(index)
+        #print(rowCount)
+
+        # VIEW: use QListView
+        self.templateListView = QListView()
+        self.templateListView.setModel(xWORK_TYPE_StringListModel)
+        self.templateListView.setViewMode(QListView.IconMode)
+        self.templateListView.setFlow(QListView.TopToBottom)
+
         self.createPushButton = QPushButton("&Create")
         self.cancelPushButton = QPushButton("C&ancel")
 
@@ -35,7 +58,8 @@ class New(QDialog):
 
         grid = QGridLayout()
         grid.addWidget(self.templateLabel, 0, 0)
-        grid.addWidget(self.templateListWidget, 1, 0)
+        #grid.addWidget(self.templateListWidget, 1, 0)
+        grid.addWidget(self.templateListView, 1, 0)
 
         buttons = QHBoxLayout()
         buttons.addStretch(1)
@@ -52,11 +76,10 @@ class New(QDialog):
 
         # self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle("Add new Template")
-        #self.resize(250, 100)
 
     def _connections(self):
 
-        self.templateListWidget.itemDoubleClicked.connect(self.accept)
+        #self.templateListWidget.itemDoubleClicked.connect(self.accept)
         self.createPushButton.clicked.connect(self.accept)
         self.cancelPushButton.clicked.connect(self.reject)
 
