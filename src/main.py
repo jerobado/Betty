@@ -45,10 +45,12 @@ def icon_settings():
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 if __name__ == '__main__':
+    from src.dialogs import new
     from src.main_window import BET
     from resources.constants import APP
 
     #check_version()
+    #window = new.New()
     window = BET(__version__)
     icon_settings()
     window.show()

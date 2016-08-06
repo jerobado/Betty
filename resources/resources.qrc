@@ -1,5 +1,10 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+        <file alias="file_32.png">images/file_32.png</file>
+        <file alias="file2_32.png">images/file2_32.png</file>
+        <file alias="search_32.png">images/search_32.png</file>
+        <file alias="document_32.png">images/document_32.png</file>
+        <file alias="magnify_32.png">images/magnify_32.png</file>
         <file alias="new.png">images/new_32.png</file>
         <file alias="cut.png">images/cut_32.png</file>
         <file alias="copy.png">images/copy_32.png</file>

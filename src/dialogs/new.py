@@ -4,10 +4,40 @@
 
 from PyQt5.QtWidgets import (QLabel, QListWidget, QPushButton, QGridLayout, QHBoxLayout, QVBoxLayout,
                              QDialog, QListView)
-from PyQt5.QtCore import QSettings, QPoint, QSize, Qt, QAbstractItemModel, QStringListModel, QModelIndex
+from PyQt5.QtCore import QSettings, QPoint, QSize, Qt, QAbstractListModel, QStringListModel, QModelIndex
+from PyQt5.QtGui import QIcon
 from resources.constants import WORK_TYPE
 
 __author__ = 'Jero'
+
+
+class WorktypeListModel(QAbstractListModel):
+
+    def __init__(self, worktypes, parent=None):
+        super(WorktypeListModel, self).__init__(parent)
+        self.__worktype = worktypes
+
+    def data(self, index, role):
+        if role == Qt.DisplayRole:
+            row = index.row()
+            value = self.__worktype[row]
+            return value
+
+        if role == Qt.DecorationRole:
+            row = index.row()
+            value = self.__worktype[row]
+
+            if value == 'Filing':
+                return QIcon(':/file_32.png')
+
+            if value == 'Search (SIW)':
+                return QIcon(':/magnify_32.png')
+
+    def flags(self, index):
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable
+
+    def rowCount(self, parent):
+        return len(self.__worktype)
 
 
 # Dialogs starts here...
@@ -34,22 +64,16 @@ class New(QDialog):
         # TODO: next step, learn how QModelIndex works
         # Trying to implement the model/view framework using QListView
         # DATA: define here
-        xWORK_TYPE = ['Filing', 'Search (SIW)']
+        data = WORK_TYPE
 
         # MODEL: use QStringListModel
-        xWORK_TYPE_StringListModel = QStringListModel()
-        xWORK_TYPE_StringListModel.setStringList(xWORK_TYPE)
-
-        #index = QModelIndex()
-        #index = xWORK_TYPE_StringListModel.index()
-        #rowCount = xWORK_TYPE_StringListModel.rowCount(index)
-        #print(rowCount)
+        model = WorktypeListModel(data)
 
         # VIEW: use QListView
         self.templateListView = QListView()
-        self.templateListView.setModel(xWORK_TYPE_StringListModel)
-        self.templateListView.setViewMode(QListView.IconMode)
-        self.templateListView.setFlow(QListView.TopToBottom)
+        self.templateListView.setModel(model)
+        #self.templateListView.setViewMode(QListView.IconMode)
+        #self.templateListView.setFlow(QListView.TopToBottom)
 
         self.createPushButton = QPushButton("&Create")
         self.cancelPushButton = QPushButton("C&ancel")
@@ -80,6 +104,8 @@ class New(QDialog):
     def _connections(self):
 
         #self.templateListWidget.itemDoubleClicked.connect(self.accept)
+        #self.templateListView.doubleClicked.connect(self.on_templateListView_doubleClicked)
+        self.templateListView.doubleClicked.connect(self.accept)
         self.createPushButton.clicked.connect(self.accept)
         self.cancelPushButton.clicked.connect(self.reject)
 
@@ -96,6 +122,11 @@ class New(QDialog):
         settings = QSettings("NEW", "new_dialog")
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
+
+    def on_templateListView_doubleClicked(self):
+        raw_data = self.templateListView.currentIndex()
+        row = raw_data.row()
+        print(WORK_TYPE[row])
 
     def accept(self):
 

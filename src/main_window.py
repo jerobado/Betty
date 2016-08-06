@@ -221,7 +221,9 @@ class BET(QMainWindow):
         newWindow = New(self)
 
         if newWindow.exec_():
-            if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
+            index = newWindow.templateListView.currentIndex()
+            if index.row() == 1:    # Search (SIW)
+            #if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
                 #logging.info("[BET]: Search template selected")
                 # show Search template
                 from src.dialogs.search import Search
@@ -230,8 +232,8 @@ class BET(QMainWindow):
 
                 #self.non_modal(searchDialog)
                 self.window_modal(searchDialog)
-
-            elif newWindow.templateListWidget.currentItem().text() == "Filing":
+            elif index.row() == 0:  # Filing
+            #elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
                 from src.dialogs.filing import Filing
 
