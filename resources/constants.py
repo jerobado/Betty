@@ -137,7 +137,7 @@ TYPE_TM = ['Advertising Strip',
            'Word-Device',
            'Word-Label']
 
-WORK_TYPE = ['Filing', 'Search (SIW)']
+WORKTYPE = ['Filing', 'Search (SIW)']
 
 GE_DEFAULT = """
         </div><p><b>

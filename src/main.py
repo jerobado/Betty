@@ -3,9 +3,7 @@
     Interface: GUI (PyQt5)
     Language: Python 3.4.3
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Jul 1, 2016 -v0.4a
-    Next release date (NRD): Aug 1, 2016 -v0.4b
-    Next release date (NRD): Sep 1, 2016 -v0.4
+    Next release date (NRD): Sep 1, 2016 -v0.5
  """
 
 __author__ = 'GSMGBB'

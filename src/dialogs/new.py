@@ -15,38 +15,10 @@ from PyQt5.QtCore import (QSettings,
                           Qt,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
-from resources.constants import WORK_TYPE
+from resources.constants import WORKTYPE
+from resources.models import WorktypeListModel
 
 __author__ = 'Jero'
-
-
-class WorktypeListModel(QAbstractListModel):
-
-    def __init__(self, worktypes, parent=None):
-        super(WorktypeListModel, self).__init__(parent)
-        self.__worktype = worktypes
-
-    def data(self, index, role):
-        if role == Qt.DisplayRole:
-            row = index.row()
-            value = self.__worktype[row]
-            return value
-
-        if role == Qt.DecorationRole:
-            row = index.row()
-            value = self.__worktype[row]
-
-            if value == 'Filing':
-                return QIcon(':/file_32.png')
-
-            if value == 'Search (SIW)':
-                return QIcon(':/magnify_32.png')
-
-    def flags(self, index):
-        return Qt.ItemIsEnabled | Qt.ItemIsSelectable
-
-    def rowCount(self, parent):
-        return len(self.__worktype)
 
 
 # Dialogs starts here...
@@ -65,11 +37,8 @@ class New(QDialog):
 
         self.templateLabel = QLabel("Template:")
 
-        # DATA: define here
-        data = WORK_TYPE
-
-        # MODEL: use QStringListModel
-        model = WorktypeListModel(data)
+        # DATA & MODEL:
+        model = WorktypeListModel(WORKTYPE)
 
         # VIEW: use QListView
         self.templateListView = QListView()
@@ -123,7 +92,7 @@ class New(QDialog):
     def on_templateListView_doubleClicked(self):
         raw_data = self.templateListView.currentIndex()
         row = raw_data.row()
-        print(WORK_TYPE[row])
+        print(WORKTYPE[row])
 
     def accept(self):
 

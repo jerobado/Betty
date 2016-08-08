@@ -10,12 +10,13 @@
 
 #import logging
 
-from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize, QAbstractListModel
+from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QAction, QDockWidget, QListWidget,
                              QAbstractItemView, QMessageBox, QListView)
 from resources import bipc_resources   # Don't remove this!
 from resources.constants import ABOUT, TITLE
+from resources.models import TrackerListModel
 
 # Application settings variables
 APPEND = True   # default, any new template created will overwrite the previous one
@@ -77,7 +78,7 @@ class BET(QMainWindow):
     def _connections(self):
         """ Connect widget signals and slots """
 
-        self.trackerListWidget.itemDoubleClicked.connect(self.on_trackerListWidget_itemDoubleClicked)
+        #self.trackerListWidget.itemDoubleClicked.connect(self.on_trackerListWidget_itemDoubleClicked)
         self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
         self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
 
@@ -202,9 +203,12 @@ class BET(QMainWindow):
         self.tracker_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
 
         # Add widget to be inserted inside self.tracker_dock
-        self.trackerListWidget = QListWidget()
-        self.trackerListWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
-        self.tracker_dock.setWidget(self.trackerListWidget)
+        #self.trackerListWidget = QListWidget()
+        #self.trackerListWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
+        self.trackerListView = QListView()
+        self.trackerListView.setModel(TrackerListModel(self.TEMP_TEMPLATE_STORAGE_DATA))
+        #self.tracker_dock.setWidget(self.trackerListWidget)
+        self.tracker_dock.setWidget(self.trackerListView)
         self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
 
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
@@ -275,13 +279,15 @@ class BET(QMainWindow):
         # Check if the user put something on the marker
         if self.sarah:
             # Populate the tracker widget
-            self.trackerListWidget.addItem(self.sarah)
+            #self.trackerListWidget.addItem(self.sarah)
+            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.sarah)
         else:
             # Set the default market to current date and time
             default_marker = QDateTime()
             marker_of_the_day = default_marker.currentDateTime()
             self.sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm:ss')
-            self.trackerListWidget.addItem(self.sarah)
+            #self.trackerListWidget.addItem(self.sarah)
+            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.sarah)
 
     def add_to_storage(self, template):
         # TODO: define a data model here
