@@ -2,9 +2,18 @@
 
 #import logging
 
-from PyQt5.QtWidgets import (QLabel, QListWidget, QPushButton, QGridLayout, QHBoxLayout, QVBoxLayout,
-                             QDialog, QListView)
-from PyQt5.QtCore import QSettings, QPoint, QSize, Qt, QAbstractListModel, QStringListModel, QModelIndex
+from PyQt5.QtWidgets import (QLabel,
+                             QPushButton,
+                             QGridLayout,
+                             QHBoxLayout,
+                             QVBoxLayout,
+                             QDialog,
+                             QListView)
+from PyQt5.QtCore import (QSettings,
+                          QPoint,
+                          QSize,
+                          Qt,
+                          QAbstractListModel)
 from PyQt5.QtGui import QIcon
 from resources.constants import WORK_TYPE
 
@@ -56,13 +65,6 @@ class New(QDialog):
 
         self.templateLabel = QLabel("Template:")
 
-        # Replacing QListWidget
-        #self.templateListWidget = QListWidget()
-        #self.templateListWidget.addItems(WORK_TYPE)
-        #self.templateListWidget.setCurrentRow(0)
-
-        # TODO: next step, learn how QModelIndex works
-        # Trying to implement the model/view framework using QListView
         # DATA: define here
         data = WORK_TYPE
 
@@ -72,8 +74,6 @@ class New(QDialog):
         # VIEW: use QListView
         self.templateListView = QListView()
         self.templateListView.setModel(model)
-        #self.templateListView.setViewMode(QListView.IconMode)
-        #self.templateListView.setFlow(QListView.TopToBottom)
 
         self.createPushButton = QPushButton("&Create")
         self.cancelPushButton = QPushButton("C&ancel")
@@ -82,7 +82,6 @@ class New(QDialog):
 
         grid = QGridLayout()
         grid.addWidget(self.templateLabel, 0, 0)
-        #grid.addWidget(self.templateListWidget, 1, 0)
         grid.addWidget(self.templateListView, 1, 0)
 
         buttons = QHBoxLayout()
@@ -98,13 +97,11 @@ class New(QDialog):
 
     def _properties(self):
 
-        # self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle("Add new Template")
+        self.setWindowIcon(QIcon(':/new.png'))
 
     def _connections(self):
 
-        #self.templateListWidget.itemDoubleClicked.connect(self.accept)
-        #self.templateListView.doubleClicked.connect(self.on_templateListView_doubleClicked)
         self.templateListView.doubleClicked.connect(self.accept)
         self.createPushButton.clicked.connect(self.accept)
         self.cancelPushButton.clicked.connect(self.reject)

@@ -6,7 +6,7 @@ __author__ = 'Jero'
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit, QSpinBox,
                              QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget, QCompleter)
-from PyQt5.QtGui import QTextDocument, QTextCharFormat
+from PyQt5.QtGui import QTextDocument, QTextCharFormat, QIcon
 from PyQt5.QtCore import QDate, QStringListModel, Qt, QSettings, QSize, QPoint
 from resources.constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
@@ -165,6 +165,7 @@ class Search(QDialog):
 
         # For the main window
         self.setWindowTitle("Search (SIW) Template Form")
+        self.setWindowIcon(QIcon(':/magnify_32.png'))
 
     def _readSettings(self):
         settings = QSettings("SEARCHING", "search_dialog")

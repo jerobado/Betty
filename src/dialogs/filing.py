@@ -4,7 +4,7 @@
 
 from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
                              QTextEdit, QPushButton, QGroupBox)
-from PyQt5.QtGui import QTextDocument
+from PyQt5.QtGui import QTextDocument, QIcon
 from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
 from resources.constants import (TYPE_TM,
                                  FILING,
@@ -99,8 +99,10 @@ class Filing(QDialog):  # Main dialog for filing template
         font_style = QTextDocument()
         font_style.setDefaultStyleSheet(STYLE)
         self.previewTextEdit.setDocument(font_style)
-        self.resize(410, 550)  # width, height
+        #self.resize(410, 550)  # width, height
+        self.setWindowIcon(QIcon(':/file_32.png'))
         self.setWindowTitle("Filing Template Form")
+
 
     def _connections(self):
 

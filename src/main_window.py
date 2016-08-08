@@ -10,10 +10,10 @@
 
 #import logging
 
-from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize
+from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize, QAbstractListModel
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QAction, QDockWidget, QListWidget,
-                             QAbstractItemView, QMessageBox)
+                             QAbstractItemView, QMessageBox, QListView)
 from resources import bipc_resources   # Don't remove this!
 from resources.constants import ABOUT, TITLE
 
@@ -31,6 +31,7 @@ class BET(QMainWindow):
         self.__version__ = version
         self.sarah = ''
         self.TEMP_TEMPLATE_STORAGE_LIST = []
+        self.TEMP_TEMPLATE_STORAGE_DATA = []
 
         self._widgets()
         self._properties()
@@ -268,6 +269,7 @@ class BET(QMainWindow):
             self.testTextEdit.append(superstar)
 
     def add_to_tracker(self, users_marker):
+        # TODO: define a View here
 
         self.sarah = users_marker
         # Check if the user put something on the marker
@@ -282,6 +284,7 @@ class BET(QMainWindow):
             self.trackerListWidget.addItem(self.sarah)
 
     def add_to_storage(self, template):
+        # TODO: define a data model here
 
         self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
 
