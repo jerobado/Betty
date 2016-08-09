@@ -30,9 +30,10 @@ class BET(QMainWindow):
 
         # resident variables
         self.__version__ = version
-        self.sarah = ''
-        self.TEMP_TEMPLATE_STORAGE_LIST = []
-        self.TEMP_TEMPLATE_STORAGE_DATA = []
+        self.todays_marker = ''
+        self.TEMP_TEMPLATE_STORAGE_LIST = []    # template holder in HTML format
+        self.TEMP_TEMPLATE_STORAGE_DATA = []    # tracker list holder
+        self.model = TrackerListModel(self.TEMP_TEMPLATE_STORAGE_DATA)
 
         self._widgets()
         self._properties()
@@ -79,6 +80,7 @@ class BET(QMainWindow):
         """ Connect widget signals and slots """
 
         #self.trackerListWidget.itemDoubleClicked.connect(self.on_trackerListWidget_itemDoubleClicked)
+        self.trackerListView.clicked.connect(self.on_trackerListView_clicked)
         self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
         self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
 
@@ -206,7 +208,7 @@ class BET(QMainWindow):
         #self.trackerListWidget = QListWidget()
         #self.trackerListWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.trackerListView = QListView()
-        self.trackerListView.setModel(TrackerListModel(self.TEMP_TEMPLATE_STORAGE_DATA))
+        #self.trackerListView.setModel(TrackerListModel(self.TEMP_TEMPLATE_STORAGE_DATA))
         #self.tracker_dock.setWidget(self.trackerListWidget)
         self.tracker_dock.setWidget(self.trackerListView)
         self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
@@ -228,26 +230,21 @@ class BET(QMainWindow):
         if newWindow.exec_():
             index = newWindow.templateListView.currentIndex()
             if index.row() == 1:    # Search (SIW)
-            #if newWindow.templateListWidget.currentItem().text() == "Search (SIW)":
-                #logging.info("[BET]: Search template selected")
-                # show Search template
+                # Show Search template
                 from src.dialogs.search import Search
-
                 searchDialog = Search(self)
 
                 #self.non_modal(searchDialog)
                 self.window_modal(searchDialog)
             elif index.row() == 0:  # Filing
-            #elif newWindow.templateListWidget.currentItem().text() == "Filing":
                 # Show filing template dialog here
                 from src.dialogs.filing import Filing
-
                 filingDialog = Filing(self)
-                #logging.info("[BET]: Filing template selected")  # BET prompt
+
                 if filingDialog.exec_():  # this will show the dialog first
                     superstar = filingDialog.previewTextEdit.toHtml()
-                    self.add_to_tracker(filingDialog.trackerLineEdit.text())
                     self.add_to_storage(superstar)
+                    self.add_to_listview(filingDialog.trackerLineEdit.text())
                     self.check_if_append(superstar)
                     self.add_to_windowtitle()
                     self.status.showMessage("New Filing template added", 6000)
@@ -256,24 +253,29 @@ class BET(QMainWindow):
                 pass
 
     # EVENT HANDLER: define it here
-    def on_trackerListWidget_itemDoubleClicked(self):
+    def on_trackerListView_clicked(self):
+        raw_data = self.trackerListView.currentIndex()
+        row = raw_data.row()
+        raw_template = self.TEMP_TEMPLATE_STORAGE_LIST[row]
+        self.check_if_append(raw_template)
+        self.setWindowTitle(' - '.join([self.TEMP_TEMPLATE_STORAGE_DATA[row], TITLE]))
 
+    def on_trackerListWidget_itemDoubleClicked(self):  # TODO: to be deleted
         selected_template_html = self.TEMP_TEMPLATE_STORAGE_LIST[self.trackerListWidget.currentRow()]
         self.check_if_append(selected_template_html)
         self.setWindowTitle(' - '.join([self.trackerListWidget.currentItem().text(), TITLE]))
 
     # UTILITIES: functional task use by BET window
-    def check_if_append(self, superstar):
+    def check_if_append(self, sneakers):
 
         # Check if Appending is activated
         if APPEND:
             # Transmit the data to the main window overriding any text
-            self.testTextEdit.setHtml(superstar)
+            self.testTextEdit.setHtml(sneakers)
         else:
-            self.testTextEdit.append(superstar)
+            self.testTextEdit.append(sneakers)
 
-    def add_to_tracker(self, users_marker):
-        # TODO: define a View here
+    def add_to_tracker(self, users_marker):  # TODO: to be deleted
 
         self.sarah = users_marker
         # Check if the user put something on the marker
@@ -294,20 +296,36 @@ class BET(QMainWindow):
 
         self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
 
+    def add_to_listview(self, users_marker):
+        # TODO: so far so good
+
+        if users_marker:
+            self.todays_marker = users_marker
+            self.TEMP_TEMPLATE_STORAGE_DATA.append(users_marker)
+        else:
+            # Set the default marker to current date and time
+            datetime_marker = QDateTime()
+            self.todays_marker = datetime_marker.currentDateTime().toString('dd-MMM-yyyy hh:mm:ss')
+            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.todays_marker)
+
+        print('~_DATA:', self.TEMP_TEMPLATE_STORAGE_DATA)
+        self.model.insertRows(len(self.TEMP_TEMPLATE_STORAGE_DATA), 1)
+        self.trackerListView.setModel(self.model)
+
     def add_to_windowtitle(self):
         """ This will set the window title based on the custom marker set by the user """
 
-        self.setWindowTitle(' - '.join([self.sarah, TITLE]))
+        self.setWindowTitle(' - '.join([self.todays_marker, TITLE]))
 
     def window_modal(self, dialog):
         if dialog.exec_():  # this will show the dialog first
             # if the user hit 'Add' button, populate self.testTextEdit in BET
             # get any text inside the preview QTextEdit
-            # this will return HTML to superstar
-            superstar = dialog.templateTextEdit.toHtml()
-            self.add_to_tracker(dialog.trackerLineEdit.text())
-            self.add_to_storage(superstar)
-            self.check_if_append(superstar)
+            # this will return HTML to topstar
+            topstar = dialog.templateTextEdit.toHtml()
+            self.add_to_listview(dialog.trackerLineEdit.text())
+            self.add_to_storage(topstar)
+            self.check_if_append(topstar)
             self.add_to_windowtitle()
             # trying to add a status message in the main form
             self.status.showMessage("New Search template added", 6000)

@@ -1,6 +1,7 @@
 # User-defined models to be created here
 
 from PyQt5.QtCore import (Qt,
+                          QModelIndex,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
 
@@ -12,7 +13,7 @@ class TrackerListModel(QAbstractListModel):
         Accepts default date and time or 'User's marks'
     """
 
-    def __init__(self, trackerlist=[], parent=None):
+    def __init__(self, trackerlist, parent=None):
         super(TrackerListModel, self).__init__(parent)
         self.__trackerlist = trackerlist
 
@@ -23,12 +24,26 @@ class TrackerListModel(QAbstractListModel):
             value = self.__trackerlist[row]
             return value
 
+        if role == Qt.EditRole:
+            return self.__trackerlist[index.row()]
+
+    def setData(self, index, value, role=Qt.DisplayRole):
+        if role == Qt.EditRole:
+            row = index.row()
+            self.__trackerlist[row] = value
+            return True
+
     def flags(self, index):
-        return Qt.ItemIsEnabled | Qt.ItemIsEditable
+        return Qt.ItemIsEnabled | Qt.ItemIsEditable | Qt.ItemIsSelectable
 
     def rowCount(self, parent):
-        print(len(self.__trackerlist))
         return len(self.__trackerlist)
+
+    def insertRows(self, position, rows, parent = QModelIndex()):
+        self.beginInsertRows(parent, position, position + rows - 1)
+        # Still works!
+        self.endInsertRows()
+        return True
 
 
 class WorktypeListModel(QAbstractListModel):
