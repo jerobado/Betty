@@ -1,19 +1,20 @@
 **Keep a CHANGELOG**
-
-New features, functions, bug and hot fixes to be added here.
+All notable changes to this project will be documented on this file.
 
 **Patch 0.5** [Unreleased]
 
-Release date: 2016-09-01
+_Release date: 2016-09-01_
 
 * User Interface (UI)
-    * Added a title naming convention on the main window
+    * Added a title naming convention on the main window 
+	* Added an icon identifier in the Add new Template dialog box.
+	* Changed how the user interacts with the Tracker: A _clicked_ will retrieved the template and _double-clicked_ will edit the selected item on the list.
 * Filing
     * TMNC field now converts lowercase to uppercase
-
+    
 **Patch 0.4**
 
-Release date: 2016-07-01
+_Release date: 2016-07-01_
 
 * User Interface (UI)
     * Resize the main window to make it larger 
@@ -29,7 +30,7 @@ Release date: 2016-07-01
 
 **Patch 0.3**
 
-Release date: 2015-12-01
+_Release date: 2015-12-01_
 
 * User Interface (UI)
     * Added Template tracker
@@ -48,7 +49,7 @@ Release date: 2015-05-29
 
 **Patch 0.1**
 
-Date created: 2015-03-10
+_Date created: 2015-03-10_
 
 * Initial
     * Added everything here :)

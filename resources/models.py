@@ -4,6 +4,7 @@ from PyQt5.QtCore import (Qt,
                           QModelIndex,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
+from resources.constants import TEMP_DIALOG_INFO
 
 
 class TrackerListModel(QAbstractListModel):
@@ -23,6 +24,16 @@ class TrackerListModel(QAbstractListModel):
             row = index.row()
             value = self.__trackerlist[row]
             return value
+
+        if role == Qt.DecorationRole:
+            row = index.row()
+            icon_info = TEMP_DIALOG_INFO[row]
+
+            if icon_info == 'Filing':
+                return QIcon(':/file_32.png')
+
+            if icon_info == 'Searching':
+                return QIcon(':/magnify_32.png')
 
         if role == Qt.EditRole:
             return self.__trackerlist[index.row()]

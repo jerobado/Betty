@@ -15,7 +15,9 @@ from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QAction, QDockWidget, QListWidget,
                              QAbstractItemView, QMessageBox, QListView)
 from resources import bipc_resources   # Don't remove this!
-from resources.constants import ABOUT, TITLE
+from resources.constants import (ABOUT,
+                                 TITLE,
+                                 TEMP_DIALOG_INFO)
 from resources.models import TrackerListModel
 
 # Application settings variables
@@ -222,9 +224,6 @@ class BET(QMainWindow):
         """ Event handler for File > New """
 
         from src.dialogs.new import New
-
-        #logging.info("[BET]: Selecting new template")
-
         newWindow = New(self)
 
         if newWindow.exec_():
@@ -243,14 +242,16 @@ class BET(QMainWindow):
 
                 if filingDialog.exec_():  # this will show the dialog first
                     superstar = filingDialog.previewTextEdit.toHtml()
+                    TEMP_DIALOG_INFO.append('Filing')
                     self.add_to_storage(superstar)
                     self.add_to_listview(filingDialog.trackerLineEdit.text())
                     self.check_if_append(superstar)
                     self.add_to_windowtitle()
                     self.status.showMessage("New Filing template added", 6000)
+                    print('~_INFO:', TEMP_DIALOG_INFO)
             else:
-                #logging.warning("[BET]: Unusual, no template selected?")
                 pass
+
 
     # EVENT HANDLER: define it here
     def on_trackerListView_clicked(self):
@@ -323,12 +324,14 @@ class BET(QMainWindow):
             # get any text inside the preview QTextEdit
             # this will return HTML to topstar
             topstar = dialog.templateTextEdit.toHtml()
+            TEMP_DIALOG_INFO.append('Searching')
             self.add_to_listview(dialog.trackerLineEdit.text())
             self.add_to_storage(topstar)
             self.check_if_append(topstar)
             self.add_to_windowtitle()
             # trying to add a status message in the main form
             self.status.showMessage("New Search template added", 6000)
+            print('~_INFO:', TEMP_DIALOG_INFO)
 
     # TODO: this part here is terribly a bleeding one
     def non_modal(self, dialog):

@@ -14,6 +14,9 @@ from src.main import __author__, __version__
 APP = QApplication(sys.argv)
 LOGFILE = "log\log_sessions.log"
 
+# Use by main_window.py
+TEMP_DIALOG_INFO = []
+
 # Use by the two templates
 STYLE = """
     p {
