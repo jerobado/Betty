@@ -1,37 +1,44 @@
-"""
-    Outline of classes.
-    * BET(QMainWindow)
-        + New(QDialog) -> moved to dialogs/new.py
-    * Filing(QDialog) -> moved to dialogs/filing.py
-    * Search(QDialog) -> moved to dialogs/search.py
-"""
+# Project-BET > src > main_window.py
+# The main UI of Betty
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-#import logging
+from PyQt5.QtGui import (QIcon,
+                         QKeySequence)
 
-from PyQt5.QtCore import Qt, QDateTime, QSettings, QPoint, QSize
-from PyQt5.QtGui import QIcon, QKeySequence
-from PyQt5.QtWidgets import (QMainWindow, QLabel, QTextEdit, QAction, QDockWidget, QListWidget,
-                             QAbstractItemView, QMessageBox, QListView)
+from PyQt5.QtCore import (Qt,
+                          QDateTime,
+                          QSettings,
+                          QPoint,
+                          QSize)
+
+from PyQt5.QtWidgets import (QMainWindow,
+                             QLabel,
+                             QTextEdit,
+                             QAction,
+                             QDockWidget,
+                             QMessageBox,
+                             QListView)
+
 from resources import bipc_resources   # Don't remove this!
+
 from resources.constants import (ABOUT,
                                  TITLE,
                                  TEMP_DIALOG_INFO)
+
 from resources.models import TrackerListModel
 
 # Application settings variables
-APPEND = True   # default, any new template created will overwrite the previous one
+APPEND = True   # Default, any new template created will overwrite the previous one
 
 
 # Main window for our application
-class BET(QMainWindow):
+class Betty(QMainWindow):
 
-    def __init__(self, version, parent=None):
-        super(BET, self).__init__(parent)
+    def __init__(self, parent=None):
+        super(Betty, self).__init__(parent)
 
-        # resident variables
-        self.__version__ = version
+        # Resident variables
         self.todays_marker = ''
         self.TEMP_TEMPLATE_STORAGE_LIST = []    # template holder in HTML format
         self.TEMP_TEMPLATE_STORAGE_DATA = []    # tracker list holder
@@ -64,7 +71,6 @@ class BET(QMainWindow):
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowTitle(TITLE)
         self.setWindowIcon(QIcon(':/TOOLS.png'))
-        #self.setWindowIcon(QIcon('images/logo_128.png'))
 
     def _readSettings(self):
         settings = QSettings("GIPSC Core Team", "Betty")
@@ -81,14 +87,13 @@ class BET(QMainWindow):
     def _connections(self):
         """ Connect widget signals and slots """
 
-        #self.trackerListWidget.itemDoubleClicked.connect(self.on_trackerListWidget_itemDoubleClicked)
         self.trackerListView.clicked.connect(self.on_trackerListView_clicked)
         self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
         self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
 
     def _createActions(self):
 
-        # TODO: implement a good shortcut system when navigating your application
+        # TODO: implement a good shortcut system when navigating the application
         # Remember: when using QIcon, don't forget to update resources.qrc
         # Remember: when creating a QAction, it should have a parent
         # File menu: actions inside this menu
@@ -207,11 +212,7 @@ class BET(QMainWindow):
         self.tracker_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
 
         # Add widget to be inserted inside self.tracker_dock
-        #self.trackerListWidget = QListWidget()
-        #self.trackerListWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.trackerListView = QListView()
-        #self.trackerListView.setModel(TrackerListModel(self.TEMP_TEMPLATE_STORAGE_DATA))
-        #self.tracker_dock.setWidget(self.trackerListWidget)
         self.tracker_dock.setWidget(self.trackerListView)
         self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
 
@@ -223,35 +224,22 @@ class BET(QMainWindow):
     def on_newTemplate_action(self):
         """ Event handler for File > New """
 
-        from src.dialogs.new import New
-        newWindow = New(self)
+        from src.dialogs.new import New                     # Get the New dialog for template selection
+        newDialog = New(self)                               # Initialize
 
-        if newWindow.exec_():
-            index = newWindow.templateListView.currentIndex()
-            if index.row() == 1:    # Search (SIW)
-                # Show Search template
-                from src.dialogs.search import Search
-                searchDialog = Search(self)
-
-                #self.non_modal(searchDialog)
-                self.window_modal(searchDialog)
-            elif index.row() == 0:  # Filing
-                # Show filing template dialog here
-                from src.dialogs.filing import Filing
-                filingDialog = Filing(self)
-
-                if filingDialog.exec_():  # this will show the dialog first
-                    superstar = filingDialog.previewTextEdit.toHtml()
-                    TEMP_DIALOG_INFO.append('Filing')
-                    self.add_to_storage(superstar)
-                    self.add_to_listview(filingDialog.trackerLineEdit.text())
-                    self.check_if_append(superstar)
-                    self.add_to_windowtitle()
-                    self.status.showMessage("New Filing template added", 6000)
-                    print('~_INFO:', TEMP_DIALOG_INFO)
+        if newDialog.exec_():
+            index = newDialog.templateListView.currentIndex()
+            if index.row() == 0:                            # Filing
+                from src.dialogs.filing import Filing       # Get the Filing template dialog
+                superstar69 = Filing(self)                  # Sneaker manufactured by Adidas
+                self.window_modal(superstar69)              # Somehow modal dialogs works
+            elif index.row() == 1:                          # Search (SIW)
+                from src.dialogs.search import Search       # Get the Searching template dialog
+                topstar77 = Search(self)                    # Sneaker manufactured by Pony Int'l
+                self.window_modal(topstar77)                # Fire In Your New Shoes - Kaskade f/ Dragonette
             else:
-                pass
-
+                # Waiting for another template to be created
+                print('allstars17')
 
     # EVENT HANDLER: define it here
     def on_trackerListView_clicked(self):
@@ -261,77 +249,57 @@ class BET(QMainWindow):
         self.check_if_append(raw_template)
         self.setWindowTitle(' - '.join([self.TEMP_TEMPLATE_STORAGE_DATA[row], TITLE]))
 
-    def on_trackerListWidget_itemDoubleClicked(self):  # TODO: to be deleted
-        selected_template_html = self.TEMP_TEMPLATE_STORAGE_LIST[self.trackerListWidget.currentRow()]
-        self.check_if_append(selected_template_html)
-        self.setWindowTitle(' - '.join([self.trackerListWidget.currentItem().text(), TITLE]))
-
     # UTILITIES: functional task use by BET window
-    def check_if_append(self, sneakers):
+    def check_if_append(self, template):
+        """ Method for checking if 'Append Template' is activated by the user in the Menu bar """
 
-        # Check if Appending is activated
         if APPEND:
-            # Transmit the data to the main window overriding any text
-            self.testTextEdit.setHtml(sneakers)
+            # Transmit the html template into the editor overriding any text
+            self.testTextEdit.setHtml(template)
         else:
-            self.testTextEdit.append(sneakers)
-
-    def add_to_tracker(self, users_marker):  # TODO: to be deleted
-
-        self.sarah = users_marker
-        # Check if the user put something on the marker
-        if self.sarah:
-            # Populate the tracker widget
-            #self.trackerListWidget.addItem(self.sarah)
-            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.sarah)
-        else:
-            # Set the default market to current date and time
-            default_marker = QDateTime()
-            marker_of_the_day = default_marker.currentDateTime()
-            self.sarah = marker_of_the_day.toString('dd-MMM-yyyy hh:mm:ss')
-            #self.trackerListWidget.addItem(self.sarah)
-            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.sarah)
+            # Append the html template to the last line into the editor
+            self.testTextEdit.append(template)
 
     def add_to_storage(self, template):
-        # TODO: define a data model here
+        """ Method for storing generated templates """
 
         self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
 
     def add_to_listview(self, users_marker):
-        # TODO: so far so good
+        """ Method that will populate the Tracker list """
 
+        # Add the user defined marker in the Tracker
         if users_marker:
             self.todays_marker = users_marker
             self.TEMP_TEMPLATE_STORAGE_DATA.append(users_marker)
+
+        # Default marker is the current system Date & Time
         else:
-            # Set the default marker to current date and time
             datetime_marker = QDateTime()
             self.todays_marker = datetime_marker.currentDateTime().toString('dd-MMM-yyyy hh:mm:ss')
-            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.todays_marker)
+            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.todays_marker)      # Store the generated marker in temp list
 
-        print('~_DATA:', self.TEMP_TEMPLATE_STORAGE_DATA)
-        self.model.insertRows(len(self.TEMP_TEMPLATE_STORAGE_DATA), 1)
-        self.trackerListView.setModel(self.model)
+        self.model.insertRows(len(self.TEMP_TEMPLATE_STORAGE_DATA), 1)      # Re-insert the list in the model
+        self.trackerListView.setModel(self.model)                           # Update the model
 
     def add_to_windowtitle(self):
-        """ This will set the window title based on the custom marker set by the user """
+        """ Method that will set the window title based on the default (date & time) or user's marker """
 
         self.setWindowTitle(' - '.join([self.todays_marker, TITLE]))
 
     def window_modal(self, dialog):
-        if dialog.exec_():  # this will show the dialog first
-            # if the user hit 'Add' button, populate self.testTextEdit in BET
-            # get any text inside the preview QTextEdit
-            # this will return HTML to topstar
-            topstar = dialog.templateTextEdit.toHtml()
-            TEMP_DIALOG_INFO.append('Searching')
-            self.add_to_listview(dialog.trackerLineEdit.text())
-            self.add_to_storage(topstar)
-            self.check_if_append(topstar)
-            self.add_to_windowtitle()
-            # trying to add a status message in the main form
-            self.status.showMessage("New Search template added", 6000)
-            print('~_INFO:', TEMP_DIALOG_INFO)
+        """ Method that accepts a dialog object for viewing """
+
+        # Invoke the selected dialog
+        if dialog.exec_():
+            # Execute this statements if the user hits the 'Add' button
+            TEMP_DIALOG_INFO.append(dialog.dialog_info)                 # Storage for dialog information used
+            generated_template = dialog.previewTextEdit.toHtml()        # Retrieve any text this widget in html format
+            self.add_to_listview(dialog.trackerLineEdit.text())         # Populate the Tracker
+            self.add_to_storage(generated_template)                     # Populate the temporary storage
+            self.check_if_append(generated_template)                    # Appending?
+            self.add_to_windowtitle()                                   # Set the window title
+            self.status.showMessage('New {} template added'.format(dialog.dialog_info), 6000)
 
     # TODO: this part here is terribly a bleeding one
     def non_modal(self, dialog):
@@ -341,7 +309,7 @@ class BET(QMainWindow):
         # if the user hit 'Add' button, populate self.testTextEdit in BET
         # get any text inside the preview QTextEdit
         # this will return HTML to superstar
-        #superstar = dialog.templateTextEdit.toHtml()
+        #superstar = dialog.previewTextEdit.toHtml()
         print("non-modal: waiting")
         #self.add_to_tracker(dialog.trackerLineEdit.text())
         #self.add_to_storage(superstar)

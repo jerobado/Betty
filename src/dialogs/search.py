@@ -1,13 +1,32 @@
 # Betty > dialogs > search.py
 
-__author__ = 'Jero'
+from PyQt5.QtGui import (QTextDocument,
+                         QTextCharFormat,
+                         QIcon)
 
-#import logging
+from PyQt5.QtCore import (QDate,
+                          QStringListModel,
+                          Qt,
+                          QSettings,
+                          QSize,
+                          QPoint)
 
-from PyQt5.QtWidgets import (QLabel, QLineEdit, QPushButton, QComboBox, QCheckBox, QDateEdit, QTextEdit, QSpinBox,
-                             QGridLayout, QDialog, QHBoxLayout, QVBoxLayout, QGroupBox, QCalendarWidget, QCompleter)
-from PyQt5.QtGui import QTextDocument, QTextCharFormat, QIcon
-from PyQt5.QtCore import QDate, QStringListModel, Qt, QSettings, QSize, QPoint
+from PyQt5.QtWidgets import (QLabel,
+                             QLineEdit,
+                             QPushButton,
+                             QComboBox,
+                             QCheckBox,
+                             QDateEdit,
+                             QTextEdit,
+                             QSpinBox,
+                             QGridLayout,
+                             QDialog,
+                             QHBoxLayout,
+                             QVBoxLayout,
+                             QGroupBox,
+                             QCalendarWidget,
+                             QCompleter)
+
 from resources.constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
                                  ARTWORK_TOOLTIP,
@@ -28,6 +47,7 @@ class Search(QDialog):
         super(Search, self).__init__(parent)
 
         # resident variables
+        self.dialog_info = 'Searching'
         self.date_format = 'd MMM yyyy'
         self.due_date = QDate.currentDate()
         self.today = QDate.currentDate()
@@ -79,7 +99,7 @@ class Search(QDialog):
         self.with_imageCheckBox = QCheckBox("With Image")
         self.special_instructionLineEdit = QLineEdit()
         self.previewLabel = QLabel("Preview:")
-        self.templateTextEdit = QTextEdit()
+        self.previewTextEdit = QTextEdit()
         self.previewButton = QPushButton("Pr&eview")
         self.addButton = QPushButton("&Add")
         self.addButton.setEnabled(False)
@@ -120,7 +140,7 @@ class Search(QDialog):
         center.addLayout(label_combobox_HBoxLayout)
         center.addWidget(input_fieldsGroupBox)
         center.addWidget(self.previewLabel)
-        center.addWidget(self.templateTextEdit)
+        center.addWidget(self.previewTextEdit)
 
         # Layout buttons
         buttons = QHBoxLayout()
@@ -149,11 +169,11 @@ class Search(QDialog):
         self.special_instructionLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.with_artworkCheckBox.setToolTip(ARTWORK_TOOLTIP)
         self.with_imageCheckBox.setToolTip(IMAGE_TOOLTIP)
-        # You need this to style self.templateTextEdit
+        # You need this to style self.previewTextEdit
         style_document = QTextDocument()
         style_document.setDefaultStyleSheet(STYLE)
         # Apply style
-        self.templateTextEdit.setDocument(style_document)
+        self.previewTextEdit.setDocument(style_document)
         #self.setAttribute(Qt.WA_DeleteOnClose)
         #self.setWindowModality(Qt.NonModal)
 
@@ -280,16 +300,16 @@ class Search(QDialog):
 
 
         # Show output
-        self.templateTextEdit.setHtml(self.html.strip())
+        self.previewTextEdit.setHtml(self.html.strip())
 
         # Enable self.addButton
         self.addButton.setEnabled(True)
 
     def on_clearButton_clicked(self):
-        """ Event handler for clearing text inside self.special_instructionLineEdit and self.templateTextEdit """
+        """ Event handler for clearing text inside self.special_instructionLineEdit and self.previewTextEdit """
 
         self.special_instructionLineEdit.clear()
-        self.templateTextEdit.clear()
+        self.previewTextEdit.clear()
 
     # OVERRIDING: starts here
     def accept(self):

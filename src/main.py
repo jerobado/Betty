@@ -6,9 +6,6 @@
     Next release date (NRD): Sep 1, 2016 -v0.5
  """
 
-__author__ = 'GSMGBB'
-__version__ = '0.5'   # Current version, see NRD
-
 
 # TEST: just checking my PyQt version
 def check_version():
@@ -43,12 +40,11 @@ def icon_settings():
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 if __name__ == '__main__':
-    from src.main_window import BET
+    from src.main_window import Betty
     from resources.constants import APP
 
     #check_version()
-    #window = new.New()
-    window = BET(__version__)
-    icon_settings()
+    window = Betty()
     window.show()
+    icon_settings()
     APP.exec_()

@@ -6,11 +6,11 @@ All notable changes to this project will be documented on this file.
 _Release date: 2016-09-01_
 
 * User Interface (UI)
-    * Added a title naming convention on the main window 
+    * Added a naming convention on the main window's title bar. 
 	* Added an icon identifier in the Add new Template dialog box.
 	* Changed how the user interacts with the Tracker: A _clicked_ will retrieved the template and _double-clicked_ will edit the selected item on the list.
 * Filing
-    * TMNC field now converts lowercase to uppercase
+    * TMNC field now converts lowercase to uppercase.
     
 **Patch 0.4**
 

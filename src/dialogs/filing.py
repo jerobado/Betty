@@ -1,11 +1,24 @@
 # Betty > dialogs > filing.py
 
-#import logging
+from PyQt5.QtGui import (QTextDocument,
+                         QIcon)
 
-from PyQt5.QtWidgets import (QLabel, QLineEdit, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QComboBox,
-                             QTextEdit, QPushButton, QGroupBox)
-from PyQt5.QtGui import QTextDocument, QIcon
-from PyQt5.QtCore import QSettings, QPoint, QSize, Qt
+from PyQt5.QtCore import (QSettings,
+                          QPoint,
+                          QSize,
+                          Qt)
+
+from PyQt5.QtWidgets import (QLabel,
+                             QLineEdit,
+                             QDialog,
+                             QVBoxLayout,
+                             QHBoxLayout,
+                             QGridLayout,
+                             QComboBox,
+                             QTextEdit,
+                             QPushButton,
+                             QGroupBox)
+
 from resources.constants import (TYPE_TM,
                                  FILING,
                                  FILING_SPECIAL,
@@ -20,6 +33,7 @@ class Filing(QDialog):  # Main dialog for filing template
         super(Filing, self).__init__(parent)
 
         # resident variables
+        self.dialog_info = 'Filing'
         self.DEFAULT_SI = ''
 
         # resident functions

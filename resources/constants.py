@@ -1,16 +1,15 @@
-# Betty > resources > constants.py
+# Project-BET > resources > constants.py
 # Define global and constant variables here
 
-__author__ = 'Jero'
+__author__ = 'GSMGBB'
+__version__ = '0.5'
 
 import sys
 from string import Template
-
 from PyQt5.QtWidgets import QApplication
 
-from src.main import __author__, __version__
 
-# used by main.py
+# Used by main.py
 APP = QApplication(sys.argv)
 LOGFILE = "log\log_sessions.log"
 
@@ -46,7 +45,7 @@ UN_TAT = {
         analysis before then.</p></div>"""
 }
 
-# next is Google
+# Next is Google
 GOOGLE_TAT = {
     'Low/Medium': """
         <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
@@ -61,7 +60,7 @@ GOOGLE_DEFAULT = """
         <div><p>In determining your analysis, please note that we are only concerned with the ability to \
         <b><u>use</u></b> the mark, <b><u>not to register</u></b> the mark.</p></div>"""
 
-# next is GE
+# Next is GE
 GE_TAT = {
     'Low/Medium': """
         <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
@@ -75,7 +74,7 @@ GE_TAT = {
 SEARCH_SPECIAL = "<div><p><b>{}</b></p></div>"
 SEARCH_TEMPLATE = Template("$default $special $artwork $TAT $image")
 
-# used by dialogs/filing.py
+# Used by dialogs/filing.py
 TYPE_TM = ['Advertising Strip',
            'Arabic Characters',
            'Bengali Characters',
@@ -161,7 +160,7 @@ FILING = """
 FILING_SPECIAL = "<p><b>{0}</b></p>"
 FILING_TEMPLATE = Template("$default $special $filing")
 
-# use by main_window.py
+# Use by main_window.py
 ABOUT = """
         <div>
             <b>Betty {0}</b>

@@ -1,3 +1,4 @@
+# Project-BET > resources > models.py
 # User-defined models to be created here
 
 from PyQt5.QtCore import (Qt,
