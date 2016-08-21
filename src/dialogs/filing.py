@@ -27,13 +27,13 @@ from resources.constants import (TYPE_TM,
                                  GE_DEFAULT)
 
 
-class Filing(QDialog):  # Main dialog for filing template
+class Filing(QDialog):
+    """ Main dialog for the Filing template form """
 
     def __init__(self, parent=None):
         super(Filing, self).__init__(parent)
 
         # resident variables
-        self.dialog_info = 'Filing'
         self.DEFAULT_SI = ''
 
         # resident functions
@@ -139,11 +139,15 @@ class Filing(QDialog):  # Main dialog for filing template
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
 
+    def dialog_info(self):
+        """ Dialog information identifier """
+
+        return 'Filing'
+
     # EVENT HANDLER starts here
     def on_clientComboBox_activated(self):
         """" Event handler for the client dropdown list """
 
-        #logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
         if self.clientComboBox.currentText() == 'GE':
             self.DEFAULT_SI = GE_DEFAULT
         elif self.clientComboBox.currentText() == 'Unilever':
@@ -179,14 +183,11 @@ class Filing(QDialog):  # Main dialog for filing template
         # Enable self.addButton
         self.addButton.setEnabled(True)
 
-        #logging.info("[BET]: Preview button clicked under Filing form")
-
     # OVERRIDING: starts here
     def accept(self):
 
         self._writeSettings()
         self.done(1)
-        #logging.info("[BET]: New Filing template added")
 
     def keyPressEvent(self, event):
 

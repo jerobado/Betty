@@ -1,7 +1,5 @@
 # Betty > dialogs > new.py
 
-#import logging
-
 from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
                              QGridLayout,
@@ -12,13 +10,10 @@ from PyQt5.QtWidgets import (QLabel,
 from PyQt5.QtCore import (QSettings,
                           QPoint,
                           QSize,
-                          Qt,
-                          QAbstractListModel)
+                          Qt,)
 from PyQt5.QtGui import QIcon
 from resources.constants import WORKTYPE
 from resources.models import WorktypeListModel
-
-__author__ = 'Jero'
 
 
 # Dialogs starts here...
@@ -43,6 +38,9 @@ class New(QDialog):
         # VIEW: use QListView
         self.templateListView = QListView()
         self.templateListView.setModel(model)
+        #x = model.index()
+        #print(x)
+        #self.templateListView.setCurrentIndex()
 
         self.createPushButton = QPushButton("&Create")
         self.cancelPushButton = QPushButton("C&ancel")
@@ -90,21 +88,30 @@ class New(QDialog):
         settings.setValue("size", self.size())
 
     def on_templateListView_doubleClicked(self):
+
+        # TODO: this block of line here is not being use!
+        print('rock \'n roll')
         raw_data = self.templateListView.currentIndex()
         row = raw_data.row()
-        print(WORKTYPE[row])
+        print(WORKTYPE[row], row)
 
     def accept(self):
 
         self._writeSettings()
         self.done(1)
-        #logging.info("[BET]: Template selection accepted")
 
     def keyPressEvent(self, event):
 
         if event.key() == Qt.Key_Escape:
             self._writeSettings()
             self.close()
+            print('closing')
+
+        if event.key() == Qt.Key_Enter:
+            print('rock \'n roll!')
+
+        if event.key() == Qt.Key_Return:
+            print('rock \'n roll to the world! \\m/')
 
     def reject(self):
 

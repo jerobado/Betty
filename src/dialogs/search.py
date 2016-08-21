@@ -47,7 +47,6 @@ class Search(QDialog):
         super(Search, self).__init__(parent)
 
         # resident variables
-        self.dialog_info = 'Searching'
         self.date_format = 'd MMM yyyy'
         self.due_date = QDate.currentDate()
         self.today = QDate.currentDate()
@@ -188,6 +187,7 @@ class Search(QDialog):
         self.setWindowIcon(QIcon(':/magnify_32.png'))
 
     def _readSettings(self):
+
         settings = QSettings("SEARCHING", "search_dialog")
         position = settings.value("position", QPoint(200, 200))
         size = settings.value("size", QSize(410, 550))
@@ -195,6 +195,7 @@ class Search(QDialog):
         self.resize(size)
 
     def _writeSettings(self):
+
         settings = QSettings("SEARCHING", "search_dialog")
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
@@ -223,6 +224,11 @@ class Search(QDialog):
         # Get any selected date when the user uses the calendar
         self.due_date = self.due_dateDateEdit.date()
         return self.due_date
+
+    def dialog_info(self):
+        """ Dialog information identifier """
+
+        return 'Searching'
 
     # EVENT HANDLING starts here...
     def on_clientComboBox_activated(self):
@@ -298,7 +304,6 @@ class Search(QDialog):
                                                TAT=self.selected_TAT.format(self.due_date.toString(self.date_format)),
                                                image=self.image)
 
-
         # Show output
         self.previewTextEdit.setHtml(self.html.strip())
 
@@ -313,9 +318,9 @@ class Search(QDialog):
 
     # OVERRIDING: starts here
     def accept(self):
+
         self._writeSettings()
         self.done(1)
-        #logging.info("[BET]: New Search template added, writing last known settings")
 
     def keyPressEvent(self, event):
 
@@ -324,5 +329,5 @@ class Search(QDialog):
             self.close()
 
     def closeEvent(self, event):
-        #logging.info("[BET]: Searching (SIW) Template Form was closed. Writing last known settings.")
+
         self._writeSettings()
