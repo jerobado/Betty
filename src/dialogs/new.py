@@ -38,9 +38,7 @@ class New(QDialog):
         # VIEW: use QListView
         self.templateListView = QListView()
         self.templateListView.setModel(model)
-        #x = model.index()
-        #print(x)
-        #self.templateListView.setCurrentIndex()
+        self.templateListView.setCurrentIndex(model.index(0, 0))    # Set 'Filing' as selected
 
         self.createPushButton = QPushButton("&Create")
         self.cancelPushButton = QPushButton("C&ancel")
@@ -87,14 +85,6 @@ class New(QDialog):
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
 
-    def on_templateListView_doubleClicked(self):
-
-        # TODO: this block of line here is not being use!
-        print('rock \'n roll')
-        raw_data = self.templateListView.currentIndex()
-        row = raw_data.row()
-        print(WORKTYPE[row], row)
-
     def accept(self):
 
         self._writeSettings()
@@ -105,13 +95,14 @@ class New(QDialog):
         if event.key() == Qt.Key_Escape:
             self._writeSettings()
             self.close()
-            print('closing')
-
-        if event.key() == Qt.Key_Enter:
-            print('rock \'n roll!')
 
         if event.key() == Qt.Key_Return:
-            print('rock \'n roll to the world! \\m/')
+            self._writeSettings()
+            self.done(1)
+
+        if event.key() == Qt.Key_Enter:
+            self._writeSettings()
+            self.done(1)
 
     def reject(self):
 

@@ -84,18 +84,18 @@ class Filing(QDialog):
         grid.addWidget(self.special_instructionsLabel, 2, 0)
         grid.addWidget(self.special_instructionsLineEdit, 2, 1)
 
-        # input widgets inside the QGroupBox
+        # Input widgets inside the QGroupBox
         input_group = QGroupBox("Set Criteria")
         input_group.setLayout(grid)
 
-        # arrange the buttons horizontally
+        # Arrange the buttons horizontally
         buttons = QHBoxLayout()
         buttons.addStretch()
         buttons.addWidget(self.previewButton)
         buttons.addWidget(self.addButton)
         buttons.addWidget(self.clearButton)
 
-        # set everything vertically
+        # Set everything vertically
         vertical = QVBoxLayout()
         vertical.addLayout(tracker_layout)
         vertical.addWidget(input_group)
@@ -103,7 +103,7 @@ class Filing(QDialog):
         vertical.addWidget(self.previewTextEdit)
         vertical.addLayout(buttons)
 
-        # now let your parent arrange everything for you
+        # Now let your parent arrange everything for you
         self.setLayout(vertical)
 
     def _properties(self):
@@ -113,10 +113,8 @@ class Filing(QDialog):
         font_style = QTextDocument()
         font_style.setDefaultStyleSheet(STYLE)
         self.previewTextEdit.setDocument(font_style)
-        #self.resize(410, 550)  # width, height
         self.setWindowIcon(QIcon(':/file_32.png'))
         self.setWindowTitle("Filing Template Form")
-
 
     def _connections(self):
 
