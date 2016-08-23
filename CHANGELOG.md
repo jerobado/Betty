@@ -5,9 +5,12 @@ All notable changes to this project will be documented on this file.
 
 _Release date: 2016-09-01_
 
+* Fixed
+    * Fixed an issue in the 'Add new Template' dialog wherein the _Return_ and _Enter_ keys does not accept when pressed.
 * User Interface (UI)
     * Added a naming convention on the main window's title bar. 
-	* Added an icon identifier in the Add new Template dialog box.
+	* Added an icon identifier in the _Add new Template_ dialog box.
+	* Added an icon identifier in the _Tracker_.
 	* Changed how the user interacts with the Tracker: A _clicked_ will retrieved the template and _double-clicked_ will edit the selected item on the list.
 * Filing
     * TMNC field now converts lowercase to uppercase.
