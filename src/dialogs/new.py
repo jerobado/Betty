@@ -1,7 +1,5 @@
 # Betty > dialogs > new.py
 
-#import logging
-
 from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
                              QGridLayout,
@@ -12,13 +10,10 @@ from PyQt5.QtWidgets import (QLabel,
 from PyQt5.QtCore import (QSettings,
                           QPoint,
                           QSize,
-                          Qt,
-                          QAbstractListModel)
+                          Qt,)
 from PyQt5.QtGui import QIcon
 from resources.constants import WORKTYPE
 from resources.models import WorktypeListModel
-
-__author__ = 'Jero'
 
 
 # Dialogs starts here...
@@ -43,6 +38,7 @@ class New(QDialog):
         # VIEW: use QListView
         self.templateListView = QListView()
         self.templateListView.setModel(model)
+        self.templateListView.setCurrentIndex(model.index(0, 0))    # Set 'Filing' as selected
 
         self.createPushButton = QPushButton("&Create")
         self.cancelPushButton = QPushButton("C&ancel")
@@ -89,22 +85,24 @@ class New(QDialog):
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
 
-    def on_templateListView_doubleClicked(self):
-        raw_data = self.templateListView.currentIndex()
-        row = raw_data.row()
-        print(WORKTYPE[row])
-
     def accept(self):
 
         self._writeSettings()
         self.done(1)
-        #logging.info("[BET]: Template selection accepted")
 
     def keyPressEvent(self, event):
 
         if event.key() == Qt.Key_Escape:
             self._writeSettings()
             self.close()
+
+        if event.key() == Qt.Key_Return:
+            self._writeSettings()
+            self.done(1)
+
+        if event.key() == Qt.Key_Enter:
+            self._writeSettings()
+            self.done(1)
 
     def reject(self):
 

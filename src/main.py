@@ -7,8 +7,8 @@
  """
 
 
-# TEST: just checking my PyQt version
 def check_version():
+    """ Dummy function for checking my tools current version """
 
     import sys
     import logging
@@ -27,8 +27,8 @@ def check_version():
     logging.info("[BET]: SIP version {}".format(SIP_VERSION_STR))
 
 
-# For showing the icon in the taskbar
 def icon_settings():
+    """ Simple line I found on the Net to show the icon in the taskbar. """
 
     import ctypes
     APP_ID = u'bakermckenzie.gipsc.betty.05'

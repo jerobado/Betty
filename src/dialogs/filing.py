@@ -27,13 +27,13 @@ from resources.constants import (TYPE_TM,
                                  GE_DEFAULT)
 
 
-class Filing(QDialog):  # Main dialog for filing template
+class Filing(QDialog):
+    """ Main dialog for the Filing template form """
 
     def __init__(self, parent=None):
         super(Filing, self).__init__(parent)
 
         # resident variables
-        self.dialog_info = 'Filing'
         self.DEFAULT_SI = ''
 
         # resident functions
@@ -84,18 +84,18 @@ class Filing(QDialog):  # Main dialog for filing template
         grid.addWidget(self.special_instructionsLabel, 2, 0)
         grid.addWidget(self.special_instructionsLineEdit, 2, 1)
 
-        # input widgets inside the QGroupBox
+        # Input widgets inside the QGroupBox
         input_group = QGroupBox("Set Criteria")
         input_group.setLayout(grid)
 
-        # arrange the buttons horizontally
+        # Arrange the buttons horizontally
         buttons = QHBoxLayout()
         buttons.addStretch()
         buttons.addWidget(self.previewButton)
         buttons.addWidget(self.addButton)
         buttons.addWidget(self.clearButton)
 
-        # set everything vertically
+        # Set everything vertically
         vertical = QVBoxLayout()
         vertical.addLayout(tracker_layout)
         vertical.addWidget(input_group)
@@ -103,7 +103,7 @@ class Filing(QDialog):  # Main dialog for filing template
         vertical.addWidget(self.previewTextEdit)
         vertical.addLayout(buttons)
 
-        # now let your parent arrange everything for you
+        # Now let your parent arrange everything for you
         self.setLayout(vertical)
 
     def _properties(self):
@@ -113,10 +113,8 @@ class Filing(QDialog):  # Main dialog for filing template
         font_style = QTextDocument()
         font_style.setDefaultStyleSheet(STYLE)
         self.previewTextEdit.setDocument(font_style)
-        #self.resize(410, 550)  # width, height
         self.setWindowIcon(QIcon(':/file_32.png'))
         self.setWindowTitle("Filing Template Form")
-
 
     def _connections(self):
 
@@ -139,11 +137,15 @@ class Filing(QDialog):  # Main dialog for filing template
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
 
+    def dialog_info(self):
+        """ Dialog information identifier """
+
+        return 'Filing'
+
     # EVENT HANDLER starts here
     def on_clientComboBox_activated(self):
         """" Event handler for the client dropdown list """
 
-        #logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
         if self.clientComboBox.currentText() == 'GE':
             self.DEFAULT_SI = GE_DEFAULT
         elif self.clientComboBox.currentText() == 'Unilever':
@@ -179,14 +181,11 @@ class Filing(QDialog):  # Main dialog for filing template
         # Enable self.addButton
         self.addButton.setEnabled(True)
 
-        #logging.info("[BET]: Preview button clicked under Filing form")
-
     # OVERRIDING: starts here
     def accept(self):
 
         self._writeSettings()
         self.done(1)
-        #logging.info("[BET]: New Filing template added")
 
     def keyPressEvent(self, event):
 
