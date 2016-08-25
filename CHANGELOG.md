@@ -1,4 +1,5 @@
-**Keep a CHANGELOG**
+CHANGELOG
+---------
 All notable changes to this project will be documented on this file.
 
 **Patch 0.5** [Unreleased]
@@ -6,7 +7,7 @@ All notable changes to this project will be documented on this file.
 _Release date: 2016-09-01_
 
 * Fixed
-    * Fixed an issue in the 'Add new Template' dialog wherein the _Return_ and _Enter_ keys does not accept when pressed.
+    * Fixed an issue in the 'Add new Template' dialog wherein the _Return_ and _Enter_ keys are not accepted when pressed.
 * User Interface (UI)
     * Added a naming convention on the main window's title bar. 
 	* Added an icon identifier in the _Add new Template_ dialog box.
@@ -14,7 +15,10 @@ _Release date: 2016-09-01_
 	* Changed how the user interacts with the Tracker: A _clicked_ will retrieved the template and _double-clicked_ will edit the selected item on the list.
 * Filing
     * TMNC field now converts lowercase to uppercase.
+* Searching
+    * Added _Abbott_ as new client in Searching form.
     
+
 **Patch 0.4**
 
 _Release date: 2016-07-01_
@@ -31,6 +35,7 @@ _Release date: 2016-07-01_
     * Added default special instruction in Google
     * Formatted the special instruction _"Artwork attached to illustrate..."_ into Bold 
 
+
 **Patch 0.3**
 
 _Release date: 2015-12-01_
@@ -43,12 +48,14 @@ _Release date: 2015-12-01_
 * Searching
     * Added Marker field for tracking purposes
 
+
 **Patch 0.2**
 
 Release date: 2015-05-29
 
 * Searching
     * Added Searching template/form
+
 
 **Patch 0.1**
 
