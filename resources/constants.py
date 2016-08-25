@@ -34,6 +34,18 @@ ARTWORK_TOOLTIP = """Artwork attached to illustrate how the mark will appear on 
                 is just an artwork."""
 IMAGE_TOOLTIP = "The trade mark to be searched is as shown in the attached image file."
 
+# Next is Abbott
+ABBOTT_TAT = {
+    'Low/Medium': """
+        <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis on the next business day.</p></div>""",
+    'Critical': """
+        <div><p><b>DEADLINE: EXPEDITED, {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
+        If the due date falls on a weekend, holiday or non-working day, please send us your search \
+        analysis on the next business day.</p></div>"""
+}
+
 UN_TAT = {
     'Low/Medium': """
         <div><p><b>DEADLINE: {}.</b> Please provide your search report ON or BEFORE the specified deadline. \
@@ -71,6 +83,7 @@ GE_TAT = {
         If the due date falls on a weekend, holiday or non-working day, please send us your search \
         analysis on the next business day.</p></div>"""
 }
+
 SEARCH_SPECIAL = "<div><p><b>{}</b></p></div>"
 SEARCH_TEMPLATE = Template("$default $special $artwork $TAT $image")
 

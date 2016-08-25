@@ -35,6 +35,7 @@ from resources.constants import (SEARCH_SPECIAL,
                                  WITH_IMAGE,
                                  GOOGLE_DEFAULT,
                                  GOOGLE_TAT,
+                                 ABBOTT_TAT,
                                  UN_TAT,
                                  GE_TAT,
                                  STYLE)
@@ -78,9 +79,10 @@ class Search(QDialog):
         self.clientLabel = QLabel("Client:")
         self.clientComboBox = QComboBox()
         # TODO: you need a freaking list to hold your growing clients :)
-        self.clientComboBox.insertItem(0, "GE")
-        self.clientComboBox.insertItem(1, "Google")
-        self.clientComboBox.insertItem(2, "Unilever")
+        self.clientComboBox.insertItem(0, "Abbott")
+        self.clientComboBox.insertItem(1, "GE")
+        self.clientComboBox.insertItem(2, "Google")
+        self.clientComboBox.insertItem(3, "Unilever")
         self.clientComboBox.setCurrentText("Unilever")
         self.due_dateLabel = QLabel("Due Date:")
         self.importanceLabel = QLabel("Select Importance:")
@@ -235,23 +237,24 @@ class Search(QDialog):
         """ Event handler for self.clientComboBox """
 
         #logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
+        # TODO: Ok, you see a pattern here. You know what to do with this un-pythonic block of conditions!
         if self.clientComboBox.currentText() == 'GE':
-            #logging.info("[BET]: GE_TAT")
             self.DEFAULT_SI = ""
             self.client_TAT = GE_TAT
             self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Google':
-            #logging.info("[BET]: GOOGLE_TAT")
             self.DEFAULT_SI = GOOGLE_DEFAULT
             self.client_TAT = GOOGLE_TAT
             self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
         elif self.clientComboBox.currentText() == 'Unilever':
-            #logging.info("[BET]: UN_TAT")
             self.DEFAULT_SI = ""
             self.client_TAT = UN_TAT
             self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
+        elif self.clientComboBox.currentText() == 'Abbott':
+            self.DEFAULT_SI = ""
+            self.client_TAT = ABBOTT_TAT
+            self.selected_TAT = ABBOTT_TAT[self.importanceComboBox.currentText()]
         else:
-            #logging.info("#edw")
             pass
 
     def on_importanceComboBox_activated(self):
