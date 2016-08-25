@@ -17,6 +17,7 @@ _Release date: 2016-09-01_
     * TMNC field now converts lowercase to uppercase.
 * Searching
     * Added _Abbott_ as new client in Searching form.
+    * Updated the _With Artwork_ phrase to correspond to the process update.
     
 
 **Patch 0.4**

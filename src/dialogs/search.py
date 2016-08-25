@@ -236,7 +236,6 @@ class Search(QDialog):
     def on_clientComboBox_activated(self):
         """ Event handler for self.clientComboBox """
 
-        #logging.info("[BET]: You selected {}".format(self.clientComboBox.currentText()))
         # TODO: Ok, you see a pattern here. You know what to do with this un-pythonic block of conditions!
         if self.clientComboBox.currentText() == 'GE':
             self.DEFAULT_SI = ""

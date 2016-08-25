@@ -25,14 +25,16 @@ STYLE = """
     """
 
 # used by dialogs/search.py
-WITH_ARTWORK = "<div><p><b>Artwork attached to illustrate how the mark will appear on pack.</b></p></div>"
+WITH_ARTWORK = "<div><p><b>Please refer to the attached image which illustrates how the mark will appear on the \
+               [pack/label].</b></p></div>"
 WITH_IMAGE = "<div><p>The trade mark to be searched is as shown in the attached image file.</p></div>"
 
 # TOOLTIPS
-ARTWORK_TOOLTIP = """Artwork attached to illustrate how the mark will appear on pack.<br> \
-                Always verify with the sender if the image provided is the actual image to be searched or the image \
-                is just an artwork."""
-IMAGE_TOOLTIP = "The trade mark to be searched is as shown in the attached image file."
+ARTWORK_TOOLTIP = "<b>Please refer to the attached image which illustrates how the mark will appear on the \
+                [pack/label].</b><br><br> \
+                <i>Always verify with the sender if the image provided is the actual image to be searched or the image \
+                is just an artwork.</i>"
+IMAGE_TOOLTIP = "<b>The trade mark to be searched is as shown in the attached image file.</b>"
 
 # Next is Abbott
 ABBOTT_TAT = {
