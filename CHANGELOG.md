@@ -7,17 +7,17 @@ All notable changes to this project will be documented on this file.
 _Release date: 2016-09-01_
 
 * Fixed
-    * Fixed an issue in the 'Add new Template' dialog wherein the _Return_ and _Enter_ keys are not accepted when pressed.
+    * Fixed an issue in the _Add new Template_ dialog wherein the `Return` and `Enter` keys are not accepted when pressed.
 * User Interface (UI)
     * Added a naming convention on the main window's title bar. 
 	* Added an icon identifier in the _Add new Template_ dialog box.
 	* Added an icon identifier in the _Tracker_.
-	* Changed how the user interacts with the Tracker: A _clicked_ will retrieved the template and _double-clicked_ will edit the selected item on the list.
+	* Changed how the user interacts with the _Tracker_: A **clicked** will retrieve the template and **double-clicked** will now edit the selected item on the list.
 * Filing
-    * TMNC field now converts lowercase to uppercase.
+    * Lowercase characters entered in the _TMNC_ field are now converted into uppercase in the _Preview_ box.
 * Searching
     * Added _Abbott_ as new client in Searching form.
-    * Updated the _With Artwork_ phrase to correspond to the process update.
+    * Updated the _With Artwork_ special instruction as per process update.
     
 
 **Patch 0.4**

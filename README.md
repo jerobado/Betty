@@ -1,6 +1,6 @@
 ![Hey! Betty](images/logo_32.png) Betty
 ---------------------------------------
-An application that can be use alongside BIPC for creating workplan. The main goal of _Betty_ is to provide rapid creation of special instruction templates that adheres to the standard process use by the Core Team. Implemented exclusively on Python (back end) and PyQt (GUI).
+An application that can be use alongside BIPC for creating workplan. The main goal of _Betty_ is to provide rapid creation of special instruction templates that adheres to the standard process use by the Core Team. Implemented exclusively on Python (backend) and PyQt (GUI).
 
 Developing and Contributing
 ---------------------------
@@ -15,6 +15,4 @@ All of these tools can be can be downloaded [here](https://sourceforge.net/proje
 
 Licensing
 ---------
-_Betty_ has no license yet (still looking for a legal adviser regarding this matter).
-
-    
+_Betty_ has no license yet (still looking for a good advice regarding this matter).
