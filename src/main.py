@@ -3,7 +3,7 @@
     Interface: GUI (PyQt5)
     Language: Python 3.4.4
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Sep 1, 2016 -v0.5
+    Next release date (NRD): Dec 1, 2016 -v0.6
  """
 
 
@@ -34,7 +34,7 @@ def icon_settings():
     """ Simple line I found on the Net to show the icon in the taskbar. """
 
     import ctypes
-    APP_ID = u'bakermckenzie.gipsc.betty.05'
+    APP_ID = u'bakermckenzie.gipsc.betty.06'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 if __name__ == '__main__':
