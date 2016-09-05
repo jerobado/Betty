@@ -19,7 +19,7 @@ from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
                              QGroupBox)
 
-from resources.constants import (TYPE_TM,
+from resources._constants import (TYPE_TM,
                                  FILING,
                                  FILING_SPECIAL,
                                  FILING_TEMPLATE,

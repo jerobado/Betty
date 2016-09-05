@@ -27,7 +27,7 @@ from PyQt5.QtWidgets import (QLabel,
                              QCalendarWidget,
                              QCompleter)
 
-from resources.constants import (SEARCH_SPECIAL,
+from resources._constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
                                  ARTWORK_TOOLTIP,
                                  IMAGE_TOOLTIP,

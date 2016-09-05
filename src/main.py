@@ -17,7 +17,7 @@ def check_version():
     from PyQt5.Qt import PYQT_VERSION_STR
     from sip import SIP_VERSION_STR
 
-    from resources.constants import __version__
+    from resources._constants import __version__
 
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(message)s',
@@ -39,7 +39,7 @@ def icon_settings():
 
 if __name__ == '__main__':
     from src.main_window import Betty
-    from resources.constants import APP
+    from resources._constants import APP
 
     check_version()
     icon_settings()

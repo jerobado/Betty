@@ -22,7 +22,7 @@ from PyQt5.QtWidgets import (QMainWindow,
 
 from resources import bipc_resources   # Don't remove this!
 
-from resources.constants import (ABOUT,
+from resources._constants import (ABOUT,
                                  TITLE,
                                  TEMP_DIALOG_INFO)
 
@@ -37,7 +37,7 @@ class Betty(QMainWindow):
 
     def __init__(self, parent=None):
 
-        super(Betty, self).__init__(parent)
+        super().__init__(parent)
 
         # Resident variables
         self.todays_marker = ''

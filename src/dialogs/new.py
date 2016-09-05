@@ -12,7 +12,7 @@ from PyQt5.QtCore import (QSettings,
                           QSize,
                           Qt,)
 from PyQt5.QtGui import QIcon
-from resources.constants import WORKTYPE
+from resources._constants import WORKTYPE
 from resources.models import WorktypeListModel
 
 

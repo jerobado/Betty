@@ -5,7 +5,7 @@ from PyQt5.QtCore import (Qt,
                           QModelIndex,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
-from resources.constants import TEMP_DIALOG_INFO
+from resources._constants import TEMP_DIALOG_INFO
 
 
 class TrackerListModel(QAbstractListModel):
