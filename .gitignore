@@ -52,5 +52,5 @@ dialogs/__pycache__/
 log/
 resources/__pycache__/
 /_gitcheats.txt
-/resources/constants.py
+/resources/_constants.py
 /resources/_constants.py

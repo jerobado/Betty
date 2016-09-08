@@ -62,7 +62,7 @@ class WorktypeListModel(QAbstractListModel):
     """
         A model for holding the worktypes usually done by the Core team.
 
-        Accepts WORKTYPE from constants.py
+        Accepts WORKTYPE from _constants.py
     """
 
     def __init__(self, worktypes, parent=None):
