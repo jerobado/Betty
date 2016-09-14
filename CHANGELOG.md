@@ -2,7 +2,17 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
-**Patch 0.5** [Unreleased]
+**Patch 0.6** [Unreleased]
+_Release date: 2016-12-01_
+
+* Filing
+    * TODO -> add an _Intent to Use_ checkbox
+    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group
+* Searching
+    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group
+
+
+**Patch 0.5**
 
 _Release date: 2016-09-01_
 
