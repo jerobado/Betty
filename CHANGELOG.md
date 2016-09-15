@@ -7,9 +7,9 @@ _Release date: 2016-12-01_
 
 * Filing
     * TODO -> add an _Intent to Use_ checkbox
-    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group
+    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group `TEST-06`
 * Searching
-    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group
+    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group `TEST-07`
 
 
 **Patch 0.5**

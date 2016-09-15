@@ -118,8 +118,13 @@ class Filing(QDialog):
 
     def _connections(self):
 
-        self.clientComboBox.activated.connect(self.on_clientComboBox_activated)
-        self.previewButton.clicked.connect(self.on_previewButton_clicked)
+        #self.clientComboBox.activated.connect(self.on_clientComboBox_activated)
+        self.clientComboBox.currentIndexChanged.connect(self.on_clientComboBox_activated)
+        self.clientComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
+        self.TMNCLineEdit.textChanged.connect(self.on_SetCriteria_changed)
+        self.ToTMComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
+        self.special_instructionsLineEdit.textChanged.connect(self.on_SetCriteria_changed)
+        #self.previewButton.clicked.connect(self.on_previewButton_clicked)
         self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
@@ -152,6 +157,25 @@ class Filing(QDialog):
             self.DEFAULT_SI = ""
         else:
             print("#edw")
+
+    def on_SetCriteria_changed(self):
+
+        # Get user's input
+        tmnc_trademark = self.TMNCLineEdit.text()
+        type_trademark = self.ToTMComboBox.currentText()
+        filing_special = self.special_instructionsLineEdit.text()
+
+        # Check TMNC if not in uppercase
+        if not tmnc_trademark.isupper():
+            tmnc_trademark = str.upper(self.TMNCLineEdit.text())
+
+        # Consolidate user's input
+        html = FILING_TEMPLATE.substitute(default=self.DEFAULT_SI,
+                                          special=FILING_SPECIAL.format(filing_special),
+                                          filing=FILING.format(type_trademark, tmnc_trademark))
+
+        # Show result
+        self.previewTextEdit.setHtml(html)
 
     def on_clearButton_clicked(self):
 
