@@ -41,7 +41,8 @@ class Filing(QDialog):
         self._layout()
         self._properties()
         self._connections()
-        self._readSettings()    # read current state of this dialog
+        self._readSettings()            # read current state of this dialog
+        self.on_SetCriteria_changed()   # this works but not pleasing
 
     def _widgets(self):
 
@@ -53,7 +54,7 @@ class Filing(QDialog):
         self.clientComboBox.insertItem(1, "Unilever")
         self.clientComboBox.setCurrentText("Unilever")
         self.TMNCLabel = QLabel("TMNC:")
-        self.ToTMLabel = QLabel("Type of Trade Mark:")
+        self.ToTMLabel = QLabel("Type of Trademark:")
         self.special_instructionsLabel = QLabel("Special Instructions:")
         self.previewLabel = QLabel("Preview:")
         self.TMNCLineEdit = QLineEdit()
@@ -63,10 +64,9 @@ class Filing(QDialog):
         self.special_instructionsLineEdit = QLineEdit()
         self.special_instructionsLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.previewTextEdit = QTextEdit()
-        self.previewButton = QPushButton("Pr&eview")
+        self.copyallButton = QPushButton("&Copy All")
         self.addButton = QPushButton("&Add")
-        self.addButton.setEnabled(False)
-        self.clearButton = QPushButton("&Clear")
+        self.clearButton = QPushButton("Cl&ear")
 
     def _layout(self):
 
@@ -91,7 +91,7 @@ class Filing(QDialog):
         # Arrange the buttons horizontally
         buttons = QHBoxLayout()
         buttons.addStretch()
-        buttons.addWidget(self.previewButton)
+        buttons.addWidget(self.copyallButton)
         buttons.addWidget(self.addButton)
         buttons.addWidget(self.clearButton)
 
@@ -118,13 +118,12 @@ class Filing(QDialog):
 
     def _connections(self):
 
-        #self.clientComboBox.activated.connect(self.on_clientComboBox_activated)
         self.clientComboBox.currentIndexChanged.connect(self.on_clientComboBox_activated)
         self.clientComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
         self.TMNCLineEdit.textChanged.connect(self.on_SetCriteria_changed)
         self.ToTMComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
         self.special_instructionsLineEdit.textChanged.connect(self.on_SetCriteria_changed)
-        #self.previewButton.clicked.connect(self.on_previewButton_clicked)
+        self.copyallButton.clicked.connect(self.on_copyallButton_clicked)
         self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
@@ -181,29 +180,11 @@ class Filing(QDialog):
 
         self.TMNCLineEdit.clear()
         self.special_instructionsLineEdit.clear()
-        self.previewTextEdit.clear()
 
-    def on_previewButton_clicked(self):
+    def on_copyallButton_clicked(self):
 
-        # Get user's input
-        tmnc_trademark = self.TMNCLineEdit.text()
-        type_trademark = self.ToTMComboBox.currentText()
-        filing_special = self.special_instructionsLineEdit.text()
-
-        # Check TMNC if not in uppercase
-        if not tmnc_trademark.isupper():
-            tmnc_trademark = str.upper(self.TMNCLineEdit.text())
-
-        # Consolidate user's input
-        html = FILING_TEMPLATE.substitute(default=self.DEFAULT_SI,
-                                          special=FILING_SPECIAL.format(filing_special),
-                                          filing=FILING.format(type_trademark, tmnc_trademark))
-
-        # Show result
-        self.previewTextEdit.setHtml(html)
-
-        # Enable self.addButton
-        self.addButton.setEnabled(True)
+        self.previewTextEdit.selectAll()
+        self.previewTextEdit.copy()
 
     # OVERRIDING: starts here
     def accept(self):
