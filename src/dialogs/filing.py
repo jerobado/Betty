@@ -17,7 +17,11 @@ from PyQt5.QtWidgets import (QLabel,
                              QComboBox,
                              QTextEdit,
                              QPushButton,
-                             QGroupBox)
+                             QGroupBox,
+                             QCheckBox,
+                             QLayoutItem,
+                             QSpacerItem,
+                             QSizePolicy)
 
 from resources._constants import (TYPE_TM,
                                  FILING,
@@ -55,6 +59,7 @@ class Filing(QDialog):
         self.clientComboBox.setCurrentText("Unilever")
         self.TMNCLabel = QLabel("TMNC:")
         self.ToTMLabel = QLabel("Type of Trademark:")
+        self.ituComboBox = QCheckBox("Intent To Use")
         self.special_instructionsLabel = QLabel("Special Instructions:")
         self.previewLabel = QLabel("Preview:")
         self.TMNCLineEdit = QLineEdit()
@@ -76,13 +81,25 @@ class Filing(QDialog):
         tracker_layout.addWidget(self.clientLabel)
         tracker_layout.addWidget(self.clientComboBox)
 
+        # Tandem widgets
+        tandem_HBoxLyout = QHBoxLayout()
+        tandem_HBoxLyout.addWidget(self.TMNCLabel)
+        tandem_HBoxLyout.addWidget(self.TMNCLineEdit)
+
+        spacer = QSpacerItem(40, 20, QSizePolicy.Expanding)
+
         grid = QGridLayout()
+        #grid.addLayout(tandem_HBoxLyout, 0, 0, 1, 2)
         grid.addWidget(self.TMNCLabel, 0, 0)
         grid.addWidget(self.TMNCLineEdit, 0, 1)
+        #grid.setColumnStretch(2, 1)
+        grid.addItem(spacer, 0, 2)
+        grid.addWidget(self.ituComboBox, 0, 3)
+        #grid.addWidget(self.ituComboBox, 0, 4)
         grid.addWidget(self.ToTMLabel, 1, 0)
         grid.addWidget(self.ToTMComboBox, 1, 1)
         grid.addWidget(self.special_instructionsLabel, 2, 0)
-        grid.addWidget(self.special_instructionsLineEdit, 2, 1)
+        grid.addWidget(self.special_instructionsLineEdit, 2, 1, 1, 3)
 
         # Input widgets inside the QGroupBox
         input_group = QGroupBox("Set Criteria")

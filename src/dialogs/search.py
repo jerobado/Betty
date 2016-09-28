@@ -126,9 +126,9 @@ class Search(QDialog):
         label_comboBox_tandem.addWidget(self.importanceComboBox)
 
         grid = QGridLayout()  # widget ka pala
-        grid.addLayout(label_dateEdit_tandem, 0, 0)  # affected
+        grid.addLayout(label_dateEdit_tandem, 0, 0)     # Label, DateEdit, SpinBox
         grid.addWidget(self.with_artworkCheckBox, 0, 2)
-        grid.addLayout(label_comboBox_tandem, 1, 0)  # affected
+        grid.addLayout(label_comboBox_tandem, 1, 0)     # Label, ComboBox
         grid.addWidget(self.with_imageCheckBox, 1, 2)
         grid.addWidget(self.special_instructionLabel, 2, 0)
         grid.addWidget(self.special_instructionLineEdit, 3, 0, 1, 3)
