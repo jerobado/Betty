@@ -24,6 +24,7 @@ from PyQt5.QtWidgets import (QLabel,
                              QSizePolicy)
 
 from resources._constants import (TYPE_TM,
+                                 ITU,
                                  FILING,
                                  FILING_SPECIAL,
                                  FILING_TEMPLATE,
@@ -59,7 +60,7 @@ class Filing(QDialog):
         self.clientComboBox.setCurrentText("Unilever")
         self.TMNCLabel = QLabel("TMNC:")
         self.ToTMLabel = QLabel("Type of Trademark:")
-        self.ituComboBox = QCheckBox("Intent To Use")
+        self.ituComboBox = QCheckBox("Intent to Use")
         self.special_instructionsLabel = QLabel("Special Instructions:")
         self.previewLabel = QLabel("Preview:")
         self.TMNCLineEdit = QLineEdit()
@@ -139,6 +140,7 @@ class Filing(QDialog):
         self.clientComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
         self.TMNCLineEdit.textChanged.connect(self.on_SetCriteria_changed)
         self.ToTMComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
+        self.ituComboBox.stateChanged.connect(self.on_SetCriteria_changed)
         self.special_instructionsLineEdit.textChanged.connect(self.on_SetCriteria_changed)
         self.copyallButton.clicked.connect(self.on_copyallButton_clicked)
         self.addButton.clicked.connect(self.accept)
@@ -180,6 +182,7 @@ class Filing(QDialog):
         tmnc_trademark = self.TMNCLineEdit.text()
         type_trademark = self.ToTMComboBox.currentText()
         filing_special = self.special_instructionsLineEdit.text()
+        itu = ITU if self.ituComboBox.isChecked() else ""
 
         # Check TMNC if not in uppercase
         if not tmnc_trademark.isupper():
@@ -188,6 +191,7 @@ class Filing(QDialog):
         # Consolidate user's input
         html = FILING_TEMPLATE.substitute(default=self.DEFAULT_SI,
                                           special=FILING_SPECIAL.format(filing_special),
+                                          itu=itu,
                                           filing=FILING.format(type_trademark, tmnc_trademark))
 
         # Show result

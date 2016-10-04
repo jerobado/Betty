@@ -6,8 +6,9 @@ All notable changes to this project will be documented on this file.
 _Release date: 2016-12-01_
 
 * Filing
-    * TODO -> add an _Intent to Use_ checkbox
-    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group `TEST-06`
+    * Added an _Intent to Use_ checkbox
+    * Changes in the Set Criteria fields can now be seen in the Preview box
+    * Changed the Preview button into Copy All button
 * Searching
     * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group `TEST-07`
 
