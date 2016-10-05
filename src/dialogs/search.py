@@ -70,7 +70,8 @@ class Search(QDialog):
         self._layout()
         self._properties()
         self._connections()
-        self._readSettings()    # read current state of this dialog
+        self._readSettings()            # read current state of this dialog
+        self.on_setCriteria_changed()   # Method that will handle the changes in the Set Criteria fields
 
     def _widgets(self):
         """ Create new PyQt widgets here """
@@ -86,7 +87,7 @@ class Search(QDialog):
         self.clientComboBox.setCurrentText("Unilever")
         self.due_dateLabel = QLabel("Due Date:")
         self.importanceLabel = QLabel("Select Importance:")
-        self.special_instructionLabel = QLabel("Special Instruction:")
+        self.specialLabel = QLabel("Special Instruction:")
         self.due_dateDateEdit = QDateEdit(QDate.currentDate())  # initialize by current date
         self.defaultCalendar = QCalendarWidget()
         self.currentDateFormat = QTextCharFormat()
@@ -98,12 +99,11 @@ class Search(QDialog):
         self.importanceComboBox.setCurrentIndex(0)
         self.with_artworkCheckBox = QCheckBox("With Artwork")
         self.with_imageCheckBox = QCheckBox("With Image")
-        self.special_instructionLineEdit = QLineEdit()
+        self.specialLineEdit = QLineEdit()
         self.previewLabel = QLabel("Preview:")
         self.previewTextEdit = QTextEdit()
         self.previewButton = QPushButton("Pr&eview")
         self.addButton = QPushButton("&Add")
-        self.addButton.setEnabled(False)
         self.clearButton = QPushButton("&Clear")
 
     def _layout(self):
@@ -130,8 +130,8 @@ class Search(QDialog):
         grid.addWidget(self.with_artworkCheckBox, 0, 2)
         grid.addLayout(label_comboBox_tandem, 1, 0)     # Label, ComboBox
         grid.addWidget(self.with_imageCheckBox, 1, 2)
-        grid.addWidget(self.special_instructionLabel, 2, 0)
-        grid.addWidget(self.special_instructionLineEdit, 3, 0, 1, 3)
+        grid.addWidget(self.specialLabel, 2, 0)
+        grid.addWidget(self.specialLineEdit, 3, 0, 1, 3)
 
         input_fieldsGroupBox = QGroupBox("Set Criteria")
         input_fieldsGroupBox.setLayout(grid)
@@ -167,7 +167,7 @@ class Search(QDialog):
         self.due_dateDateEdit.setCalendarWidget(self.defaultCalendar)
         self.defaultCalendar.setGridVisible(True)
         self.defaultCalendar.setDateTextFormat(QDate.currentDate(), self.currentDateFormat)
-        self.special_instructionLineEdit.setPlaceholderText("Read correspondence for further instructions")
+        self.specialLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.with_artworkCheckBox.setToolTip(ARTWORK_TOOLTIP)
         self.with_imageCheckBox.setToolTip(IMAGE_TOOLTIP)
         # You need this to style self.previewTextEdit
@@ -205,12 +205,25 @@ class Search(QDialog):
     def _connections(self):
         """ Connect every PyQt widgets here """
 
-        self.clientComboBox.activated.connect(self.on_clientComboBox_activated)
+        # experiment starts here
         self.due_dateDateEdit.dateChanged.connect(self.on_due_dateDateEdit_dateChanged)
+        self.due_dateDateEdit.dateChanged.connect(self.on_setCriteria_changed)
+
         self.daysSpinBox.valueChanged.connect(self.on_daysSpinBox_valueChanged)
-        self.importanceComboBox.activated.connect(self.on_importanceComboBox_activated)
-        self.with_artworkCheckBox.stateChanged.connect(self.on_with_artworkCheckBox_stateChanged)
-        self.with_imageCheckBox.stateChanged.connect(self.on_with_imageCheckBox_stateChanged)
+        self.daysSpinBox.valueChanged.connect(self.on_setCriteria_changed)
+
+        self.clientComboBox.currentIndexChanged.connect(self.on_clientComboBox_activated)
+        self.clientComboBox.currentIndexChanged.connect(self.on_setCriteria_changed)
+
+        self.importanceComboBox.currentIndexChanged.connect(self.on_importanceComboBox_activated)
+        self.importanceComboBox.currentIndexChanged.connect(self.on_setCriteria_changed)
+
+        self.with_artworkCheckBox.stateChanged.connect(self.on_setCriteria_changed)
+        self.with_imageCheckBox.stateChanged.connect(self.on_setCriteria_changed)
+
+        self.specialLineEdit.textChanged.connect(self.on_setCriteria_changed)
+        # experiment ends here
+
         self.previewButton.clicked.connect(self.on_previewButton_clicked)
         # The generate button will only retrieve and throw data based on the input widgets
         self.addButton.clicked.connect(self.accept)
@@ -270,32 +283,33 @@ class Search(QDialog):
         else:
             print('BET: unsual - no importance selected?')
 
-    def on_with_artworkCheckBox_stateChanged(self):
-        """ Event handler for self.with_artworkCheckBox """
-
-        if self.with_artworkCheckBox.isChecked():
-            self.artwork = WITH_ARTWORK
-        else:
-            self.artwork = ''
-
-    def on_with_imageCheckBox_stateChanged(self):
-        """ Event handler for with_imageCheckBox """
-
-        if self.with_imageCheckBox.isChecked():
-            self.image = WITH_IMAGE
-        else:
-            self.image = ''
-
     def on_daysSpinBox_valueChanged(self):
 
         self.due_date = self.today.addDays(self.daysSpinBox.value())
 
+    def on_setCriteria_changed(self):
+
+        with_artwork = WITH_ARTWORK if self.with_artworkCheckBox.isChecked() else ""
+        with_image = WITH_IMAGE if self.with_imageCheckBox.isChecked() else ""
+        special = SEARCH_SPECIAL.format(self.specialLineEdit.text()) if self.specialLineEdit.text() else ""
+
+        # Consolidate anything :)
+        self.html = SEARCH_TEMPLATE.substitute(default=self.DEFAULT_SI,
+                                               special=special,
+                                               artwork=with_artwork,
+                                               TAT=self.selected_TAT.format(self.due_date.toString(self.date_format)),
+                                               image=with_image)
+
+        # Show output
+        self.previewTextEdit.setHtml(self.html.strip())
+
     def on_previewButton_clicked(self):
         """ Preview the user's input inside the self.previewTextEdit """
+        # TODO: method to be replace as 'Copy All'
 
-        # Check if special_instructionLineEdit has content
-        if self.special_instructionLineEdit.text():
-            self.special_ins = SEARCH_SPECIAL.format(self.special_instructionLineEdit.text())
+        # Check if specialLineEdit has content
+        if self.specialLineEdit.text():
+            self.special_ins = SEARCH_SPECIAL.format(self.specialLineEdit.text())
         else:
             self.special_ins = ''
 
@@ -313,9 +327,9 @@ class Search(QDialog):
         self.addButton.setEnabled(True)
 
     def on_clearButton_clicked(self):
-        """ Event handler for clearing text inside self.special_instructionLineEdit and self.previewTextEdit """
+        """ Event handler for clearing text inside self.specialLineEdit and self.previewTextEdit """
 
-        self.special_instructionLineEdit.clear()
+        self.specialLineEdit.clear()
         self.previewTextEdit.clear()
 
     # OVERRIDING: starts here
