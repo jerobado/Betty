@@ -201,6 +201,7 @@ class Filing(QDialog):
 
         self.TMNCLineEdit.clear()
         self.special_instructionsLineEdit.clear()
+        if self.ituComboBox.isChecked(): self.ituComboBox.setChecked(False)
 
     def on_copyallButton_clicked(self):
 

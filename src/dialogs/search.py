@@ -52,9 +52,6 @@ class Search(QDialog):
         self.due_date = QDate.currentDate()
         self.today = QDate.currentDate()
         self.selected_TAT = ''
-        self.artwork = ''
-        self.image = ''
-        self.special_ins = ''
         self.client_TAT = ''
         self.DEFAULT_SI = ''
 
@@ -102,9 +99,9 @@ class Search(QDialog):
         self.specialLineEdit = QLineEdit()
         self.previewLabel = QLabel("Preview:")
         self.previewTextEdit = QTextEdit()
-        self.previewButton = QPushButton("Pr&eview")
+        self.copyallButton = QPushButton("&Copy All")
         self.addButton = QPushButton("&Add")
-        self.clearButton = QPushButton("&Clear")
+        self.clearButton = QPushButton("Cl&ear")
 
     def _layout(self):
         """ Set and arrange PyQt widgets here """
@@ -146,7 +143,7 @@ class Search(QDialog):
         # Layout buttons
         buttons = QHBoxLayout()
         buttons.addStretch()
-        buttons.addWidget(self.previewButton)
+        buttons.addWidget(self.copyallButton)
         buttons.addWidget(self.addButton)
         buttons.addWidget(self.clearButton)
 
@@ -170,13 +167,9 @@ class Search(QDialog):
         self.specialLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.with_artworkCheckBox.setToolTip(ARTWORK_TOOLTIP)
         self.with_imageCheckBox.setToolTip(IMAGE_TOOLTIP)
-        # You need this to style self.previewTextEdit
-        style_document = QTextDocument()
+        style_document = QTextDocument()                    # You need this to style self.previewTextEdit
         style_document.setDefaultStyleSheet(STYLE)
-        # Apply style
-        self.previewTextEdit.setDocument(style_document)
-        #self.setAttribute(Qt.WA_DeleteOnClose)
-        #self.setWindowModality(Qt.NonModal)
+        self.previewTextEdit.setDocument(style_document)    # Apply style
 
         # set default TAT values
         self.client_TAT = UN_TAT
@@ -205,27 +198,20 @@ class Search(QDialog):
     def _connections(self):
         """ Connect every PyQt widgets here """
 
-        # experiment starts here
         self.due_dateDateEdit.dateChanged.connect(self.on_due_dateDateEdit_dateChanged)
         self.due_dateDateEdit.dateChanged.connect(self.on_setCriteria_changed)
-
         self.daysSpinBox.valueChanged.connect(self.on_daysSpinBox_valueChanged)
         self.daysSpinBox.valueChanged.connect(self.on_setCriteria_changed)
-
         self.clientComboBox.currentIndexChanged.connect(self.on_clientComboBox_activated)
         self.clientComboBox.currentIndexChanged.connect(self.on_setCriteria_changed)
-
         self.importanceComboBox.currentIndexChanged.connect(self.on_importanceComboBox_activated)
         self.importanceComboBox.currentIndexChanged.connect(self.on_setCriteria_changed)
-
         self.with_artworkCheckBox.stateChanged.connect(self.on_setCriteria_changed)
         self.with_imageCheckBox.stateChanged.connect(self.on_setCriteria_changed)
-
         self.specialLineEdit.textChanged.connect(self.on_setCriteria_changed)
-        # experiment ends here
 
-        self.previewButton.clicked.connect(self.on_previewButton_clicked)
-        # The generate button will only retrieve and throw data based on the input widgets
+        # Buttons
+        self.copyallButton.clicked.connect(self.on_copyallButton_clicked)
         self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
@@ -303,34 +289,17 @@ class Search(QDialog):
         # Show output
         self.previewTextEdit.setHtml(self.html.strip())
 
-    def on_previewButton_clicked(self):
-        """ Preview the user's input inside the self.previewTextEdit """
-        # TODO: method to be replace as 'Copy All'
+    def on_copyallButton_clicked(self):
 
-        # Check if specialLineEdit has content
-        if self.specialLineEdit.text():
-            self.special_ins = SEARCH_SPECIAL.format(self.specialLineEdit.text())
-        else:
-            self.special_ins = ''
-
-        # Consolidate anything :)
-        self.html = SEARCH_TEMPLATE.substitute(default=self.DEFAULT_SI,
-                                               special=self.special_ins,
-                                               artwork=self.artwork,
-                                               TAT=self.selected_TAT.format(self.due_date.toString(self.date_format)),
-                                               image=self.image)
-
-        # Show output
-        self.previewTextEdit.setHtml(self.html.strip())
-
-        # Enable self.addButton
-        self.addButton.setEnabled(True)
+        self.previewTextEdit.selectAll()
+        self.previewTextEdit.copy()
 
     def on_clearButton_clicked(self):
         """ Event handler for clearing text inside self.specialLineEdit and self.previewTextEdit """
 
         self.specialLineEdit.clear()
-        self.previewTextEdit.clear()
+        if self.with_artworkCheckBox.isChecked(): self.with_artworkCheckBox.setChecked(False)
+        if self.with_imageCheckBox.isChecked(): self.with_imageCheckBox.setChecked(False)
 
     # OVERRIDING: starts here
     def accept(self):

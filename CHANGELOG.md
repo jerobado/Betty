@@ -5,13 +5,13 @@ All notable changes to this project will be documented on this file.
 **Patch 0.6** [Unreleased]
 _Release date: 2016-12-01_
 
+* Highlights 
+    * Changes in the Set Criteria fields can now be seen in the Preview box on both _Filing_ and _Searching_ template forms.
 * Filing
-    * Added an _Intent to Use_ checkbox
-    * Changes in the Set Criteria fields can now be seen in the Preview box
-    * Changed the Preview button into Copy All button
+    * Added an _Intent to Use_ checkbox.
+    * Changed the Preview button into Copy All button.
 * Searching
-    * TODO -> make the Preview section dynamic set by the fields in the Set Criteria group `TEST-07`
-
+    * Changed the Preview button into Copy All button.
 
 **Patch 0.5**
 
