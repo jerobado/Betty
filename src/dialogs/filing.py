@@ -1,7 +1,6 @@
 # Betty > dialogs > filing.py
 
-from PyQt5.QtGui import (QTextDocument,
-                         QIcon)
+from PyQt5.QtGui import (QIcon)
 
 from PyQt5.QtCore import (QSettings,
                           QPoint,
@@ -19,7 +18,7 @@ from PyQt5.QtWidgets import (QLabel,
                              QPushButton,
                              QGroupBox,
                              QCheckBox,
-                             QLayoutItem,
+                             QPlainTextEdit,
                              QSpacerItem,
                              QSizePolicy)
 
@@ -28,7 +27,7 @@ from resources._constants import (TYPE_TM,
                                  FILING,
                                  FILING_SPECIAL,
                                  FILING_TEMPLATE,
-                                 STYLE,
+                                 STYLE_DOCUMENT,
                                  GE_DEFAULT)
 
 
@@ -69,6 +68,7 @@ class Filing(QDialog):
         self.ToTMComboBox.setCurrentText('Word in standard characters')
         self.special_instructionsLineEdit = QLineEdit()
         self.special_instructionsLineEdit.setPlaceholderText("Read correspondence for further instructions")
+        self.specialPlainTextEdit = QPlainTextEdit()
         self.previewTextEdit = QTextEdit()
         self.copyallButton = QPushButton("&Copy All")
         self.addButton = QPushButton("&Add")
@@ -100,7 +100,9 @@ class Filing(QDialog):
         grid.addWidget(self.ToTMLabel, 1, 0)
         grid.addWidget(self.ToTMComboBox, 1, 1)
         grid.addWidget(self.special_instructionsLabel, 2, 0)
-        grid.addWidget(self.special_instructionsLineEdit, 2, 1, 1, 3)
+        #grid.addWidget(self.special_instructionsLineEdit, 2, 1, 1, 3)
+        grid.addWidget(self.specialPlainTextEdit, 2, 1, 1, 3)
+        #grid.addWidget(self.specialPlainTextEdit, 3, 0, 1, 4)
 
         # Input widgets inside the QGroupBox
         input_group = QGroupBox("Set Criteria")
@@ -128,9 +130,11 @@ class Filing(QDialog):
 
         self.trackerLineEdit.setPlaceholderText("Marker")
         self.trackerLineEdit.setFrame(False)
-        font_style = QTextDocument()
-        font_style.setDefaultStyleSheet(STYLE)
-        self.previewTextEdit.setDocument(font_style)
+        self.specialPlainTextEdit.setPlaceholderText("Read email for further instructions")
+        self.specialPlainTextEdit.setMaximumHeight(80)
+        self.specialPlainTextEdit.setSizePolicy(QSizePolicy.Expanding,   # horizontal
+                                                QSizePolicy.Preferred)   # vertical
+        self.previewTextEdit.setDocument(STYLE_DOCUMENT)
         self.setWindowIcon(QIcon(':/file_32.png'))
         self.setWindowTitle("Filing Template Form")
 
@@ -142,6 +146,7 @@ class Filing(QDialog):
         self.ToTMComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
         self.ituComboBox.stateChanged.connect(self.on_SetCriteria_changed)
         self.special_instructionsLineEdit.textChanged.connect(self.on_SetCriteria_changed)
+        self.specialPlainTextEdit.textChanged.connect(self.on_SetCriteria_changed)
         self.copyallButton.clicked.connect(self.on_copyallButton_clicked)
         self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
@@ -181,7 +186,9 @@ class Filing(QDialog):
         # Get user's input
         tmnc_trademark = self.TMNCLineEdit.text()
         type_trademark = self.ToTMComboBox.currentText()
-        filing_special = self.special_instructionsLineEdit.text()
+        #filing_special = self.special_instructionsLineEdit.text()
+        filing_special = repr(self.specialPlainTextEdit.toPlainText())
+        print(filing_special)
         itu = ITU if self.ituComboBox.isChecked() else ""
 
         # Check TMNC if not in uppercase

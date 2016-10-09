@@ -1,7 +1,6 @@
 # Betty > dialogs > search.py
 
-from PyQt5.QtGui import (QTextDocument,
-                         QTextCharFormat,
+from PyQt5.QtGui import (QTextCharFormat,
                          QIcon)
 
 from PyQt5.QtCore import (QDate,
@@ -38,7 +37,7 @@ from resources._constants import (SEARCH_SPECIAL,
                                  ABBOTT_TAT,
                                  UN_TAT,
                                  GE_TAT,
-                                 STYLE)
+                                 STYLE_DOCUMENT)
 
 
 # Main dialog for searching template
@@ -167,9 +166,7 @@ class Search(QDialog):
         self.specialLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.with_artworkCheckBox.setToolTip(ARTWORK_TOOLTIP)
         self.with_imageCheckBox.setToolTip(IMAGE_TOOLTIP)
-        style_document = QTextDocument()                    # You need this to style self.previewTextEdit
-        style_document.setDefaultStyleSheet(STYLE)
-        self.previewTextEdit.setDocument(style_document)    # Apply style
+        self.previewTextEdit.setDocument(STYLE_DOCUMENT)    # Apply style
 
         # set default TAT values
         self.client_TAT = UN_TAT

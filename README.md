@@ -12,7 +12,3 @@ For the developers who want to get their hands dirty on this project, the essent
 * SIP 4.16.9
 
 All of these tools can be can be downloaded [here](https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.5/) except for Python which you can separately download [here](https://www.python.org/downloads/release/python-344/). Make sure to download the 32-bit version of each tools.
-
-Licensing
----------
-_Betty_ has no license yet (still looking for a good advice regarding this matter).
