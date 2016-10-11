@@ -66,8 +66,6 @@ class Filing(QDialog):
         self.ToTMComboBox = QComboBox()
         self.ToTMComboBox.insertItems(0, TYPE_TM)
         self.ToTMComboBox.setCurrentText('Word in standard characters')
-        self.special_instructionsLineEdit = QLineEdit()
-        self.special_instructionsLineEdit.setPlaceholderText("Read correspondence for further instructions")
         self.specialPlainTextEdit = QPlainTextEdit()
         self.previewTextEdit = QTextEdit()
         self.copyallButton = QPushButton("&Copy All")
@@ -100,9 +98,7 @@ class Filing(QDialog):
         grid.addWidget(self.ToTMLabel, 1, 0)
         grid.addWidget(self.ToTMComboBox, 1, 1)
         grid.addWidget(self.special_instructionsLabel, 2, 0)
-        #grid.addWidget(self.special_instructionsLineEdit, 2, 1, 1, 3)
         grid.addWidget(self.specialPlainTextEdit, 2, 1, 1, 3)
-        #grid.addWidget(self.specialPlainTextEdit, 3, 0, 1, 4)
 
         # Input widgets inside the QGroupBox
         input_group = QGroupBox("Set Criteria")
@@ -145,7 +141,6 @@ class Filing(QDialog):
         self.TMNCLineEdit.textChanged.connect(self.on_SetCriteria_changed)
         self.ToTMComboBox.currentIndexChanged.connect(self.on_SetCriteria_changed)
         self.ituComboBox.stateChanged.connect(self.on_SetCriteria_changed)
-        self.special_instructionsLineEdit.textChanged.connect(self.on_SetCriteria_changed)
         self.specialPlainTextEdit.textChanged.connect(self.on_SetCriteria_changed)
         self.copyallButton.clicked.connect(self.on_copyallButton_clicked)
         self.addButton.clicked.connect(self.accept)
@@ -191,7 +186,7 @@ class Filing(QDialog):
 
         # Check TMNC if not in uppercase
         if not tmnc_trademark.isupper():
-            tmnc_trademark = str.upper(self.TMNCLineEdit.text())
+            tmnc_trademark = self.TMNCLineEdit.text().upper()
 
         # Consolidate user's input
         html = FILING_TEMPLATE.substitute(default=self.DEFAULT_SI,

@@ -12,6 +12,7 @@ from PyQt5.QtCore import (QDate,
 
 from PyQt5.QtWidgets import (QLabel,
                              QLineEdit,
+                             QPlainTextEdit,
                              QPushButton,
                              QComboBox,
                              QCheckBox,
@@ -24,7 +25,8 @@ from PyQt5.QtWidgets import (QLabel,
                              QVBoxLayout,
                              QGroupBox,
                              QCalendarWidget,
-                             QCompleter)
+                             QCompleter,
+                             QSizePolicy)
 
 from resources._constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
@@ -96,6 +98,7 @@ class Search(QDialog):
         self.with_artworkCheckBox = QCheckBox("With Artwork")
         self.with_imageCheckBox = QCheckBox("With Image")
         self.specialLineEdit = QLineEdit()
+        self.specialPlainTextEdit = QPlainTextEdit()
         self.previewLabel = QLabel("Preview:")
         self.previewTextEdit = QTextEdit()
         self.copyallButton = QPushButton("&Copy All")
@@ -121,13 +124,16 @@ class Search(QDialog):
         label_comboBox_tandem.addWidget(self.importanceLabel)
         label_comboBox_tandem.addWidget(self.importanceComboBox)
 
-        grid = QGridLayout()  # widget ka pala
+        label_plaintext_tandem = QHBoxLayout()
+        label_plaintext_tandem.addWidget(self.specialLabel)
+        label_plaintext_tandem.addWidget(self.specialPlainTextEdit)
+
+        grid = QGridLayout()
         grid.addLayout(label_dateEdit_tandem, 0, 0)     # Label, DateEdit, SpinBox
         grid.addWidget(self.with_artworkCheckBox, 0, 2)
         grid.addLayout(label_comboBox_tandem, 1, 0)     # Label, ComboBox
         grid.addWidget(self.with_imageCheckBox, 1, 2)
-        grid.addWidget(self.specialLabel, 2, 0)
-        grid.addWidget(self.specialLineEdit, 3, 0, 1, 3)
+        grid.addLayout(label_plaintext_tandem, 2, 0, 1, 3)
 
         input_fieldsGroupBox = QGroupBox("Set Criteria")
         input_fieldsGroupBox.setLayout(grid)
@@ -163,7 +169,10 @@ class Search(QDialog):
         self.due_dateDateEdit.setCalendarWidget(self.defaultCalendar)
         self.defaultCalendar.setGridVisible(True)
         self.defaultCalendar.setDateTextFormat(QDate.currentDate(), self.currentDateFormat)
-        self.specialLineEdit.setPlaceholderText("Read correspondence for further instructions")
+        self.specialPlainTextEdit.setPlaceholderText("Read email for further instructions")
+        self.specialPlainTextEdit.setMaximumHeight(80)
+        self.specialPlainTextEdit.setSizePolicy(QSizePolicy.Expanding,  # horizontal
+                                                QSizePolicy.Preferred)  # vertical
         self.with_artworkCheckBox.setToolTip(ARTWORK_TOOLTIP)
         self.with_imageCheckBox.setToolTip(IMAGE_TOOLTIP)
         self.previewTextEdit.setDocument(STYLE_DOCUMENT)    # Apply style
@@ -205,7 +214,7 @@ class Search(QDialog):
         self.importanceComboBox.currentIndexChanged.connect(self.on_setCriteria_changed)
         self.with_artworkCheckBox.stateChanged.connect(self.on_setCriteria_changed)
         self.with_imageCheckBox.stateChanged.connect(self.on_setCriteria_changed)
-        self.specialLineEdit.textChanged.connect(self.on_setCriteria_changed)
+        self.specialPlainTextEdit.textChanged.connect(self.on_setCriteria_changed)
 
         # Buttons
         self.copyallButton.clicked.connect(self.on_copyallButton_clicked)
@@ -274,11 +283,11 @@ class Search(QDialog):
 
         with_artwork = WITH_ARTWORK if self.with_artworkCheckBox.isChecked() else ""
         with_image = WITH_IMAGE if self.with_imageCheckBox.isChecked() else ""
-        special = SEARCH_SPECIAL.format(self.specialLineEdit.text()) if self.specialLineEdit.text() else ""
+        special = self.specialPlainTextEdit.toPlainText().replace('\n', '<br>')
 
         # Consolidate anything :)
         self.html = SEARCH_TEMPLATE.substitute(default=self.DEFAULT_SI,
-                                               special=special,
+                                               special=SEARCH_SPECIAL.format(special),
                                                artwork=with_artwork,
                                                TAT=self.selected_TAT.format(self.due_date.toString(self.date_format)),
                                                image=with_image)
