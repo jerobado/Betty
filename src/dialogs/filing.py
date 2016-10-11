@@ -186,9 +186,7 @@ class Filing(QDialog):
         # Get user's input
         tmnc_trademark = self.TMNCLineEdit.text()
         type_trademark = self.ToTMComboBox.currentText()
-        #filing_special = self.special_instructionsLineEdit.text()
-        filing_special = repr(self.specialPlainTextEdit.toPlainText())
-        print(filing_special)
+        filing_special = self.specialPlainTextEdit.toPlainText().replace('\n', '<br>')
         itu = ITU if self.ituComboBox.isChecked() else ""
 
         # Check TMNC if not in uppercase
