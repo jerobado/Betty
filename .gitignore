@@ -54,3 +54,4 @@ resources/__pycache__/
 /_gitcheats.txt
 /resources/_constants.py
 
+*.py~
