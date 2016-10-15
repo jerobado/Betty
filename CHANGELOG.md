@@ -7,11 +7,12 @@ _Release date: 2016-12-01_
 
 * Highlights 
     * Changes in the Set Criteria fields can now be seen in the Preview box on both _Filing_ and _Searching_ template forms.
+    * Added _Access keys_ on both _Filing_ and _Searching_ template forms by holding the `ALT` key.
 * Filing
     * Added an _Intent to Use_ checkbox.
-    * Changed the Preview button into Copy All button.
+    * Changed the Preview button into _Copy All_ button.
 * Searching
-    * Changed the Preview button into Copy All button.
+    * Changed the Preview button into _Copy All_ button.
 
 **Patch 0.5**
 

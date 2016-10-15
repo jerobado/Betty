@@ -75,7 +75,7 @@ class Search(QDialog):
         """ Create new PyQt widgets here """
 
         self.trackerLineEdit = QLineEdit()
-        self.clientLabel = QLabel("Client:")
+        self.clientLabel = QLabel("Clie&nt:")
         self.clientComboBox = QComboBox()
         # TODO: you need a freaking list to hold your growing clients :)
         self.clientComboBox.insertItem(0, "Abbott")
@@ -83,9 +83,9 @@ class Search(QDialog):
         self.clientComboBox.insertItem(2, "Google")
         self.clientComboBox.insertItem(3, "Unilever")
         self.clientComboBox.setCurrentText("Unilever")
-        self.due_dateLabel = QLabel("Due Date:")
-        self.importanceLabel = QLabel("Select Importance:")
-        self.specialLabel = QLabel("Special Instruction:")
+        self.due_dateLabel = QLabel("&Due Date:")
+        self.importanceLabel = QLabel("Selec&t Importance:")
+        self.specialLabel = QLabel("&Special Instruction:")
         self.due_dateDateEdit = QDateEdit(QDate.currentDate())  # initialize by current date
         self.defaultCalendar = QCalendarWidget()
         self.currentDateFormat = QTextCharFormat()
@@ -95,9 +95,8 @@ class Search(QDialog):
         self.importanceComboBox.insertItem(0, "Low/Medium")
         self.importanceComboBox.insertItem(1, "Critical")
         self.importanceComboBox.setCurrentIndex(0)
-        self.with_artworkCheckBox = QCheckBox("With Artwork")
-        self.with_imageCheckBox = QCheckBox("With Image")
-        self.specialLineEdit = QLineEdit()
+        self.with_artworkCheckBox = QCheckBox("With Art&work")
+        self.with_imageCheckBox = QCheckBox("With Ima&ge")
         self.specialPlainTextEdit = QPlainTextEdit()
         self.previewLabel = QLabel("Preview:")
         self.previewTextEdit = QTextEdit()
@@ -161,6 +160,10 @@ class Search(QDialog):
     def _properties(self):
         """ Set properties of PyQt widgets here """
 
+        self.clientLabel.setBuddy(self.clientComboBox)
+        self.due_dateLabel.setBuddy(self.due_dateDateEdit)
+        self.importanceLabel.setBuddy(self.importanceComboBox)
+        self.specialLabel.setBuddy(self.specialPlainTextEdit)
         self.trackerLineEdit.setPlaceholderText("Marker")
         self.trackerLineEdit.setFrame(False)
         self.trackerLineEdit.setCompleter(self.tracker_completer)
@@ -301,9 +304,10 @@ class Search(QDialog):
         self.previewTextEdit.copy()
 
     def on_clearButton_clicked(self):
-        """ Event handler for clearing text inside self.specialLineEdit and self.previewTextEdit """
+        """ Event handler for clearing the widgets in the Set Criteria group """
 
-        self.specialLineEdit.clear()
+        self.daysSpinBox.setValue(0)
+        self.specialPlainTextEdit.clear()
         if self.with_artworkCheckBox.isChecked(): self.with_artworkCheckBox.setChecked(False)
         if self.with_imageCheckBox.isChecked(): self.with_imageCheckBox.setChecked(False)
 

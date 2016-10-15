@@ -51,16 +51,16 @@ class Filing(QDialog):
     def _widgets(self):
 
         self.trackerLineEdit = QLineEdit()
-        self.clientLabel = QLabel("Client:")
+        self.clientLabel = QLabel("Clie&nt:")
         self.clientComboBox = QComboBox()
         # TODO: you also need a freaking list to hold your growing clients here XD
         self.clientComboBox.insertItem(0, "GE")
         self.clientComboBox.insertItem(1, "Unilever")
         self.clientComboBox.setCurrentText("Unilever")
-        self.TMNCLabel = QLabel("TMNC:")
-        self.ToTMLabel = QLabel("Type of Trademark:")
-        self.ituComboBox = QCheckBox("Intent to Use")
-        self.special_instructionsLabel = QLabel("Special Instructions:")
+        self.TMNCLabel = QLabel("&TMNC:")
+        self.ToTMLabel = QLabel("T&ype of Trademark:")
+        self.ituComboBox = QCheckBox("Intent to &Use")
+        self.special_instructionsLabel = QLabel("&Special Instructions:")
         self.previewLabel = QLabel("Preview:")
         self.TMNCLineEdit = QLineEdit()
         self.ToTMComboBox = QComboBox()
@@ -123,7 +123,11 @@ class Filing(QDialog):
         self.setLayout(vertical)
 
     def _properties(self):
-
+        
+        self.clientLabel.setBuddy(self.clientComboBox)
+        self.TMNCLabel.setBuddy(self.TMNCLineEdit)
+        self.ToTMLabel.setBuddy(self.ToTMComboBox)
+        self.special_instructionsLabel.setBuddy(self.specialPlainTextEdit)
         self.trackerLineEdit.setPlaceholderText("Marker")
         self.trackerLineEdit.setFrame(False)
         self.specialPlainTextEdit.setPlaceholderText("Read email for further instructions")

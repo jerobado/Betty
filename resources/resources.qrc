@@ -16,5 +16,5 @@
     </qresource>
 </RCC>
 
-<!-- move resources.qrc in the root folder before running the command below -->
+<!-- move resources.qrc (this file) in the root folder before running the command below -->
 <!-- pyrcc5 -o resources/bipc_resources.py resources.qrc -->
