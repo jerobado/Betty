@@ -7,7 +7,7 @@
  """
 
 
-def check_version():
+def app_versions():
     """ Dummy function for checking my tools current version """
 
     import sys
@@ -22,7 +22,6 @@ def check_version():
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
-
     logging.info("[BET]: Betty version {}".format(__version__))
     logging.info("[BET]: Python version {}".format(sys.version[:5]))
     logging.info("[BET]: Qt version {}".format(QT_VERSION_STR))
@@ -41,8 +40,8 @@ if __name__ == '__main__':
     from src.main_window import Betty
     from resources._constants import APP
 
-    check_version()
+    app_versions()
     icon_settings()
     window = Betty()
     window.show()
-    APP.exec_()
+    APP.exec()

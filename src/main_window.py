@@ -60,10 +60,10 @@ class Betty(QMainWindow):
 
         # Status bar
         self.statusLabel = QLabel()
-        self.testTextEdit = QTextEdit()
+        self.mainTextEdit = QTextEdit()
 
         # Central Widget
-        self.setCentralWidget(self.testTextEdit)
+        self.setCentralWidget(self.mainTextEdit)
 
     def _properties(self):
 
@@ -90,12 +90,11 @@ class Betty(QMainWindow):
         """ Connect widget signals and slots """
 
         self.trackerListView.clicked.connect(self.on_trackerListView_clicked)
-        self.testTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
-        self.testTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
+        self.mainTextEdit.copyAvailable.connect(self.copyAction.setEnabled)
+        self.mainTextEdit.copyAvailable.connect(self.cutAction.setEnabled)
 
     def _createActions(self):
 
-        # TODO: implement a good shortcut system when navigating the application
         # Remember: when using QIcon, don't forget to update resources.qrc
         # Remember: when creating a QAction, it should have a parent
         # File menu: actions inside this menu
@@ -119,32 +118,28 @@ class Betty(QMainWindow):
                                  enabled=False,
                                  statusTip="Cut to clipboard",
                                  toolTip="Cut",
-                                 triggered=self.testTextEdit.cut)
+                                 triggered=self.mainTextEdit.cut)
         self.copyAction = QAction(QIcon(":/copy.png"), "&Copy", self,
                                   shortcut=QKeySequence.Copy,
                                   enabled=False,
                                   statusTip="Copy to clipboard",
                                   toolTip="Copy",
-                                  triggered=self.testTextEdit.copy)
+                                  triggered=self.mainTextEdit.copy)
         self.pasteAction = QAction(QIcon(":/paste.png"), "&Paste", self,
                                    shortcut=QKeySequence.Paste,
                                    statusTip="Paste from clipboard",
                                    toolTip="Paste",
-                                   triggered=self.testTextEdit.paste)
+                                   triggered=self.mainTextEdit.paste)
         self.select_allAction = QAction(QIcon(":/select_all.png"), "Select &All", self,
                                         shortcut=QKeySequence.SelectAll,
                                         statusTip="Select all",
-                                        triggered=self.testTextEdit.selectAll)
+                                        triggered=self.mainTextEdit.selectAll)
 
         # Settings: testing a checkable action inside a menu
         self.appendAction = QAction("&Append Template", self,
                                     checkable=True,
                                     statusTip="Append created template to editor",
                                     triggered=self.on_appendAction_clicked)
-        self.continuousAction = QAction("Add &Continuously", self,
-                                        checkable = True,
-                                        statusTip="Add template without interruption",
-                                        triggered=self.on_continuousAction_clicked)
 
         # Help: actions inside this menu
         self.aboutAction = QAction("&About", self,
@@ -176,7 +171,6 @@ class Betty(QMainWindow):
         # Settings: check...
         self.settingsMenu = self.menuBar().addMenu("&Settings")
         self.settingsMenu.addAction(self.appendAction)
-        #self.settingsMenu.addAction(self.continuousAction)
 
         # Help: About
         self.helpMenu = self.menuBar().addMenu("&Help")
@@ -255,10 +249,10 @@ class Betty(QMainWindow):
 
         if APPEND:
             # Transmit the html template into the editor overriding any text
-            self.testTextEdit.setHtml(template)
+            self.mainTextEdit.setHtml(template)
         else:
             # Append the html template to the last line into the editor
-            self.testTextEdit.append(template)
+            self.mainTextEdit.append(template)
 
     def add_to_storage(self, template):
         """ Method for storing generated templates """
@@ -301,22 +295,6 @@ class Betty(QMainWindow):
             self.add_to_windowtitle()                                   # Set the window title
             self.status.showMessage('New {} template added'.format(dialog.dialog_info()), 6000)
 
-    # TODO: Are you still sure to make your dialogs non-modal (not blocking)?   8.21.2016
-    def non_modal(self, dialog):
-        dialog.show()
-        #dialog.setAttribute(Qt.WA_DeleteOnClose)
-        dialog.setWindowModality(Qt.NonModal)
-        # if the user hit 'Add' button, populate self.testTextEdit in BET
-        # get any text inside the preview QTextEdit
-        # this will return HTML to superstar
-        #superstar = dialog.previewTextEdit.toHtml()
-        print("non-modal: waiting")
-        #self.add_to_tracker(dialog.trackerLineEdit.text())
-        #self.add_to_storage(superstar)
-        # TODO: you are stuck here, kaya matulog ka na!
-        # trying to add a status message in the main form
-        #self.status.showMessage("New Search template added", 6000)
-
     # MENU ACTIONS: define slots here for menu
     def on_aboutAction_clicked(self):
         """ Event handler for Help > About"""
@@ -337,16 +315,9 @@ class Betty(QMainWindow):
 
     def on_appendAction_clicked(self):
 
+        # Default value for 'Append Template' is False
         global APPEND
-
-        if self.appendAction.isChecked():
-            APPEND = False
-        else:
-            APPEND = True
-
-    def on_continuousAction_clicked(self):
-
-        pass
+        APPEND = False if self.appendAction.isChecked() else True
 
     # REUSE: only re-write QMainWindow's resident functions here
     def closeEvent(self, event):

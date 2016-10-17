@@ -1,4 +1,4 @@
-# Betty > dialogs > filing.py
+# Project-BET > src > dialogs > filing.py
 
 from PyQt5.QtGui import (QIcon)
 
@@ -28,7 +28,8 @@ from resources._constants import (TYPE_TM,
                                  FILING_SPECIAL,
                                  FILING_TEMPLATE,
                                  STYLE_DOCUMENT,
-                                 GE_DEFAULT)
+                                 GE_DEFAULT,
+                                 CLIENT_FILING)
 
 
 class Filing(QDialog):
@@ -54,9 +55,8 @@ class Filing(QDialog):
         self.clientLabel = QLabel("Clie&nt:")
         self.clientComboBox = QComboBox()
         # TODO: you also need a freaking list to hold your growing clients here XD
-        self.clientComboBox.insertItem(0, "GE")
-        self.clientComboBox.insertItem(1, "Unilever")
-        self.clientComboBox.setCurrentText("Unilever")
+        self.clientComboBox.insertItems(0, CLIENT_FILING)
+        self.clientComboBox.setCurrentText("Others")
         self.TMNCLabel = QLabel("&TMNC:")
         self.ToTMLabel = QLabel("T&ype of Trademark:")
         self.ituComboBox = QCheckBox("Intent to &Use")
@@ -175,7 +175,7 @@ class Filing(QDialog):
 
         if self.clientComboBox.currentText() == 'GE':
             self.DEFAULT_SI = GE_DEFAULT
-        elif self.clientComboBox.currentText() == 'Unilever':
+        elif self.clientComboBox.currentText() == 'Others':
             self.DEFAULT_SI = ""
         else:
             print("#edw")
@@ -204,7 +204,7 @@ class Filing(QDialog):
     def on_clearButton_clicked(self):
 
         self.TMNCLineEdit.clear()
-        self.special_instructionsLineEdit.clear()
+        self.specialPlainTextEdit.clear()
         if self.ituComboBox.isChecked(): self.ituComboBox.setChecked(False)
 
     def on_copyallButton_clicked(self):

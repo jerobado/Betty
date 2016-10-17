@@ -306,6 +306,7 @@ class Search(QDialog):
     def on_clearButton_clicked(self):
         """ Event handler for clearing the widgets in the Set Criteria group """
 
+        self.due_dateDateEdit.setDate(QDate.currentDate())
         self.daysSpinBox.setValue(0)
         self.specialPlainTextEdit.clear()
         if self.with_artworkCheckBox.isChecked(): self.with_artworkCheckBox.setChecked(False)
