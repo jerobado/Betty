@@ -10,6 +10,7 @@ _Release date: 2016-12-01_
     * Added _Access keys_ on both _Filing_ and _Searching_ template forms by holding the `ALT` key.
 * Filing
     * Added an _Intent to Use_ checkbox.
+    * Changed _Unilever_ to _Others_ in the client selection box.
     * Changed the Preview button into _Copy All_ button.
 * Searching
     * Changed the Preview button into _Copy All_ button.

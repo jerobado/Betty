@@ -270,6 +270,7 @@ class Search(QDialog):
         # Get selected importance
         importance = self.importanceComboBox.currentText()
 
+        # TODO: make this pythonic
         # Check what the user choose
         if importance == 'Low/Medium':
             self.selected_TAT = self.client_TAT[importance]

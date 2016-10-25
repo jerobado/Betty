@@ -61,7 +61,6 @@ class Betty(QMainWindow):
         # Status bar
         self.statusLabel = QLabel()
         self.mainTextEdit = QTextEdit()
-
         # Central Widget
         self.setCentralWidget(self.mainTextEdit)
 
@@ -135,7 +134,6 @@ class Betty(QMainWindow):
                                         statusTip="Select all",
                                         triggered=self.mainTextEdit.selectAll)
 
-        # Settings: testing a checkable action inside a menu
         self.appendAction = QAction("&Append Template", self,
                                     checkable=True,
                                     statusTip="Append created template to editor",
