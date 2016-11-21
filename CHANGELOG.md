@@ -5,15 +5,15 @@ All notable changes to this project will be documented on this file.
 **Patch 0.6** [Unreleased]
 _Release date: 2016-12-01_
 
-* Highlights 
-    * Changes in the Set Criteria fields can now be seen in the Preview box on both _Filing_ and _Searching_ template forms.
+* Highlight(s) 
+    * Changes in the _Set Criteria_ fields can now be seen in the Preview box on both _Filing_ and _Searching_ template forms.
     * Added _Access keys_ on both _Filing_ and _Searching_ template forms by holding the `ALT` key.
 * Filing
-    * Added an _Intent to Use_ checkbox.
-    * Changed _Unilever_ to _Others_ in the client selection box.
-    * Changed the Preview button into _Copy All_ button.
+    * Added an **Intent to Use** checkbox (_"Please file on intent to use basis if applicable in your jurisdiction."_).
+    * Changed _Unilever_ to **Others** in the client selection box.
+    * Changed the _Preview_ button into **Copy All** button.
 * Searching
-    * Changed the Preview button into _Copy All_ button.
+    * Changed the _Preview_ button into **Copy All** button.
 
 **Patch 0.5**
 
