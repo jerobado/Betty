@@ -2,7 +2,8 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
-**Patch 0.6** [Unreleased]
+**Patch 0.6**
+
 _Release date: 2016-12-01_
 
 * Highlight(s) 
