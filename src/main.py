@@ -3,7 +3,7 @@
     Interface: GUI (PyQt5)
     Language: Python 3.4.4
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Dec 1, 2016 -v0.6
+    Next release date (NRD): Mar 1, 2016 -v0.7
  """
 
 

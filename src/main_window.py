@@ -18,7 +18,9 @@ from PyQt5.QtWidgets import (QMainWindow,
                              QAction,
                              QDockWidget,
                              QMessageBox,
-                             QListView)
+                             QListView,
+                             QWidget,
+                             QVBoxLayout)
 
 from resources import bipc_resources   # Don't remove this!
 
@@ -30,6 +32,19 @@ from resources.models import TrackerListModel
 
 # Application settings variables
 APPEND = True   # Default, any new template created will overwrite the previous one
+
+
+class DockContent(QWidget):
+    _sizehint = None
+
+    def setSizeHint(self, width, height):
+        self._sizehint = QSize(width, height)
+
+    def sizeHint(self):
+        print('wtf:', self._sizehint)
+        if self._sizehint is not None:
+            return self._sizehint
+        return super().sizeHint()
 
 
 class Betty(QMainWindow):
@@ -206,8 +221,19 @@ class Betty(QMainWindow):
 
         # Add widget to be inserted inside self.tracker_dock
         self.trackerListView = QListView()
-        self.tracker_dock.setWidget(self.trackerListView)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.tracker_dock)
+        #self.trackerListView.setFixedHeight(70)    # EFFECT: the resize handle is disabled
+        #self.trackerListView.setMaximumHeight(80)  # EFFECT: the resize handle is disabled
+
+        # WOW! This line of codes solves my problem
+        content = DockContent(self)
+        content.setSizeHint(50, 80)
+        layout = QVBoxLayout(content)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.trackerListView)
+        self.tracker_dock.setWidget(content)
+
+        #self.tracker_dock.setWidget(self.trackerListView)
+        self.addDockWidget(Qt.BottomDockWidgetArea, self.tracker_dock)  # Set Tracker at the bottom
 
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
         self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
