@@ -63,13 +63,13 @@ class Betty(QMainWindow):
         # Internal methods, for private use only (it's not what you think ^^ )
         self._widgets()
         self._properties()
-        self._readSettings()
         self._createActions()
         self._createMenus()
         self._createToolBars()
         self._createStatusBar()
         self._createDockWindows()
         self._connections()
+        self._readSettings()
 
     def _widgets(self):
 
@@ -91,14 +91,18 @@ class Betty(QMainWindow):
         settings = QSettings("GIPSC Core Team", "Betty")
         position = settings.value("position", QPoint(200, 600))
         size = settings.value("size", QSize(700, 350))      # Width, Height
+        wtf = settings.value("wtf", QSize(50, 80))
         self.move(position)
         self.resize(size)
+        self.trackerListView.resize(wtf)
 
     def _writeSettings(self):
 
         settings = QSettings("GIPSC Core Team", "Betty")
         settings.setValue("position", self.pos())
         settings.setValue("size", self.size())
+        settings.setValue("wtf", self.trackerListView.size())
+        print(settings.value('wtf'))
 
     def _connections(self):
         """ Connect widget signals and slots """
