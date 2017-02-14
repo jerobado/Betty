@@ -22,11 +22,14 @@ def app_versions():
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
-    logging.info("[BET]: Betty version {}".format(__version__))
-    logging.info("[BET]: Python version {}".format(sys.version[:5]))
-    logging.info("[BET]: Qt version {}".format(QT_VERSION_STR))
-    logging.info("[BET]: PyQt version {}".format(PYQT_VERSION_STR))
-    logging.info("[BET]: SIP version {}".format(SIP_VERSION_STR))
+    logging.info(f"[BET]: Betty version {__version__}")
+    logging.info(f"[BET]: Python version {sys.version[:5]}")
+    logging.info(f"[BET]: Qt version {QT_VERSION_STR}")
+    logging.info(f"[BET]: PyQt version {PYQT_VERSION_STR}")
+    logging.info(f"[BET]: SIP version {SIP_VERSION_STR}")
+
+    # implementing some new 3.6 features
+    print(f'amazing: {__version__}')
 
 
 def icon_settings():
