@@ -2,6 +2,18 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
+**Patch 0.7**
+
+_Release date: 2017-06-01_ [unreleased]
+
+* User Interface (UI)
+    * [**TODO**] A new hint will pop-up will appear when the user hover the mouse pointer in one of the entries in the tracker, this will show the template details entered.
+    * [**TODO**] The last known size of the Tracker can now be retrieved.
+
+* Development (the bloody part)
+    * Betty is now implemented in Python 3.6.0 and in PyQt 5.7.1
+
+
 **Patch 0.6**
 
 _Release date: 2016-12-01_
