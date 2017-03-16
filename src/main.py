@@ -3,7 +3,7 @@
     Interface: GUI (PyQt5)
     Language: Python 3.4.4
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Mar 1, 2017 -v0.7
+    Next release date (NRD): Jun 1, 2017 -v0.7
  """
 
 
@@ -27,9 +27,6 @@ def app_versions():
     logging.info(f"[BET]: Qt version {QT_VERSION_STR}")
     logging.info(f"[BET]: PyQt version {PYQT_VERSION_STR}")
     logging.info(f"[BET]: SIP version {SIP_VERSION_STR}")
-
-    # implementing some new 3.6 features
-    print(f'amazing: {__version__}')
 
 
 def icon_settings():
