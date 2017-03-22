@@ -10,7 +10,8 @@ from PyQt5.QtCore import (Qt,
                           QDateTime,
                           QSettings,
                           QPoint,
-                          QSize)
+                          QSize,
+                          QByteArray)
 
 from PyQt5.QtWidgets import (QMainWindow,
                              QLabel,
@@ -48,6 +49,8 @@ class DockContent(QWidget):
 
 class Betty(QMainWindow):
     """ Main window for Betty """
+
+    SETTINGS_VERSION = 2
 
     def __init__(self, parent=None):
 
@@ -88,8 +91,12 @@ class Betty(QMainWindow):
     def _readSettings(self):
 
         settings = QSettings("GIPSC Core Team", "Betty")
-        self.restoreGeometry(settings.value("betty_geometry", self.saveGeometry()))
-        self.restoreState(settings.value("betty_state", self.saveState()))
+        self.restoreGeometry(settings.value("betty_geometry"))
+        state = settings.value("betty_state", QByteArray(), type=QByteArray)
+        if state:
+            self.restoreState(state, version=self.SETTINGS_VERSION)
+        #self.restoreState()
+        #print('betty_state:', self.saveGeometry())
 
     def _writeSettings(self):
 
@@ -97,6 +104,8 @@ class Betty(QMainWindow):
         settings.setValue("betty_geometry", self.saveGeometry())
         # TODO: Betty simply crashes with this line
         #settings.setvalue("betty_state", self.saveState())
+        state = self.saveState(version=self.SETTINGS_VERSION)
+        settings.setValue("betty_state", state)
 
     def _connections(self):
         """ Connect widget signals and slots """
@@ -191,11 +200,13 @@ class Betty(QMainWindow):
 
         # File: toolbars
         self.fileToolBar = self.addToolBar("File")
+        self.fileToolBar.setObjectName("fileToolBar")
         self.fileToolBar.setMovable(False)
         self.fileToolBar.addAction(self.newAction)
 
         # Edit: toolbars
         self.editToolBar = self.addToolBar("Edit")
+        self.editToolBar.setObjectName("editToolBar")
         self.editToolBar.setMovable(False)
         self.editToolBar.addAction(self.cutAction)
         self.editToolBar.addAction(self.copyAction)
@@ -213,11 +224,11 @@ class Betty(QMainWindow):
         """ Event handler for View > Tracker """
 
         # Dock Widget
-        self.tracker_dock = QDockWidget("Tracker", self)
-        self.tracker_dock.setObjectName("Tracker")
-        self.tracker_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea | Qt.BottomDockWidgetArea)
+        self.trackerDockWidget = QDockWidget("Tracker", self)
+        self.trackerDockWidget.setObjectName("trackerDockWidget")
+        self.trackerDockWidget.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea | Qt.BottomDockWidgetArea)
 
-        # Add widget to be inserted inside self.tracker_dock
+        # Add widget to be inserted inside self.trackerDockWidget
         self.trackerListView = QListView()
 
         # WOW! This line of codes solves my problem
@@ -226,13 +237,13 @@ class Betty(QMainWindow):
         layout = QVBoxLayout(content)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.trackerListView)
-        self.tracker_dock.setWidget(content)
+        self.trackerDockWidget.setWidget(content)
 
-        #self.tracker_dock.setWidget(self.trackerListView)
-        self.addDockWidget(Qt.BottomDockWidgetArea, self.tracker_dock)  # Set Tracker at the bottom
+        #self.trackerDockWidget.setWidget(self.trackerListView)
+        self.addDockWidget(Qt.BottomDockWidgetArea, self.trackerDockWidget)  # Set Tracker at the bottom
 
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
-        self.viewMenu.addAction(self.tracker_dock.toggleViewAction())
+        self.viewMenu.addAction(self.trackerDockWidget.toggleViewAction())
 
     # SLOTS: Define BET slots here
     def on_newTemplate_action(self):
@@ -343,3 +354,4 @@ class Betty(QMainWindow):
     def closeEvent(self, event):
 
         self._writeSettings()   # Get Betty's last state before totally closing
+        super(Betty, self).closeEvent(event)
