@@ -9,7 +9,6 @@ _Release date: 2017-06-01_ [unreleased]
 * User Interface (UI)
     * [**TODO**] A new hint will pop-up will appear when the user hover the mouse pointer in one of the entries in the tracker, this will show the template details entered.
     * [**TODO**] The last known size of the Tracker can now be retrieved.
-
 * Development (the bloody part)
     * Betty is now implemented in Python 3.6.0 and in PyQt 5.7.1
 

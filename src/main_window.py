@@ -41,7 +41,6 @@ class DockContent(QWidget):
         self._sizehint = QSize(width, height)
 
     def sizeHint(self):
-        print('wtf:', self._sizehint)
         if self._sizehint is not None:
             return self._sizehint
         return super().sizeHint()
@@ -89,20 +88,15 @@ class Betty(QMainWindow):
     def _readSettings(self):
 
         settings = QSettings("GIPSC Core Team", "Betty")
-        position = settings.value("position", QPoint(200, 600))
-        size = settings.value("size", QSize(700, 350))      # Width, Height
-        wtf = settings.value("wtf", QSize(50, 80))
-        self.move(position)
-        self.resize(size)
-        self.trackerListView.resize(wtf)
+        self.restoreGeometry(settings.value("betty_geometry", self.saveGeometry()))
+        self.restoreState(settings.value("betty_state", self.saveState()))
 
     def _writeSettings(self):
 
         settings = QSettings("GIPSC Core Team", "Betty")
-        settings.setValue("position", self.pos())
-        settings.setValue("size", self.size())
-        settings.setValue("wtf", self.trackerListView.size())
-        print(settings.value('wtf'))
+        settings.setValue("betty_geometry", self.saveGeometry())
+        # TODO: Betty simply crashes with this line
+        #settings.setvalue("betty_state", self.saveState())
 
     def _connections(self):
         """ Connect widget signals and slots """
@@ -225,8 +219,6 @@ class Betty(QMainWindow):
 
         # Add widget to be inserted inside self.tracker_dock
         self.trackerListView = QListView()
-        #self.trackerListView.setFixedHeight(70)    # EFFECT: the resize handle is disabled
-        #self.trackerListView.setMaximumHeight(80)  # EFFECT: the resize handle is disabled
 
         # WOW! This line of codes solves my problem
         content = DockContent(self)
