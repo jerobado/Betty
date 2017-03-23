@@ -5,57 +5,34 @@
 
 from PyQt5.QtGui import (QIcon,
                          QKeySequence)
-
 from PyQt5.QtCore import (Qt,
                           QDateTime,
-                          QSettings,
-                          QPoint,
-                          QSize,
-                          QByteArray)
-
+                          QSettings)
 from PyQt5.QtWidgets import (QMainWindow,
                              QLabel,
                              QTextEdit,
                              QAction,
                              QDockWidget,
                              QMessageBox,
-                             QListView,
-                             QWidget,
-                             QVBoxLayout)
-
+                             QListView)
 from resources import bipc_resources   # Don't remove this!
-
 from resources._constants import (ABOUT,
-                                 TITLE,
-                                 TEMP_DIALOG_INFO)
-
+                                  TITLE,
+                                  TEMP_DIALOG_INFO)
 from resources.models import TrackerListModel
 
 # Application settings variables
 APPEND = True   # Default, any new template created will overwrite the previous one
 
 
-class DockContent(QWidget):
-    _sizehint = None
-
-    def setSizeHint(self, width, height):
-        self._sizehint = QSize(width, height)
-
-    def sizeHint(self):
-        if self._sizehint is not None:
-            return self._sizehint
-        return super().sizeHint()
-
-
 class Betty(QMainWindow):
     """ Main window for Betty """
 
-    SETTINGS_VERSION = 2
+    SETTINGS_VERSION = 0
 
     def __init__(self, parent=None):
 
         super().__init__(parent)
-
         # Resident variables
         self.todays_marker = ''
         self.TEMP_TEMPLATE_STORAGE_LIST = []        # Template holder in HTML format
@@ -89,23 +66,18 @@ class Betty(QMainWindow):
         self.setWindowIcon(QIcon(':/TOOLS.png'))
 
     def _readSettings(self):
+        """ Method for retrieving Betty's position and state """
 
         settings = QSettings("GIPSC Core Team", "Betty")
         self.restoreGeometry(settings.value("betty_geometry"))
-        state = settings.value("betty_state", QByteArray(), type=QByteArray)
-        if state:
-            self.restoreState(state, version=self.SETTINGS_VERSION)
-        #self.restoreState()
-        #print('betty_state:', self.saveGeometry())
+        self.restoreState(settings.value("betty_state", self.saveState()))
 
     def _writeSettings(self):
+        """ Method for saving Betty's position and state """
 
         settings = QSettings("GIPSC Core Team", "Betty")
         settings.setValue("betty_geometry", self.saveGeometry())
-        # TODO: Betty simply crashes with this line
-        #settings.setvalue("betty_state", self.saveState())
-        state = self.saveState(version=self.SETTINGS_VERSION)
-        settings.setValue("betty_state", state)
+        settings.setValue("betty_state", self.saveState())  # blame this line if something crashes
 
     def _connections(self):
         """ Connect widget signals and slots """
@@ -230,17 +202,9 @@ class Betty(QMainWindow):
 
         # Add widget to be inserted inside self.trackerDockWidget
         self.trackerListView = QListView()
-
-        # WOW! This line of codes solves my problem
-        content = DockContent(self)
-        content.setSizeHint(50, 80)
-        layout = QVBoxLayout(content)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.trackerListView)
-        self.trackerDockWidget.setWidget(content)
-
-        #self.trackerDockWidget.setWidget(self.trackerListView)
-        self.addDockWidget(Qt.BottomDockWidgetArea, self.trackerDockWidget)  # Set Tracker at the bottom
+        self.trackerListView.resize(0, 80)
+        self.trackerDockWidget.setWidget(self.trackerListView)
+        self.addDockWidget(Qt.BottomDockWidgetArea, self.trackerDockWidget)
 
         # Add an action, you cannot customize tracker action by using QDockWidget.toggleViewAction()
         self.viewMenu.addAction(self.trackerDockWidget.toggleViewAction())
@@ -353,5 +317,5 @@ class Betty(QMainWindow):
     # REUSE: only re-write QMainWindow's resident functions here
     def closeEvent(self, event):
 
-        self._writeSettings()   # Get Betty's last state before totally closing
-        super(Betty, self).closeEvent(event)
+        # Get Betty's last state before totally closing
+        self._writeSettings()
