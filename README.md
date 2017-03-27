@@ -1,5 +1,7 @@
 ![Hey! Betty](images/logo_32.png) Betty
 ---------------------------------------
+[![Code Climate](https://codeclimate.com/github/mokachokokarbon/Betty/badges/gpa.svg)](https://codeclimate.com/github/mokachokokarbon/Betty)
+
 An application that can be use alongside BIPC for creating workplan. The main goal of _Betty_ is to provide rapid creation of special instruction templates that adheres to the standard process use by the Core Team. Implemented exclusively on Python (backend) and PyQt (GUI).
 
 Developing and Contributing
