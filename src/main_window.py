@@ -90,22 +90,19 @@ class Betty(QMainWindow):
 
         # Remember: when using QIcon, don't forget to update resources.qrc
         # Remember: when creating a QAction, it should have a parent
+
         # File menu: actions inside this menu
         self.newAction = QAction(QIcon(":/new.png"), "&New", self,
                                  shortcut=QKeySequence.New,
                                  statusTip="Create a new template",
                                  toolTip="New",
                                  triggered=self.on_newTemplate_action)
-        #self.settingsAction = QAction(QIcon(":/settings.png"), "Se&ttings", self,
-        #       shortcut="Ctrl+Alt+S",
-        #       statusTip="Edit application settings",
-        #       triggered=self.on_settings_action)
         self.exitAction = QAction(QIcon(":/quit.png"), "E&xit", self,
                                   shortcut="Ctrl+Q",
                                   statusTip="Exit the application",
                                   triggered=self.close)
 
-        # Edit menu: actions inside this menu
+        # Edit menu
         self.cutAction = QAction(QIcon(":/cut.png"), "Cu&t", self,
                                  shortcut=QKeySequence.Cut,
                                  enabled=False,
@@ -128,12 +125,13 @@ class Betty(QMainWindow):
                                         statusTip="Select all",
                                         triggered=self.mainTextEdit.selectAll)
 
+        # Settings menu
         self.appendAction = QAction("&Append Template", self,
                                     checkable=True,
                                     statusTip="Append created template to editor",
                                     triggered=self.on_appendAction_clicked)
 
-        # Help: actions inside this menu
+        # Help menu
         self.aboutAction = QAction("&About", self,
                                    statusTip="Show information about Betty",
                                    triggered=self.on_aboutAction_clicked)
@@ -145,8 +143,6 @@ class Betty(QMainWindow):
         self.fileMenu = self.menuBar().addMenu("&File")
         self.fileMenu.addAction(self.newAction)
         self.fileMenu.addSeparator()
-        #self.fileMenu.addAction(self.settingsAction)
-        #self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.exitAction)
 
         # Edit: undo, redo, cut, copy or paste
@@ -160,7 +156,7 @@ class Betty(QMainWindow):
         # View: Tracker
         self.viewMenu = self.menuBar().addMenu("&View")
 
-        # Settings: check...
+        # Settings: Append Template
         self.settingsMenu = self.menuBar().addMenu("&Settings")
         self.settingsMenu.addAction(self.appendAction)
 
@@ -295,18 +291,6 @@ class Betty(QMainWindow):
         """ Event handler for Help > About"""
 
         QMessageBox.about(self, "About Betty", ABOUT)
-
-    # TODO: this function has no meaning while Betty is currently running
-    def on_settings_action(self):
-        """ Event handler for File > Settings """
-
-        from src.dialogs.settings import Settings
-
-        dialog = Settings()
-        if dialog.exec_():
-            if dialog.appendCheckBox.isChecked():
-                global APPEND
-                APPEND = False
 
     def on_appendAction_clicked(self):
 
