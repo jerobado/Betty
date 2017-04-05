@@ -8,20 +8,17 @@ from PyQt5.QtWidgets import (QLabel,
                              QDialog,
                              QListView)
 from PyQt5.QtCore import (QSettings,
-                          QPoint,
-                          QSize,
                           Qt,)
 from PyQt5.QtGui import QIcon
 from resources._constants import WORKTYPE
 from resources.models import WorktypeListModel
 
 
-# Dialogs starts here...
 class New(QDialog):
 
     def __init__(self, parent=None):
-        super(New, self).__init__(parent)
 
+        super().__init__(parent)
         self._widgets()
         self._layout()
         self._properties()
@@ -74,16 +71,12 @@ class New(QDialog):
     def _readSettings(self):
 
         settings = QSettings("NEW", "new_dialog")
-        position = settings.value("position", QPoint(200, 200))
-        size = settings.value("size", QSize(250, 100))
-        self.move(position)
-        self.resize(size)
+        self.restoreGeometry(settings.value("new_dialog_geometry"))
 
     def _writeSettings(self):
 
         settings = QSettings("NEW", "new_dialog")
-        settings.setValue("position", self.pos())
-        settings.setValue("size", self.size())
+        settings.setValue("new_dialog_geometry", self.saveGeometry())
 
     def accept(self):
 
@@ -96,11 +89,7 @@ class New(QDialog):
             self._writeSettings()
             self.close()
 
-        if event.key() == Qt.Key_Return:
-            self._writeSettings()
-            self.done(1)
-
-        if event.key() == Qt.Key_Enter:
+        if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
             self._writeSettings()
             self.done(1)
 
