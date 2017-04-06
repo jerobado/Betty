@@ -1,4 +1,4 @@
-# Project-BET > src > main_window.py
+# Betty > src > main_window.py
 # The main UI of Betty
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
@@ -15,20 +15,17 @@ from PyQt5.QtWidgets import (QMainWindow,
                              QDockWidget,
                              QMessageBox,
                              QListView)
-from resources import bipc_resources   # Don't remove this!
 from resources._constants import (ABOUT,
                                   TITLE,
                                   TEMP_DIALOG_INFO)
 from resources.models import TrackerListModel
+from resources import bipc_resources   # Don't remove this!
 
 # Application settings variables
 APPEND = True   # Default, any new template created will overwrite the previous one
 
 
 class Betty(QMainWindow):
-    """ Main window for Betty """
-
-    SETTINGS_VERSION = 0
 
     def __init__(self, parent=None):
 
