@@ -1,15 +1,11 @@
-# Betty > dialogs > search.py
+# Betty > src > dialogs > search.py
 
 from PyQt5.QtGui import (QTextCharFormat,
                          QIcon)
-
 from PyQt5.QtCore import (QDate,
                           QStringListModel,
                           Qt,
-                          QSettings,
-                          QSize,
-                          QPoint)
-
+                          QSettings)
 from PyQt5.QtWidgets import (QLabel,
                              QLineEdit,
                              QPlainTextEdit,
@@ -27,7 +23,6 @@ from PyQt5.QtWidgets import (QLabel,
                              QCalendarWidget,
                              QCompleter,
                              QSizePolicy)
-
 from resources._constants import (SEARCH_SPECIAL,
                                  SEARCH_TEMPLATE,
                                  ARTWORK_TOOLTIP,
@@ -42,19 +37,11 @@ from resources._constants import (SEARCH_SPECIAL,
                                  STYLE_DOCUMENT)
 
 
-# Main dialog for searching template
 class Search(QDialog):
 
     def __init__(self, parent=None):
-        super(Search, self).__init__(parent)
 
-        # resident variables
-        self.date_format = 'd MMM yyyy'
-        self.due_date = QDate.currentDate()
-        self.today = QDate.currentDate()
-        self.selected_TAT = ''
-        self.client_TAT = ''
-        self.DEFAULT_SI = ''
+        super().__init__(parent)
 
         # TEST: trying to implement QCompleter here
         self.suggested_markers_model = QStringListModel()
@@ -64,12 +51,21 @@ class Search(QDialog):
         self.tracker_completer.setCaseSensitivity(Qt.CaseInsensitive)
 
         # resident functions
+        self._variables()
         self._widgets()
         self._layout()
         self._properties()
         self._connections()
-        self._readSettings()            # read current state of this dialog
+        self._readSettings()
         self.on_setCriteria_changed()   # Method that will handle the changes in the Set Criteria fields
+
+    def _variables(self):
+        self.date_format = 'd MMM yyyy'
+        self.due_date = QDate.currentDate()
+        self.today = QDate.currentDate()
+        self.selected_TAT = ''
+        self.client_TAT = ''
+        self.DEFAULT_SI = ''
 
     def _widgets(self):
         """ Create new PyQt widgets here """
@@ -77,7 +73,7 @@ class Search(QDialog):
         self.trackerLineEdit = QLineEdit()
         self.clientLabel = QLabel("Clie&nt:")
         self.clientComboBox = QComboBox()
-        # TODO: you need a freaking list to hold your growing clients :)
+        # TODO -ISSUE 03: there should be a client list in src/resources/_constants.py, also implement this as a model
         self.clientComboBox.insertItem(0, "Abbott")
         self.clientComboBox.insertItem(1, "GE")
         self.clientComboBox.insertItem(2, "Google")
@@ -151,10 +147,10 @@ class Search(QDialog):
         buttons.addWidget(self.addButton)
         buttons.addWidget(self.clearButton)
 
-        # add layout to the group
+        # Add layout to the group
         center.addLayout(buttons)
 
-        # set main layout for Search
+        # Set main layout for Search
         self.setLayout(center)
 
     def _properties(self):
@@ -193,16 +189,12 @@ class Search(QDialog):
     def _readSettings(self):
 
         settings = QSettings("SEARCHING", "search_dialog")
-        position = settings.value("position", QPoint(200, 200))
-        size = settings.value("size", QSize(410, 550))
-        self.move(position)
-        self.resize(size)
+        self.restoreGeometry(settings.value("search_dialog_geometry"))
 
     def _writeSettings(self):
 
         settings = QSettings("SEARCHING", "search_dialog")
-        settings.setValue("position", self.pos())
-        settings.setValue("size", self.size())
+        settings.setValue("search_dialog_geometry", self.saveGeometry())
 
     def _connections(self):
         """ Connect every PyQt widgets here """
@@ -224,27 +216,26 @@ class Search(QDialog):
         self.addButton.clicked.connect(self.accept)
         self.clearButton.clicked.connect(self.on_clearButton_clicked)
 
-    # TEST: event handling for self.dueDateEdit.dateChanged
-    def on_due_dateDateEdit_dateChanged(self):
-        """ Event handler for self.due_dateDateEdit
-
-            return QDate
-        """
-
-        # Get any selected date when the user uses the calendar
-        self.due_date = self.due_dateDateEdit.date()
-        return self.due_date
-
     def dialog_info(self):
         """ Dialog information identifier """
 
         return 'Searching'
 
     # EVENT HANDLING starts here...
+    def on_due_dateDateEdit_dateChanged(self):
+        """ Event handler for self.due_dateDateEdit
+            This will get any selected date when the user uses the calendar
+
+            return QDate
+        """
+
+        self.due_date = self.due_dateDateEdit.date()
+        return self.due_date
+
     def on_clientComboBox_activated(self):
         """ Event handler for self.clientComboBox """
 
-        # TODO: Ok, you see a pattern here. You know what to do with this un-pythonic block of conditions!
+        # TODO -ISSUE 04: Ok, you see a pattern here. You know what to do with this un-pythonic block of conditions!
         if self.clientComboBox.currentText() == 'GE':
             self.DEFAULT_SI = ""
             self.client_TAT = GE_TAT
@@ -270,7 +261,7 @@ class Search(QDialog):
         # Get selected importance
         importance = self.importanceComboBox.currentText()
 
-        # TODO: make this pythonic
+        # TODO -ISSUE 04: make this pythonic
         # Check what the user choose
         if importance == 'Low/Medium':
             self.selected_TAT = self.client_TAT[importance]
