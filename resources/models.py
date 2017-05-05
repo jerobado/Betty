@@ -39,6 +39,11 @@ class TrackerListModel(QAbstractListModel):
         if role == Qt.EditRole:
             return self.__trackerlist[index.row()]
 
+        if role == Qt.ToolTipRole:
+            row = index.row()
+            icon_info = TEMP_DIALOG_INFO[row]
+            return icon_info
+
     def setData(self, index, value, role=Qt.DisplayRole):
         if role == Qt.EditRole:
             row = index.row()
