@@ -5,7 +5,8 @@ from PyQt5.QtCore import (Qt,
                           QModelIndex,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
-from resources._constants import TEMP_DIALOG_INFO
+from resources._constants import (TEMP_DIALOG_INFO,
+                                  TRACKER_TOOLTIP)
 
 
 class TrackerListModel(QAbstractListModel):
@@ -42,7 +43,8 @@ class TrackerListModel(QAbstractListModel):
         if role == Qt.ToolTipRole:
             row = index.row()
             icon_info = TEMP_DIALOG_INFO[row]
-            return icon_info
+            value = self.__trackerlist[row]
+            return TRACKER_TOOLTIP.format(icon_info, value)
 
     def setData(self, index, value, role=Qt.DisplayRole):
         if role == Qt.EditRole:
@@ -56,7 +58,7 @@ class TrackerListModel(QAbstractListModel):
     def rowCount(self, parent):
         return len(self.__trackerlist)
 
-    def insertRows(self, position, rows, parent = QModelIndex()):
+    def insertRows(self, position, rows, parent=QModelIndex()):
         self.beginInsertRows(parent, position, position + rows - 1)
         # Still works!
         self.endInsertRows()
