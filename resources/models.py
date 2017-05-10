@@ -5,7 +5,8 @@ from PyQt5.QtCore import (Qt,
                           QModelIndex,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
-from resources._constants import (TEMP_DIALOG_INFO,
+from resources._constants import (TEMP_TEMPLATE_STORAGE_LIST,
+                                  TEMP_DIALOG_INFO,
                                   TRACKER_TOOLTIP)
 
 
@@ -42,9 +43,10 @@ class TrackerListModel(QAbstractListModel):
 
         if role == Qt.ToolTipRole:
             row = index.row()
+            template = TEMP_TEMPLATE_STORAGE_LIST[row]
             icon_info = TEMP_DIALOG_INFO[row]
             value = self.__trackerlist[row]
-            return TRACKER_TOOLTIP.format(icon_info, value)
+            return TRACKER_TOOLTIP.format(template, icon_info, value)
 
     def setData(self, index, value, role=Qt.DisplayRole):
         if role == Qt.EditRole:

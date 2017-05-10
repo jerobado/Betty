@@ -17,6 +17,7 @@ from PyQt5.QtWidgets import (QMainWindow,
                              QListView)
 from resources._constants import (ABOUT,
                                   TITLE,
+                                  TEMP_TEMPLATE_STORAGE_LIST,
                                   TEMP_DIALOG_INFO)
 from resources.models import TrackerListModel
 from resources import bipc_resources   # Don't remove this!
@@ -32,7 +33,7 @@ class Betty(QMainWindow):
         super().__init__(parent)
         # Resident variables
         self.todays_marker = ''
-        self.TEMP_TEMPLATE_STORAGE_LIST = []        # Template holder in HTML format
+        # TODO: transfer this variable into _constant.py
         self.TEMP_TEMPLATE_STORAGE_DATA = []        # Tracker list holder
         self.model = TrackerListModel(self.TEMP_TEMPLATE_STORAGE_DATA)
 
@@ -227,7 +228,7 @@ class Betty(QMainWindow):
     def on_trackerListView_clicked(self):
         raw_data = self.trackerListView.currentIndex()
         row = raw_data.row()
-        raw_template = self.TEMP_TEMPLATE_STORAGE_LIST[row]
+        raw_template = TEMP_TEMPLATE_STORAGE_LIST[row]
         self.check_if_append(raw_template)
         self.setWindowTitle(' - '.join([self.TEMP_TEMPLATE_STORAGE_DATA[row], TITLE]))
 
@@ -245,7 +246,7 @@ class Betty(QMainWindow):
     def add_to_storage(self, template):
         """ Method for storing generated templates """
 
-        self.TEMP_TEMPLATE_STORAGE_LIST.append(template)
+        TEMP_TEMPLATE_STORAGE_LIST.append(template)
 
     def add_to_listview(self, users_marker):
         """ Method that will populate the Tracker list """
