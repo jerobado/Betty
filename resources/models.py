@@ -6,7 +6,8 @@ from PyQt5.QtCore import (Qt,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
 from resources._constants import (TEMP_TEMPLATE_STORAGE_LIST,
-                                  TEMP_DIALOG_INFO,
+                                  TEMP_TEMPLATE_DIALOG_INFO,
+                                  TEMP_TEMPLATE_DATECREATED,
                                   TRACKER_TOOLTIP)
 
 
@@ -22,7 +23,6 @@ class TrackerListModel(QAbstractListModel):
         self.__trackerlist = trackerlist
 
     def data(self, index, role):
-        # TODO: something does not know where to append the last tracker name
         if role == Qt.DisplayRole:
             row = index.row()
             value = self.__trackerlist[row]
@@ -30,7 +30,7 @@ class TrackerListModel(QAbstractListModel):
 
         if role == Qt.DecorationRole:
             row = index.row()
-            icon_info = TEMP_DIALOG_INFO[row]
+            icon_info = TEMP_TEMPLATE_DIALOG_INFO[row]
 
             if icon_info == 'Filing':
                 return QIcon(':/file_32.png')
@@ -44,9 +44,9 @@ class TrackerListModel(QAbstractListModel):
         if role == Qt.ToolTipRole:
             row = index.row()
             template = TEMP_TEMPLATE_STORAGE_LIST[row]
-            icon_info = TEMP_DIALOG_INFO[row]
-            value = self.__trackerlist[row]
-            return TRACKER_TOOLTIP.format(template, icon_info, value)
+            dialog_info = TEMP_TEMPLATE_DIALOG_INFO[row]
+            date_created = TEMP_TEMPLATE_DATECREATED[row]
+            return TRACKER_TOOLTIP.format(template, dialog_info, date_created)
 
     def setData(self, index, value, role=Qt.DisplayRole):
         if role == Qt.EditRole:

@@ -17,8 +17,10 @@ from PyQt5.QtWidgets import (QMainWindow,
                              QListView)
 from resources._constants import (ABOUT,
                                   TITLE,
+                                  TEMP_TEMPLATE_STORAGE_DATA,
                                   TEMP_TEMPLATE_STORAGE_LIST,
-                                  TEMP_DIALOG_INFO)
+                                  TEMP_TEMPLATE_DATECREATED,
+                                  TEMP_TEMPLATE_DIALOG_INFO)
 from resources.models import TrackerListModel
 from resources import bipc_resources   # Don't remove this!
 
@@ -33,10 +35,7 @@ class Betty(QMainWindow):
         super().__init__(parent)
         # Resident variables
         self.todays_marker = ''
-        # TODO: transfer this variable into _constant.py
-        self.TEMP_TEMPLATE_STORAGE_DATA = []        # Tracker list holder
-        self.model = TrackerListModel(self.TEMP_TEMPLATE_STORAGE_DATA)
-
+        self.model = TrackerListModel(TEMP_TEMPLATE_STORAGE_DATA)
         # Internal methods, for private use only (it's not what you think ^^ )
         self._widgets()
         self._properties()
@@ -230,7 +229,7 @@ class Betty(QMainWindow):
         row = raw_data.row()
         raw_template = TEMP_TEMPLATE_STORAGE_LIST[row]
         self.check_if_append(raw_template)
-        self.setWindowTitle(' - '.join([self.TEMP_TEMPLATE_STORAGE_DATA[row], TITLE]))
+        self.setWindowTitle(' - '.join([TEMP_TEMPLATE_STORAGE_DATA[row], TITLE]))
 
     # UTILITIES: functional task use by the main window
     def check_if_append(self, template):
@@ -254,16 +253,16 @@ class Betty(QMainWindow):
         # Add the user defined marker in the Tracker
         if users_marker:
             self.todays_marker = users_marker
-            self.TEMP_TEMPLATE_STORAGE_DATA.append(users_marker)
+            TEMP_TEMPLATE_STORAGE_DATA.append(users_marker)
 
         # Default marker is the current system Date & Time
         else:
             datetime_marker = QDateTime()
             self.todays_marker = datetime_marker.currentDateTime().toString('dd-MMM-yyyy hh:mm:ss')
-            self.TEMP_TEMPLATE_STORAGE_DATA.append(self.todays_marker)      # Store the generated marker in temp list
+            TEMP_TEMPLATE_STORAGE_DATA.append(self.todays_marker)      # Store the generated marker in temp list
 
-        self.model.insertRows(len(self.TEMP_TEMPLATE_STORAGE_DATA), 1)      # Re-insert the list in the model
-        self.trackerListView.setModel(self.model)                           # Update the model
+        self.model.insertRows(len(TEMP_TEMPLATE_STORAGE_DATA), 1)      # Re-insert the list in the model
+        self.trackerListView.setModel(self.model)                      # Update the model
 
     def add_to_windowtitle(self):
         """ Method that will set the window title based on the default (date & time) or user's marker """
@@ -276,13 +275,14 @@ class Betty(QMainWindow):
         # Invoke the selected dialog
         if dialog.exec_():
             # Execute this statements if the user hits the 'Add' button
-            TEMP_DIALOG_INFO.append(dialog.dialog_info())               # Storage for dialog information used
-            generated_template = dialog.previewTextEdit.toHtml()        # Retrieve any text this widget in html format
+            TEMP_TEMPLATE_DATECREATED.append(QDateTime.currentDateTime().toString('dd-MMM-yyyy hh:mm:ss'))
+            TEMP_TEMPLATE_DIALOG_INFO.append(dialog.dialog_info())      # Storage for dialog information used
+            generated_template = dialog.previewTextEdit.toHtml()        # Retrieve any text this widget in HTML format
             self.add_to_listview(dialog.trackerLineEdit.text())         # Populate the Tracker
             self.add_to_storage(generated_template)                     # Populate the temporary storage
             self.check_if_append(generated_template)                    # Appending?
             self.add_to_windowtitle()                                   # Set the window title
-            self.status.showMessage('New {} template added'.format(dialog.dialog_info()), 6000)
+            self.status.showMessage(f'New {dialog.dialog_info()} template added', 6000)
 
     # MENU ACTIONS: define slots here for menu
     def on_aboutAction_clicked(self):
