@@ -230,6 +230,7 @@ class Search(QDialog):
         """
 
         self.due_date = self.due_dateDateEdit.date()
+        self.daysSpinBox.setValue(self.today.daysTo(self.due_date))
         return self.due_date
 
     def on_clientComboBox_activated(self):
@@ -273,6 +274,7 @@ class Search(QDialog):
     def on_daysSpinBox_valueChanged(self):
 
         self.due_date = self.today.addDays(self.daysSpinBox.value())
+        self.due_dateDateEdit.setDate(self.due_date)
 
     def on_setCriteria_changed(self):
 
