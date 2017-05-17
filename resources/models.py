@@ -8,7 +8,10 @@ from PyQt5.QtGui import QIcon
 from resources._constants import (TEMP_TEMPLATE_STORAGE_LIST,
                                   TEMP_TEMPLATE_DIALOG_INFO,
                                   TEMP_TEMPLATE_DATECREATED,
-                                  TRACKER_TOOLTIP)
+                                  TEMP_TEMPLATE_SEARCH_TAT,
+                                  TEMPLATE_TOOLTIP,
+                                  FILING_TOOLTIP,
+                                  SEARCH_TOOLTIP)
 
 
 class TrackerListModel(QAbstractListModel):
@@ -44,9 +47,9 @@ class TrackerListModel(QAbstractListModel):
         if role == Qt.ToolTipRole:
             row = index.row()
             template = TEMP_TEMPLATE_STORAGE_LIST[row]
-            dialog_info = TEMP_TEMPLATE_DIALOG_INFO[row]
+            worktype = TEMP_TEMPLATE_DIALOG_INFO[row]
             date_created = TEMP_TEMPLATE_DATECREATED[row]
-            return TRACKER_TOOLTIP.format(template, dialog_info, date_created)
+            return TEMPLATE_TOOLTIP.format(template, worktype, date_created)
 
     def setData(self, index, value, role=Qt.DisplayRole):
         if role == Qt.EditRole:
