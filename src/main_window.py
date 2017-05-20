@@ -21,7 +21,8 @@ from resources._constants import (ABOUT,
                                   TEMP_TEMPLATE_STORAGE_LIST,
                                   TEMP_TEMPLATE_DATECREATED,
                                   TEMP_TEMPLATE_DIALOG_INFO,
-                                  TEMP_TEMPLATE_SEARCH_TAT)
+                                  TEMP_TEMPLATE_SEARCH_TAT,
+                                  TEMP_TEMPLATE_SEARCH_IMPORTANCE)
 from resources.models import TrackerListModel
 from resources import bipc_resources   # Don't remove this!
 
@@ -276,6 +277,16 @@ class Betty(QMainWindow):
         # Invoke the selected dialog
         if dialog.exec_():
             # Execute this statements if the user hits the 'Add' button
+            if dialog.dialog_info() == 'Searching':
+                tat = dialog.today.daysTo(dialog.due_date)
+                importance = dialog.importanceComboBox.currentText()
+                TEMP_TEMPLATE_SEARCH_TAT.append(tat)
+                TEMP_TEMPLATE_SEARCH_IMPORTANCE.append(importance)
+            else:
+                # We append 'None' as a dummy value on these containers to keep the length in sync with the Tracker list
+                TEMP_TEMPLATE_SEARCH_TAT.append(None)
+                TEMP_TEMPLATE_SEARCH_IMPORTANCE.append(None)
+
             TEMP_TEMPLATE_DATECREATED.append(QDateTime.currentDateTime().toString('dd-MMM-yyyy hh:mm:ss'))
             TEMP_TEMPLATE_DIALOG_INFO.append(dialog.dialog_info())      # Storage for dialog information used
             generated_template = dialog.previewTextEdit.toHtml()        # Retrieve any text this widget in HTML format

@@ -9,7 +9,7 @@ from resources._constants import (TEMP_TEMPLATE_STORAGE_LIST,
                                   TEMP_TEMPLATE_DIALOG_INFO,
                                   TEMP_TEMPLATE_DATECREATED,
                                   TEMP_TEMPLATE_SEARCH_TAT,
-                                  TEMPLATE_TOOLTIP,
+                                  TEMP_TEMPLATE_SEARCH_IMPORTANCE,
                                   FILING_TOOLTIP,
                                   SEARCH_TOOLTIP)
 
@@ -47,9 +47,15 @@ class TrackerListModel(QAbstractListModel):
         if role == Qt.ToolTipRole:
             row = index.row()
             template = TEMP_TEMPLATE_STORAGE_LIST[row]
-            worktype = TEMP_TEMPLATE_DIALOG_INFO[row]
+            dialog_info = TEMP_TEMPLATE_DIALOG_INFO[row]
             date_created = TEMP_TEMPLATE_DATECREATED[row]
-            return TEMPLATE_TOOLTIP.format(template, worktype, date_created)
+
+            if dialog_info == 'Filing':
+                return FILING_TOOLTIP.format(template, dialog_info, date_created)
+            else:
+                tat = TEMP_TEMPLATE_SEARCH_TAT[row]
+                importance = TEMP_TEMPLATE_SEARCH_IMPORTANCE[row]
+                return SEARCH_TOOLTIP.format(template, dialog_info, importance, tat, date_created)
 
     def setData(self, index, value, role=Qt.DisplayRole):
         if role == Qt.EditRole:
