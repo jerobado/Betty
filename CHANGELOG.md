@@ -10,9 +10,9 @@ _Release date: 2017-06-01_ [unreleased]
     * A new hint will pop-up will appear when the user hover the mouse pointer in one of the entries in the tracker, this will show the template details entered. [ISSUE #2](https://github.com/mokachokokarbon/Betty/issues/2)
     * The last known size of the _Tracker_ can now be retrieved.
 * Searching
-    * Number of days is now displayed in the Days Counter box when the user selects a future date in the Calendar. Vice versa, the Calendar also updates if the user uses the Days Counter box.
+    * Calendar and Days Counter spin box are now in sync when updating.
 * Development (the bloody part)
-    * Betty is now implemented in Python 3.6.0 and in PyQt 5.8.1
+    * Betty is now implemented in Python 3.6.0 and in PyQt 5.8.1.
     * Reimplemented how the app will restore its geometry and state.
 
 

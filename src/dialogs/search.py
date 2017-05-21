@@ -23,18 +23,19 @@ from PyQt5.QtWidgets import (QLabel,
                              QCalendarWidget,
                              QCompleter,
                              QSizePolicy)
-from resources._constants import (SEARCH_SPECIAL,
-                                 SEARCH_TEMPLATE,
-                                 ARTWORK_TOOLTIP,
-                                 IMAGE_TOOLTIP,
-                                 WITH_ARTWORK,
-                                 WITH_IMAGE,
-                                 GOOGLE_DEFAULT,
-                                 GOOGLE_TAT,
-                                 ABBOTT_TAT,
-                                 UN_TAT,
-                                 GE_TAT,
-                                 STYLE_DOCUMENT)
+from resources._constants import (SEARCH_CLIENTS,
+                                  SEARCH_SPECIAL,
+                                  SEARCH_TEMPLATE,
+                                  ARTWORK_TOOLTIP,
+                                  IMAGE_TOOLTIP,
+                                  WITH_ARTWORK,
+                                  WITH_IMAGE,
+                                  GOOGLE_DEFAULT,
+                                  GOOGLE_TAT,
+                                  ABBOTT_TAT,
+                                  UN_TAT,
+                                  GE_TAT,
+                                  STYLE_DOCUMENT)
 
 
 class Search(QDialog):
@@ -73,12 +74,8 @@ class Search(QDialog):
         self.trackerLineEdit = QLineEdit()
         self.clientLabel = QLabel("Clie&nt:")
         self.clientComboBox = QComboBox()
-        # TODO -ISSUE 03: there should be a client list in src/resources/_constants.py, also implement this as a model
-        self.clientComboBox.insertItem(0, "Abbott")
-        self.clientComboBox.insertItem(1, "GE")
-        self.clientComboBox.insertItem(2, "Google")
-        self.clientComboBox.insertItem(3, "Unilever")
-        self.clientComboBox.setCurrentText("Unilever")
+        self.clientComboBox.insertItems(0, SEARCH_CLIENTS)
+        self.clientComboBox.setCurrentIndex(3)
         self.due_dateLabel = QLabel("&Due Date:")
         self.importanceLabel = QLabel("Selec&t Importance:")
         self.specialLabel = QLabel("&Special Instruction:")
@@ -177,6 +174,7 @@ class Search(QDialog):
         self.previewTextEdit.setDocument(STYLE_DOCUMENT)    # Apply style
 
         # set default TAT values
+        # TODO: check if for deletion
         self.client_TAT = UN_TAT
 
         # TEST: see line 37
@@ -222,11 +220,11 @@ class Search(QDialog):
         return 'Searching'
 
     # EVENT HANDLING starts here...
-    def on_due_dateDateEdit_dateChanged(self):
+    def on_due_dateDateEdit_dateChanged(self) -> QDate:
         """ Event handler for self.due_dateDateEdit
             This will get any selected date when the user uses the calendar
 
-            return QDate
+            return QDate -> PyQt5.QtCore.QDate(2017, 5, 23)
         """
 
         self.due_date = self.due_dateDateEdit.date()
@@ -237,23 +235,24 @@ class Search(QDialog):
         """ Event handler for self.clientComboBox """
 
         # TODO -ISSUE 04: Ok, you see a pattern here. You know what to do with this un-pythonic block of conditions!
-        if self.clientComboBox.currentText() == 'GE':
-            self.DEFAULT_SI = ""
-            self.client_TAT = GE_TAT
-            self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
-        elif self.clientComboBox.currentText() == 'Google':
-            self.DEFAULT_SI = GOOGLE_DEFAULT
-            self.client_TAT = GOOGLE_TAT
-            self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
-        elif self.clientComboBox.currentText() == 'Unilever':
-            self.DEFAULT_SI = ""
-            self.client_TAT = UN_TAT
-            self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
-        elif self.clientComboBox.currentText() == 'Abbott':
+        if self.clientComboBox.currentIndex() == 0:
             self.DEFAULT_SI = ""
             self.client_TAT = ABBOTT_TAT
             self.selected_TAT = ABBOTT_TAT[self.importanceComboBox.currentText()]
+        elif self.clientComboBox.currentIndex() == 1:
+            self.DEFAULT_SI = ""
+            self.client_TAT = GE_TAT
+            self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
+        elif self.clientComboBox.currentIndex() == 2:
+            self.DEFAULT_SI = GOOGLE_DEFAULT
+            self.client_TAT = GOOGLE_TAT
+            self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
+        elif self.clientComboBox.currentIndex() == 3:
+            self.DEFAULT_SI = ""
+            self.client_TAT = UN_TAT
+            self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
         else:
+            # TODO: bad 'else' clause design, try to think another approach
             pass
 
     def on_importanceComboBox_activated(self):

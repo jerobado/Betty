@@ -1,5 +1,5 @@
 # Betty > src > main_window.py
-# The main UI of Betty
+# Main user interface of Betty
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
@@ -38,7 +38,7 @@ class Betty(QMainWindow):
         # Resident variables
         self.todays_marker = ''
         self.model = TrackerListModel(TEMP_TEMPLATE_STORAGE_DATA)
-        # Internal methods, for private use only (it's not what you think ^^ )
+        # Private methods
         self._widgets()
         self._properties()
         self._createActions()

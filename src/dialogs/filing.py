@@ -1,12 +1,10 @@
-# Project-BET > src > dialogs > filing.py
+# Betty > src > dialogs > filing.py
 
 from PyQt5.QtGui import (QIcon)
-
 from PyQt5.QtCore import (QSettings,
                           QPoint,
                           QSize,
                           Qt)
-
 from PyQt5.QtWidgets import (QLabel,
                              QLineEdit,
                              QDialog,
@@ -21,15 +19,14 @@ from PyQt5.QtWidgets import (QLabel,
                              QPlainTextEdit,
                              QSpacerItem,
                              QSizePolicy)
-
 from resources._constants import (TYPE_TM,
-                                 ITU,
-                                 FILING,
-                                 FILING_SPECIAL,
-                                 FILING_TEMPLATE,
-                                 STYLE_DOCUMENT,
-                                 GE_DEFAULT,
-                                 CLIENT_FILING)
+                                  ITU,
+                                  FILING,
+                                  FILING_SPECIAL,
+                                  FILING_TEMPLATE,
+                                  STYLE_DOCUMENT,
+                                  GE_DEFAULT,
+                                  FILING_CLIENTS)
 
 
 class Filing(QDialog):
@@ -54,9 +51,8 @@ class Filing(QDialog):
         self.trackerLineEdit = QLineEdit()
         self.clientLabel = QLabel("Clie&nt:")
         self.clientComboBox = QComboBox()
-        # TODO: you also need a freaking list to hold your growing clients here XD
-        self.clientComboBox.insertItems(0, CLIENT_FILING)
-        self.clientComboBox.setCurrentText("Others")
+        self.clientComboBox.insertItems(0, FILING_CLIENTS)
+        self.clientComboBox.setCurrentIndex(1)
         self.TMNCLabel = QLabel("&TMNC:")
         self.ToTMLabel = QLabel("T&ype of Trademark:")
         self.ituComboBox = QCheckBox("Intent to &Use")
@@ -173,9 +169,9 @@ class Filing(QDialog):
     def on_clientComboBox_activated(self):
         """" Event handler for the client dropdown list """
 
-        if self.clientComboBox.currentText() == 'GE':
+        if self.clientComboBox.currentIndex() == 0:
             self.DEFAULT_SI = GE_DEFAULT
-        elif self.clientComboBox.currentText() == 'Others':
+        elif self.clientComboBox.currentIndex() == 1:
             self.DEFAULT_SI = ""
         else:
             print("#edw")
