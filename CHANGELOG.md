@@ -12,7 +12,7 @@ _Release date: 2017-06-01_ [unreleased]
 * Searching
     * Calendar and Days Counter spin box are now in sync when updating.
 * Development (the bloody part)
-    * Betty is now implemented in Python 3.6.0 and in PyQt 5.8.1.
+    * Betty is now implemented in Python 3.5.2 and in PyQt 5.8.2.
     * Reimplemented how the app will restore its geometry and state.
 
 

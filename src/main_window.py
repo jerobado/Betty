@@ -294,7 +294,7 @@ class Betty(QMainWindow):
             self.add_to_storage(generated_template)                     # Populate the temporary storage
             self.check_if_append(generated_template)                    # Appending?
             self.add_to_windowtitle()                                   # Set the window title
-            self.status.showMessage(f'New {dialog.dialog_info()} template added', 6000)
+            self.status.showMessage('New {0} template added'.format(dialog.dialog_info()), 6000)
 
     # MENU ACTIONS: define slots here for menu
     def on_aboutAction_clicked(self):
