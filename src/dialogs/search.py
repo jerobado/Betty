@@ -187,7 +187,7 @@ class Search(QDialog):
     def _readSettings(self):
 
         settings = QSettings("SEARCHING", "search_dialog")
-        self.restoreGeometry(settings.value("search_dialog_geometry"))
+        self.restoreGeometry(settings.value("search_dialog_geometry", self.saveGeometry()))
 
     def _writeSettings(self):
 

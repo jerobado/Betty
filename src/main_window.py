@@ -68,7 +68,7 @@ class Betty(QMainWindow):
         """ Method for retrieving Betty's position and state """
 
         settings = QSettings("GIPSC Core Team", "Betty")
-        self.restoreGeometry(settings.value("betty_geometry"))
+        self.restoreGeometry(settings.value("betty_geometry", self.saveGeometry()))
         self.restoreState(settings.value("betty_state", self.saveState()))
 
     def _writeSettings(self):

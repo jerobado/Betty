@@ -149,16 +149,12 @@ class Filing(QDialog):
     def _readSettings(self):
 
         settings = QSettings("FILING", "filing_dialog")
-        position = settings.value("position", QPoint(200, 200))
-        size = settings.value("size", QSize(410, 550))
-        self.move(position)
-        self.resize(size)
+        self.restoreGeometry(settings.value("filing_dialog_geometry", self.saveGeometry()))
 
     def _writeSettings(self):
 
         settings = QSettings("FILING", "filing_dialog")
-        settings.setValue("position", self.pos())
-        settings.setValue("size", self.size())
+        settings.setValue("filing_dialog_geometry", self.saveGeometry())
 
     def dialog_info(self):
         """ Dialog information identifier """

@@ -71,7 +71,7 @@ class New(QDialog):
     def _readSettings(self):
 
         settings = QSettings("NEW", "new_dialog")
-        self.restoreGeometry(settings.value("new_dialog_geometry"))
+        self.restoreGeometry(settings.value("new_dialog_geometry", self.saveGeometry()))
 
     def _writeSettings(self):
 
