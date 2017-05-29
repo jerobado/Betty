@@ -4,7 +4,7 @@ All notable changes to this project will be documented on this file.
 
 **Patch 0.7**
 
-_Release date: 2017-06-01_ [unreleased]
+_Release date: 2017-06-01_
 
 * User Interface (UI)
     * The last known size and position of the _Tracker_ can now be retrieved. [ISSUE #1](https://github.com/mokachokokarbon/Betty/issues/1)
