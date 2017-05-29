@@ -3,7 +3,7 @@
     Interface: GUI (PyQt5)
     Language: Python 3.5.2
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Jun 1, 2017 -v0.7
+    Next release date (NRD): Sep 1, 2017 -v0.8
  """
 
 
@@ -32,7 +32,7 @@ def configure_app_icon() -> None:
     """ This will show the icon of Betty in the taskbar """
 
     import ctypes
-    APP_ID = u'bakermckenzie.gipsc.betty.07'
+    APP_ID = u'bakermckenzie.gipsc.betty.08'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
 
 if __name__ == '__main__':
