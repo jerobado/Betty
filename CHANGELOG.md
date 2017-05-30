@@ -2,6 +2,16 @@ CHANGELOG
 ---------
 All notable changes to this project will be documented on this file.
 
+**Patch 0.8**
+
+_Release date: 2017-09-01_ [unreleased]
+
+* User Interface (UI)
+    * TODO: Show recent changelog in the main window.
+* Development (the bloody part)
+    * TODO: Migrate templates from `_constants.py` into an SQLite database. [ISSUE #3](https://github.com/mokachokokarbon/Betty/issues/3)
+
+
 **Patch 0.7**
 
 _Release date: 2017-06-01_
