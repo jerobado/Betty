@@ -55,3 +55,5 @@ resources/__pycache__/
 /resources/_constants.py
 
 *.py~
+*.db
+database/

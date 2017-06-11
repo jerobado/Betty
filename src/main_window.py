@@ -3,6 +3,7 @@
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
+import sqlite3
 from PyQt5.QtGui import (QIcon,
                          QKeySequence)
 from PyQt5.QtCore import (Qt,
@@ -22,7 +23,8 @@ from resources._constants import (ABOUT,
                                   TEMP_TEMPLATE_DATECREATED,
                                   TEMP_TEMPLATE_DIALOG_INFO,
                                   TEMP_TEMPLATE_SEARCH_TAT,
-                                  TEMP_TEMPLATE_SEARCH_IMPORTANCE)
+                                  TEMP_TEMPLATE_SEARCH_IMPORTANCE,
+                                  _DATABASE)
 from resources.models import TrackerListModel
 from resources import bipc_resources   # Don't remove this!
 
@@ -234,6 +236,24 @@ class Betty(QMainWindow):
         self.setWindowTitle(' - '.join([TEMP_TEMPLATE_STORAGE_DATA[row], TITLE]))
 
     # UTILITIES: functional task use by the main window
+    def add_to_database(self, dialog_type, date_created):
+
+        try:
+            # Connect to BettyDB_TEST
+            connection = sqlite3.connect(_DATABASE)
+
+            # Create cursor object to perfom SQL commands
+            cursor = connection.cursor()
+
+            # Insert new record into table
+            connection.execute("INSERT INTO BETTY_TRANSACTIONS (DialogType, DateCreated) VALUES (?, ?)", (dialog_type, date_created))
+
+            # Commit changes and close connection
+            connection.commit()
+            connection.close()
+        except:
+            print('wtf!!')
+
     def check_if_append(self, template):
         """ Method for checking if 'Append Template' is activated by the user in the Menu bar """
 
@@ -295,6 +315,11 @@ class Betty(QMainWindow):
             self.check_if_append(generated_template)                    # Appending?
             self.add_to_windowtitle()                                   # Set the window title
             self.status.showMessage('New {0} template added'.format(dialog.dialog_info()), 6000)
+
+            # TODO: design a good mechanism that can store a record in your new shining database XD
+            datecreated = QDateTime.currentDateTime().toString('dd-MMM-yyyy hh:mm:ss')
+            self.add_to_database(dialog.dialog_info(), datecreated)
+
 
     # MENU ACTIONS: define slots here for menu
     def on_aboutAction_clicked(self):
