@@ -4,10 +4,10 @@ All notable changes to this project will be documented on this file.
 
 **Patch 0.8**
 
-_Release date: 2017-09-01_ [unreleased]
+_Release date: TBA_ [unreleased]
 
 * User Interface (UI)
-    * TODO: Show recent changelog in the main window.
+    * SEARCH: added Business Days checkbox
 * Development (the bloody part)
     * TODO: Migrate templates from `_constants.py` into an SQLite database. [ISSUE #3](https://github.com/mokachokokarbon/Betty/issues/3)
 

@@ -64,6 +64,7 @@ class Search(QDialog):
         self.date_format = 'd MMM yyyy'
         self.due_date = QDate.currentDate()
         self.today = QDate.currentDate()
+        self.total_days = 0
         self.selected_TAT = ''
         self.client_TAT = ''
         self.DEFAULT_SI = ''
@@ -84,6 +85,7 @@ class Search(QDialog):
         self.currentDateFormat = QTextCharFormat()
         self.currentDateFormat.setFontWeight(75)
         self.daysSpinBox = QSpinBox()
+        self.businessdaysCheckbox = QCheckBox()
         self.importanceComboBox = QComboBox()  # provide a list when using this widget for it's content
         self.importanceComboBox.insertItem(0, "Low/Medium")
         self.importanceComboBox.insertItem(1, "Critical")
@@ -111,6 +113,7 @@ class Search(QDialog):
         label_dateEdit_tandem.addWidget(self.due_dateLabel)
         label_dateEdit_tandem.addWidget(self.due_dateDateEdit)
         label_dateEdit_tandem.addWidget(self.daysSpinBox)
+        label_dateEdit_tandem.addWidget(self.businessdaysCheckbox)
 
         label_comboBox_tandem = QHBoxLayout()
         label_comboBox_tandem.addWidget(self.importanceLabel)
@@ -155,6 +158,7 @@ class Search(QDialog):
 
         self.clientLabel.setBuddy(self.clientComboBox)
         self.due_dateLabel.setBuddy(self.due_dateDateEdit)
+        self.businessdaysCheckbox.setText('Business Days')
         self.importanceLabel.setBuddy(self.importanceComboBox)
         self.specialLabel.setBuddy(self.specialPlainTextEdit)
         self.trackerLineEdit.setPlaceholderText("Marker")
@@ -201,6 +205,8 @@ class Search(QDialog):
         self.due_dateDateEdit.dateChanged.connect(self.on_setCriteria_changed)
         self.daysSpinBox.valueChanged.connect(self.on_daysSpinBox_valueChanged)
         self.daysSpinBox.valueChanged.connect(self.on_setCriteria_changed)
+        self.businessdaysCheckbox.stateChanged.connect(self.on_businessdaysCheckbox_stateChanged)
+        self.businessdaysCheckbox.stateChanged.connect(self.on_setCriteria_changed)
         self.clientComboBox.currentIndexChanged.connect(self.on_clientComboBox_activated)
         self.clientComboBox.currentIndexChanged.connect(self.on_setCriteria_changed)
         self.importanceComboBox.currentIndexChanged.connect(self.on_importanceComboBox_activated)
@@ -228,7 +234,8 @@ class Search(QDialog):
         """
 
         self.due_date = self.due_dateDateEdit.date()
-        self.daysSpinBox.setValue(self.today.daysTo(self.due_date))
+        self.total_days = self.today.daysTo(self.due_date)
+        self.daysSpinBox.setValue(self.total_days)
         return self.due_date
 
     def on_clientComboBox_activated(self):
@@ -272,13 +279,36 @@ class Search(QDialog):
 
     def on_daysSpinBox_valueChanged(self):
 
-        self.due_date = self.today.addDays(self.daysSpinBox.value())
+        self.total_days = self.daysSpinBox.value()
+        self.due_date = self.today.addDays(self.total_days)
         self.due_dateDateEdit.setDate(self.due_date)
+
+    def on_businessdaysCheckbox_stateChanged(self):
+
+        self.compute_business_days()
+
+    def compute_business_days(self):
+
+        adding_days = self.total_days
+        last_date = self.today
+
+        while adding_days > 0:
+            last_date = last_date.addDays(1)
+            if last_date.dayOfWeek() > 5:
+                continue
+            adding_days -= 1
+
+        return last_date
+
+    def compute_calendar_days(self):
+
+        return self.today.addDays(self.total_days)
 
     def on_setCriteria_changed(self):
 
         with_artwork = WITH_ARTWORK if self.with_artworkCheckBox.isChecked() else ""
         with_image = WITH_IMAGE if self.with_imageCheckBox.isChecked() else ""
+        self.due_date = self.compute_business_days() if self.businessdaysCheckbox.isChecked() else self.compute_calendar_days()
         special = self.specialPlainTextEdit.toPlainText().replace('\n', '<br>')
 
         # Consolidate anything :)
