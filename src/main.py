@@ -20,12 +20,12 @@ def check_tools_version() -> None:
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
-    if sys.version[:5] == '3.5.2':
-        logging.info("[BET]: Betty version {0}".format(__version__))
-        logging.info("[BET]: Python version {0}".format(sys.version[:5]))
-        logging.info("[BET]: Qt version {0}".format(QT_VERSION_STR))
-        logging.info("[BET]: PyQt version {0}".format(PYQT_VERSION_STR))
-        logging.info("[BET]: SIP version {0}".format(SIP_VERSION_STR))
+    # if sys.version[:5] == '3.7.1':
+    logging.info("[BET]: Betty version {0}".format(__version__))
+    logging.info("[BET]: Python version {0}".format(sys.version[:5]))
+    logging.info("[BET]: Qt version {0}".format(QT_VERSION_STR))
+    logging.info("[BET]: PyQt version {0}".format(PYQT_VERSION_STR))
+    logging.info("[BET]: SIP version {0}".format(SIP_VERSION_STR))
 
 
 def configure_app_icon() -> None:
@@ -34,6 +34,7 @@ def configure_app_icon() -> None:
     import ctypes
     APP_ID = u'bakermckenzie.gipsc.betty.08'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(APP_ID)
+
 
 if __name__ == '__main__':
     from src.main_window import Betty
