@@ -4,12 +4,14 @@ All notable changes to this project will be documented on this file.
 
 **Patch 0.8**
 
-_Release date: TBA_ [unreleased]
+_Release date: 28 Feb 2019_ [planned]
 
-* User Interface (UI)
-    * SEARCH: added Business Days checkbox
+* Searching
+    * Added _Business Days_ checkbox to compute due date in business days
 * Development (the bloody part)
-    * TODO: Migrate templates from `_constants.py` into an SQLite database. [ISSUE #3](https://github.com/mokachokokarbon/Betty/issues/3)
+    * Updated Python and PyQt to 3.7.1 and 5.11.3
+    * TODO: Add an SQLite database to store newly added Filing and Searching templates. [#3](https://github.com/mokachokokarbon/Betty/issues/3) 
+    * TODO: Migrate constant data from `_constants.py` into an SQLite database. [#6](https://github.com/jerobado/Betty/issues/6)
 
 
 **Patch 0.7**
