@@ -1,9 +1,9 @@
 """ Betty: special instruction generator for BIPC
 
     Interface: GUI (PyQt5)
-    Language: Python 3.5.2
+    Language: Python 3.7.1
     Created: 10 Mar 2015 12:06 AM
-    Next release date (NRD): Sep 1, 2017 -v0.8
+    Next release date (NRD): Feb 28, 2019 -v0.8
  """
 
 
@@ -14,7 +14,7 @@ def check_tools_version() -> None:
     import logging
     from PyQt5.QtCore import QT_VERSION_STR
     from PyQt5.Qt import PYQT_VERSION_STR
-    from sip import SIP_VERSION_STR
+    from PyQt5.sip import SIP_VERSION_STR
     from resources._constants import __version__
 
     logging.basicConfig(level=logging.DEBUG,
