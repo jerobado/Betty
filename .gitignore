@@ -57,3 +57,4 @@ resources/__pycache__/
 *.py~
 *.db
 database/
+/_todo.txt
