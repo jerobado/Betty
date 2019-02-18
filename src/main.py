@@ -1,7 +1,7 @@
 """ Betty: special instruction generator for BIPC
 
     Interface: GUI (PyQt5)
-    Language: Python 3.7.1
+    Language: Python 3.7.2
     Created: 10 Mar 2015 12:06 AM
     Next release date (NRD): Feb 28, 2019 -v0.8
  """
