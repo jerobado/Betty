@@ -316,7 +316,7 @@ class Betty(QMainWindow):
             self.add_to_windowtitle()                                   # Set the window title
             self.status.showMessage('New {0} template added'.format(dialog.dialog_info()), 6000)
 
-            # [] TODO: design a good mechanism that can store a record in your new shining database XD
+            # [] TODO: for deletion
             # datecreated = QDateTime.currentDateTime().toString('dd-MMM-yyyy hh:mm:ss')
             # self.add_to_database(dialog.dialog_info(), datecreated)
 

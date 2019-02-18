@@ -178,7 +178,6 @@ class Search(QDialog):
         self.previewTextEdit.setDocument(STYLE_DOCUMENT)    # Apply style
 
         # set default TAT values
-        # TODO: check if for deletion
         self.client_TAT = UN_TAT
 
         # TEST: see line 37
@@ -242,6 +241,7 @@ class Search(QDialog):
         """ Event handler for self.clientComboBox """
 
         # TODO -ISSUE 04: Ok, you see a pattern here. You know what to do with this un-pythonic block of conditions!
+        # * use dict to store multiple values, ie. {0: ["", ABBOTT_TAT], 1: ["", GE_TAT]...}
         if self.clientComboBox.currentIndex() == 0:
             self.DEFAULT_SI = ""
             self.client_TAT = ABBOTT_TAT
@@ -258,24 +258,11 @@ class Search(QDialog):
             self.DEFAULT_SI = ""
             self.client_TAT = UN_TAT
             self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
-        else:
-            # TODO: bad 'else' clause design, try to think another approach
-            pass
 
     def on_importanceComboBox_activated(self):
         """ Event handler for self.importanceComboBox """
 
-        # Get selected importance
-        importance = self.importanceComboBox.currentText()
-
-        # TODO -ISSUE 04: make this pythonic
-        # Check what the user choose
-        if importance == 'Low/Medium':
-            self.selected_TAT = self.client_TAT[importance]
-        elif importance == 'Critical':
-            self.selected_TAT = self.client_TAT[importance]
-        else:
-            print('BET: unsual - no importance selected?')
+        self.selected_TAT = self.client_TAT[self.importanceComboBox.currentText()]
 
     def on_daysSpinBox_valueChanged(self):
 

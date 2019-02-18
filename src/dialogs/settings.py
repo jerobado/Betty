@@ -9,7 +9,6 @@ from PyQt5.QtWidgets import (QPushButton, QDialog, QCheckBox, QVBoxLayout, QHBox
                             QGridLayout)
 
 
-# TODO: create a new dialog wherein you can utilize the QTabWidget
 class Settings(QDialog):
 
     def __init__(self, parent=None):
