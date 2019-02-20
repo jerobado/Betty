@@ -19,14 +19,14 @@ from PyQt5.QtWidgets import (QLabel,
                              QPlainTextEdit,
                              QSpacerItem,
                              QSizePolicy)
-from resources._constants import (TYPE_TM,
-                                  ITU,
-                                  FILING,
-                                  FILING_SPECIAL,
-                                  FILING_TEMPLATE,
-                                  STYLE_DOCUMENT,
-                                  GE_DEFAULT,
-                                  FILING_CLIENTS)
+from resources._constant import (TYPE_TM,
+                                 ITU,
+                                 FILING,
+                                 FILING_SPECIAL,
+                                 FILING_TEMPLATE,
+                                 STYLE_DOCUMENT,
+                                 GE_DEFAULT,
+                                 FILING_CLIENTS)
 
 
 class Filing(QDialog):

@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (QLabel,
 from PyQt5.QtCore import (QSettings,
                           Qt,)
 from PyQt5.QtGui import QIcon
-from resources._constants import WORKTYPE
+from resources._constant import WORKTYPE
 from resources.models import WorktypeListModel
 
 

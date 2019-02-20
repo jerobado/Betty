@@ -15,7 +15,7 @@ def check_tools_version() -> None:
     from PyQt5.QtCore import QT_VERSION_STR
     from PyQt5.Qt import PYQT_VERSION_STR
     from PyQt5.sip import SIP_VERSION_STR
-    from resources._constants import __version__
+    from resources._constant import __version__
 
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(message)s',
@@ -38,7 +38,7 @@ def configure_app_icon() -> None:
 
 if __name__ == '__main__':
     from src.main_window import Betty
-    from resources._constants import APP
+    from resources._constant import APP
 
     check_tools_version()
     configure_app_icon()

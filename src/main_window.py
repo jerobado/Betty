@@ -16,15 +16,15 @@ from PyQt5.QtWidgets import (QMainWindow,
                              QDockWidget,
                              QMessageBox,
                              QListView)
-from resources._constants import (ABOUT,
-                                  TITLE,
-                                  TEMP_TEMPLATE_STORAGE_DATA,
-                                  TEMP_TEMPLATE_STORAGE_LIST,
-                                  TEMP_TEMPLATE_DATECREATED,
-                                  TEMP_TEMPLATE_DIALOG_INFO,
-                                  TEMP_TEMPLATE_SEARCH_TAT,
-                                  TEMP_TEMPLATE_SEARCH_IMPORTANCE,
-                                  _DATABASE)
+from resources._constant import (ABOUT,
+                                 TITLE,
+                                 TEMP_TEMPLATE_STORAGE_DATA,
+                                 TEMP_TEMPLATE_STORAGE_LIST,
+                                 TEMP_TEMPLATE_DATECREATED,
+                                 TEMP_TEMPLATE_DIALOG_INFO,
+                                 TEMP_TEMPLATE_SEARCH_TAT,
+                                 TEMP_TEMPLATE_SEARCH_IMPORTANCE,
+                                 _DATABASE)
 from resources.models import TrackerListModel
 from resources import bipc_resources   # Don't remove this!
 

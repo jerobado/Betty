@@ -5,13 +5,13 @@ from PyQt5.QtCore import (Qt,
                           QModelIndex,
                           QAbstractListModel)
 from PyQt5.QtGui import QIcon
-from resources._constants import (TEMP_TEMPLATE_STORAGE_LIST,
-                                  TEMP_TEMPLATE_DIALOG_INFO,
-                                  TEMP_TEMPLATE_DATECREATED,
-                                  TEMP_TEMPLATE_SEARCH_TAT,
-                                  TEMP_TEMPLATE_SEARCH_IMPORTANCE,
-                                  FILING_TOOLTIP,
-                                  SEARCH_TOOLTIP)
+from resources._constant import (TEMP_TEMPLATE_STORAGE_LIST,
+                                 TEMP_TEMPLATE_DIALOG_INFO,
+                                 TEMP_TEMPLATE_DATECREATED,
+                                 TEMP_TEMPLATE_SEARCH_TAT,
+                                 TEMP_TEMPLATE_SEARCH_IMPORTANCE,
+                                 FILING_TOOLTIP,
+                                 SEARCH_TOOLTIP)
 
 
 class TrackerListModel(QAbstractListModel):

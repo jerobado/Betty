@@ -52,7 +52,7 @@ dialogs/__pycache__/
 log/
 resources/__pycache__/
 /_gitcheats.txt
-/resources/_constants.py
+/resources/_constant.py
 
 *.py~
 *.db
