@@ -23,19 +23,16 @@ from PyQt5.QtWidgets import (QLabel,
                              QCalendarWidget,
                              QCompleter,
                              QSizePolicy)
-from resources._constants import (SEARCH_CLIENTS,
-                                  SEARCH_SPECIAL,
-                                  SEARCH_TEMPLATE,
-                                  ARTWORK_TOOLTIP,
-                                  IMAGE_TOOLTIP,
-                                  WITH_ARTWORK,
-                                  WITH_IMAGE,
-                                  GOOGLE_DEFAULT,
-                                  GOOGLE_TAT,
-                                  ABBOTT_TAT,
-                                  UN_TAT,
-                                  GE_TAT,
-                                  STYLE_DOCUMENT)
+from resources._constant import (SEARCH_CLIENTS,
+                                 SEARCH_SPECIAL,
+                                 SEARCH_TEMPLATE,
+                                 ARTWORK_TOOLTIP,
+                                 IMAGE_TOOLTIP,
+                                 WITH_ARTWORK,
+                                 WITH_IMAGE,
+                                 UN_TAT,
+                                 CLIENT_COMBOBOX_VALUES,
+                                 STYLE_DOCUMENT)
 
 
 class Search(QDialog):
@@ -240,24 +237,8 @@ class Search(QDialog):
     def on_clientComboBox_activated(self):
         """ Event handler for self.clientComboBox """
 
-        # TODO -ISSUE 04: Ok, you see a pattern here. You know what to do with this un-pythonic block of conditions!
-        # * use dict to store multiple values, ie. {0: ["", ABBOTT_TAT], 1: ["", GE_TAT]...}
-        if self.clientComboBox.currentIndex() == 0:
-            self.DEFAULT_SI = ""
-            self.client_TAT = ABBOTT_TAT
-            self.selected_TAT = ABBOTT_TAT[self.importanceComboBox.currentText()]
-        elif self.clientComboBox.currentIndex() == 1:
-            self.DEFAULT_SI = ""
-            self.client_TAT = GE_TAT
-            self.selected_TAT = GE_TAT[self.importanceComboBox.currentText()]
-        elif self.clientComboBox.currentIndex() == 2:
-            self.DEFAULT_SI = GOOGLE_DEFAULT
-            self.client_TAT = GOOGLE_TAT
-            self.selected_TAT = GOOGLE_TAT[self.importanceComboBox.currentText()]
-        elif self.clientComboBox.currentIndex() == 3:
-            self.DEFAULT_SI = ""
-            self.client_TAT = UN_TAT
-            self.selected_TAT = UN_TAT[self.importanceComboBox.currentText()]
+        self.DEFAULT_SI, self.client_TAT = CLIENT_COMBOBOX_VALUES.get(self.clientComboBox.currentIndex())
+        self.selected_TAT = self.client_TAT[self.importanceComboBox.currentText()]
 
     def on_importanceComboBox_activated(self):
         """ Event handler for self.importanceComboBox """
