@@ -8,9 +8,9 @@ Developing and Contributing
 ---------------------------
 For the developers who want to get their hands dirty on this project, the essential tools are listed below:
 
-* Python 3.7.1
+* Python 3.7.2
 * Qt 5.11.2
 * PyQt 5.11.3
 * SIP 4.19.13
 
-All of these tools can be can be downloaded [here](https://www.riverbankcomputing.com/software/pyqt/download5) except for Python which you can separately download [here](https://www.python.org/downloads/release/python-352/). Make sure to download the 32-bit version of each tools.
+All of these tools can be can be downloaded [here](https://www.riverbankcomputing.com/software/pyqt/download5) except for Python which you can separately download [here](https://www.python.org/downloads/). Make sure to download the 32-bit version of each tools.
